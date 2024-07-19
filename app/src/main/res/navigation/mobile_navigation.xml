@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="org.sniffsnirr.skillcinema.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="org.sniffsnirr.skillcinema.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="org.sniffsnirr.skillcinema.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.start.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_startFragment_to_onboardingMainFragment"
+            app:destination="@id/onboardingMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingMainFragment"
+        android:name="org.sniffsnirr.skillcinema.onboarding.OnboardingMainFragment"
+        android:label="fragment_onboarding_main"
+        tools:layout="@layout/fragment_onboarding_main" >
+        <action
+            android:id="@+id/action_onboardingMainFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
+</navigation>
