@@ -6,14 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOnboardingMainBinding
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.concurrent.schedule
 
 
 class OnboardingMainFragment : Fragment() {
@@ -22,16 +27,8 @@ class OnboardingMainFragment : Fragment() {
 
     private var _binding: FragmentOnboardingMainBinding? = null
     private val binding get() = _binding!!
-    private val timer: Timer? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
-    override fun onCreateView(
+override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -42,10 +39,6 @@ class OnboardingMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //binding.buttonToLoading.setOnClickListener {
-        //    (activity as MainActivity).showBars()
-        //     findNavController().navigate(R.id.action_onboardingMainFragment_to_startFragment)
-        // }
 
         binding.onboardingViewPager.adapter = PagerAdapter(this)
         binding.tabs.tabIconTint = null
@@ -71,26 +64,22 @@ class OnboardingMainFragment : Fragment() {
             }
         })
 
-
-        val swipeTimer = Timer()
-        swipeTimer.schedule(object : TimerTask() {
-            override fun run() {
-                binding.tabs.post(Runnable {
-                    var currentPage: Int = binding.tabs.selectedTabPosition
-                    currentPage++
-                    if (currentPage >= binding.tabs.tabCount) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fragmentNumber.collect { fragmentNumber->
+                    if (fragmentNumber >= binding.tabs.tabCount) {
                         findNavController().navigate(R.id.action_onboardingMainFragment_to_startFragment)
                         (activity as MainActivity).showBars()
-                        swipeTimer.cancel()}
-                    else{binding.tabs.selectTab(binding.tabs.getTabAt(currentPage))}
-
-                })
+                    } else {
+                        binding.tabs.selectTab(binding.tabs.getTabAt(fragmentNumber))
+                    }
+                }
             }
-        }, 5000, 5000) // Change the delay and interval as needed
+        }
     }
 
-override fun onDestroy() {
-    super.onDestroy()
-    timer?.cancel()
-}
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding=null
+    }
 }

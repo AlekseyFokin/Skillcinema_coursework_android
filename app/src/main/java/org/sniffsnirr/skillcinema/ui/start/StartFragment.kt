@@ -6,20 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import org.sniffsnirr.skillcinema.R
 
 class StartFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = StartFragment()
-    }
 
     private val viewModel: StartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+findNavController().clearBackStack(R.navigation.mobile_navigation)
 
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(

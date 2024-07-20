@@ -43,4 +43,27 @@
             android:id="@+id/action_onboardingMainFragment_to_startFragment"
             app:destination="@id/startFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/onBoarding0Fragment"
+        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding0Fragment"
+        android:label="fragment_on_boarding0"
+        tools:layout="@layout/fragment_on_boarding0" >
+        <action
+            android:id="@+id/action_onBoarding0Fragment_to_onBoarding1Fragment"
+            app:destination="@id/onBoarding1Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoarding2Fragment"
+        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding2Fragment"
+        android:label="fragment_on_boarding2"
+        tools:layout="@layout/fragment_on_boarding2" />
+    <fragment
+        android:id="@+id/onBoarding1Fragment"
+        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding1Fragment"
+        android:label="fragment_on_boarding1"
+        tools:layout="@layout/fragment_on_boarding1" >
+        <action
+            android:id="@+id/action_onBoarding1Fragment_to_onBoarding2Fragment"
+            app:destination="@id/onBoarding2Fragment" />
+    </fragment>
 </navigation>
