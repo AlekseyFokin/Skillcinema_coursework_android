@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -70,6 +71,8 @@ override fun onCreateView(
                     if (fragmentNumber >= binding.tabs.tabCount) {
                         findNavController().navigate(R.id.action_onboardingMainFragment_to_startFragment)
                         (activity as MainActivity).showBars()
+                        val fm = parentFragmentManager;
+                        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     } else {
                         binding.tabs.selectTab(binding.tabs.getTabAt(fragmentNumber))
                     }
