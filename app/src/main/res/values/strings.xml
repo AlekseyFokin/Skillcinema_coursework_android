@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Skillcinema</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contentDescriptionOfPictureInLoadingFragment">picture</string>
+    <string name="label_skillcinema">Label Skillcinema</string>
+    <string name="missButtonLabel">Пропустить</string>
+    <string name="picture_on_boarding0">pictureOnBoarding0</string>
+    <string name="text_on_boarding0">Узнавай \nо премьерах</string>
+    <string name="text_on_boarding1">Создавай \nколлекции</string>
+    <string name="picture_on_boarding2">picture on boarding2</string>
+    <string name="picture_on_boarding1">picture on boarding1</string>
+    <string name="text_on_boarding2">Делись \nс друзьями</string>
 </resources>

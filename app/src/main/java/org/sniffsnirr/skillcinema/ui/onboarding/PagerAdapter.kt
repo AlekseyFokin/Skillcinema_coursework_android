@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.onboarding
+package org.sniffsnirr.skillcinema.ui.onboarding
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -9,13 +9,14 @@ class PagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position){
-            0->OnBoarding0Fragment()
-            1->OnBoarding1Fragment()
-            else->OnBoarding2Fragment()
+        return when (position) {
+            0 -> OnBoarding0Fragment()
+            1 -> OnBoarding1Fragment()
+            else -> OnBoarding2Fragment()
         }
     }
-    companion object{
-        const val NUMBER_OF_PAGE=3
+
+    companion object {
+        const val NUMBER_OF_PAGE = 3
     }
 }

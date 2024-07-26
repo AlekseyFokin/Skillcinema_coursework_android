@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.onboarding.OnBoarding1Fragment">
+    android:padding="26dp"
+    tools:context=".ui.loading.LoadingFragment">
 
     <LinearLayout
         android:id="@+id/linear"
@@ -23,46 +24,30 @@
             android:src="@drawable/skillcinema"
             android:contentDescription="@string/label_skillcinema"/>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/onboarding1_miss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:fontFamily="@font/hkgrotesk_medium"
-            android:text="@string/missButtonLabel"
-            android:textColor="@color/color_of_miss_button"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:src="@drawable/onboarding1_pic"
+        android:layout_marginBottom="27dp"
+        android:src="@drawable/onboarding0_pic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/contentDescriptionOfPictureInLoadingFragment"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loadingProgressbar"
+        android:layout_width="36.35dp"
+        android:layout_height="36.35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/picture_on_boarding1"/>
+        android:indeterminate="true"
+        app:indicatorColor="@color/color_of_progress"
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:fontFamily="@font/inter_medium"
-        android:lines="2"
-        android:text="@string/text_on_boarding1"
-        android:textColor="@color/color_of_main_label_in_onboarding"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

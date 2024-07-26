@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.onboarding
+package org.sniffsnirr.skillcinema.ui.onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,31 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import org.sniffsnirr.skillcinema.R
-import org.sniffsnirr.skillcinema.databinding.FragmentOnBoarding1Binding
-import org.sniffsnirr.skillcinema.databinding.FragmentOnBoarding2Binding
-import java.util.Timer
-import java.util.TimerTask
+import org.sniffsnirr.skillcinema.databinding.FragmentOnBoarding0Binding
 
-class OnBoarding2Fragment : Fragment() {
+class OnBoarding0Fragment : Fragment() {
 
-    private var _binding: FragmentOnBoarding2Binding? = null
+    private var _binding: FragmentOnBoarding0Binding? = null
     private val binding get() = _binding!!
+
     private val viewModel: OnboardingMainViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnBoarding2Binding.inflate(inflater, container, false)
+        _binding = FragmentOnBoarding0Binding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.onboarding2Miss.setOnClickListener {
-            viewModel.setState(OnboardingMainViewModel.LOADING_FRAGMENT)
+        binding.onboarding0Miss.setOnClickListener {
+            viewModel.setState(OnboardingMainViewModel.ONBORDING_1_FRAGMENT)
         }
     }
 
@@ -38,4 +34,6 @@ class OnBoarding2Fragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+
 }

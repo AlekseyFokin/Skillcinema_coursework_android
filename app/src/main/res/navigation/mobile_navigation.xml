@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/startFragment">
+   >
+<!--    app:startDestination="@id/onboardingMainFragment"-->
 
     <fragment
         android:id="@+id/navigation_home"
@@ -12,40 +13,40 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="org.sniffsnirr.skillcinema.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_search"
+        android:name="org.sniffsnirr.skillcinema.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="org.sniffsnirr.skillcinema.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_profile"
+        android:name="org.sniffsnirr.skillcinema.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/startFragment"
-        android:name="org.sniffsnirr.skillcinema.ui.start.StartFragment"
-        android:label="fragment_start"
-        tools:layout="@layout/fragment_start" >
+        android:id="@+id/loadingFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.loading.LoadingFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" >
         <action
-            android:id="@+id/action_startFragment_to_navigation_home"
+            android:id="@+id/action_loadingFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
         <action
-            android:id="@+id/action_startFragment_to_onboardingMainFragment"
+            android:id="@+id/action_loadingFragment_to_onboardingMainFragment"
             app:destination="@id/onboardingMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingMainFragment"
-        android:name="org.sniffsnirr.skillcinema.onboarding.OnboardingMainFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onboarding.OnboardingMainFragment"
         android:label="fragment_onboarding_main"
         tools:layout="@layout/fragment_onboarding_main" >
         <action
-            android:id="@+id/action_onboardingMainFragment_to_startFragment"
-            app:destination="@id/startFragment" />
+            android:id="@+id/action_onboardingMainFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/onBoarding0Fragment"
-        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding0Fragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onboarding.OnBoarding0Fragment"
         android:label="fragment_on_boarding0"
         tools:layout="@layout/fragment_on_boarding0" >
         <action
@@ -54,12 +55,12 @@
     </fragment>
     <fragment
         android:id="@+id/onBoarding2Fragment"
-        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding2Fragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onboarding.OnBoarding2Fragment"
         android:label="fragment_on_boarding2"
         tools:layout="@layout/fragment_on_boarding2" />
     <fragment
         android:id="@+id/onBoarding1Fragment"
-        android:name="org.sniffsnirr.skillcinema.onboarding.OnBoarding1Fragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onboarding.OnBoarding1Fragment"
         android:label="fragment_on_boarding1"
         tools:layout="@layout/fragment_on_boarding1" >
         <action

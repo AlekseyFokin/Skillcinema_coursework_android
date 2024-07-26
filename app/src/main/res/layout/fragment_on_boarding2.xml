@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".onboarding.OnBoarding2Fragment">
+    tools:context=".ui.onboarding.OnBoarding2Fragment">
 
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +19,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:src="@drawable/skillcinema" />
+            android:layout_gravity="start|center"
+            android:src="@drawable/skillcinema"
+            android:contentDescription="@string/label_skillcinema"/>
 
         <View
             android:layout_width="wrap_content"
@@ -31,9 +32,9 @@
             android:id="@+id/onboarding2_miss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
+            android:layout_gravity="end|center"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Пропустить"
+            android:text="@string/missButtonLabel"
             android:textColor="@color/color_of_miss_button"
             android:textSize="14sp" />
     </LinearLayout>
@@ -47,7 +48,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/picture_on_boarding2"/>
 
     <TextView
         android:id="@+id/textView"
@@ -56,7 +58,7 @@
         android:layout_marginBottom="48dp"
         android:fontFamily="@font/inter_medium"
         android:lines="2"
-        android:text="Делись \nс друзьями"
+        android:text="@string/text_on_boarding2"
         android:textColor="@color/color_of_main_label_in_onboarding"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"

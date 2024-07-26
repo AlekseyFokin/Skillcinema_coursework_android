@@ -1,11 +1,10 @@
-package org.sniffsnirr.skillcinema.onboarding
+package org.sniffsnirr.skillcinema.ui.onboarding
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,13 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOnboardingMainBinding
-import java.util.Timer
-import java.util.TimerTask
-import kotlin.concurrent.schedule
-
 
 class OnboardingMainFragment : Fragment() {
 
@@ -29,13 +23,12 @@ class OnboardingMainFragment : Fragment() {
     private var _binding: FragmentOnboardingMainBinding? = null
     private val binding get() = _binding!!
 
-override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOnboardingMainBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +37,7 @@ override fun onCreateView(
         binding.onboardingViewPager.adapter = PagerAdapter(this)
         binding.tabs.tabIconTint = null
 
-        TabLayoutMediator(binding.tabs, binding.onboardingViewPager) { tab, pos ->
+        TabLayoutMediator(binding.tabs, binding.onboardingViewPager) { tab, pos ->// первоначальная настройка TabLayout
             when (pos) {
                 0 -> tab.setIcon(R.drawable.onboarding_label_black)
                 1 -> tab.setIcon(R.drawable.onboarding_label_gray)
@@ -52,7 +45,7 @@ override fun onCreateView(
             }
         }.attach()
 
-        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {// реакция tablayout на листание фрагментов
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.setIcon(R.drawable.onboarding_label_black)
             }
@@ -65,14 +58,11 @@ override fun onCreateView(
             }
         })
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {// отслеживание листания фрагментов и переход на фрагмент загрузки, если табы закончились
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fragmentNumber.collect { fragmentNumber->
+                viewModel.fragmentNumber.collect { fragmentNumber ->
                     if (fragmentNumber >= binding.tabs.tabCount) {
-                        findNavController().navigate(R.id.action_onboardingMainFragment_to_startFragment)
-                        (activity as MainActivity).showBars()
-                        val fm = parentFragmentManager;
-                        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                        findNavController().navigate(R.id.action_onboardingMainFragment_to_loadingFragment)
                     } else {
                         binding.tabs.selectTab(binding.tabs.getTabAt(fragmentNumber))
                     }
@@ -83,6 +73,7 @@ override fun onCreateView(
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding=null
+        _binding = null
     }
 }
+

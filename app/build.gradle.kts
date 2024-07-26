@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compilerKsp)
 }
 
 android {
@@ -54,4 +55,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.datastore)
+
+    implementation(libs.okhttp3)
+    implementation(libs.logging.interceptor)
+    implementation(libs.converter.retrofit)
+    implementation(libs.retrofit)
+    implementation(libs.gson)
 }
