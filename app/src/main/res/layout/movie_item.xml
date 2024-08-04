@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
+
+    <LinearLayout
+        android:id="@+id/cd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="96dp"
+            android:layout_height="136dp"
+            app:cardCornerRadius="6dp">
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="96dp"
+                android:layout_height="136dp"
+                android:background="@drawable/rounded_image"
+                android:scaleType="fitXY"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Название"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Жанр"
+            android:textColor="@color/color_of_genre"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/raiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/rating_label"
+        android:fontFamily="@font/hkgrotesk_medium"
+        android:text="  7.8  "
+        android:textColor="#ffffff"
+        android:textSize="6sp"
+        app:layout_constraintEnd_toEndOf="@id/cd"
+        app:layout_constraintTop_toTopOf="@id/cd" />
+
+    <ImageView
+        android:id="@+id/viewed"
+        android:layout_width="14dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/viewed"
+        app:layout_constraintEnd_toEndOf="@id/cd"
+        app:layout_constraintBottom_toBottomOf="@id/cd"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="32dp"
+        app:tint="#FFFFFF"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

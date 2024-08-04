@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.databinding.FragmentOnBoarding2Binding
-
+@AndroidEntryPoint
 class OnBoarding2Fragment : Fragment() {
 
     private var _binding: FragmentOnBoarding2Binding? = null

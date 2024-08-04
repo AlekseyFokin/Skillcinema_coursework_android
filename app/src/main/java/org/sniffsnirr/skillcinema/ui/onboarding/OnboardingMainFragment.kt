@@ -12,10 +12,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOnboardingMainBinding
-
+@AndroidEntryPoint
 class OnboardingMainFragment : Fragment() {
 
     private val viewModel: OnboardingMainViewModel by viewModels()

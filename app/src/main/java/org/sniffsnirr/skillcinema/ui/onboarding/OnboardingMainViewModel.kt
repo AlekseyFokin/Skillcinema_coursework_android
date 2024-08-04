@@ -2,11 +2,14 @@ package org.sniffsnirr.skillcinema.ui.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnboardingMainViewModel : ViewModel() {
+@HiltViewModel
+class OnboardingMainViewModel @Inject constructor() : ViewModel() {
     private val _fragmentNumber = MutableStateFlow(ONBORDING_0_FRAGMENT)
     val fragmentNumber = _fragmentNumber.asStateFlow()
 

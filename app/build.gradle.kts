@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compilerKsp)
+    id("com.google.dagger.hilt.android") version "2.48"
 }
 
 android {
@@ -61,4 +62,13 @@ dependencies {
     implementation(libs.converter.retrofit)
     implementation(libs.retrofit)
     implementation(libs.gson)
+
+    implementation (libs.hiltAndroid)
+    implementation(libs.hiltNavigation)
+    implementation(libs.treeTeenABP)
+    ksp (libs.hiltCompiler)
+
+    implementation(libs.glide)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.cardview)
 }

@@ -18,6 +18,14 @@ dataStoreVers="1.1.1"
 kspVers="1.9.23-1.0.20"
 retrofitVers="2.10.0"
 okhttp3Vers="4.8.0"
+hiltNavVers="1.2.0"
+
+daggerHiltVers="2.48"
+threetenabpVers="1.4.7"
+
+glideVers="4.16.0"
+recycledViewVers="1.3.2"
+cardviewVers="1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +49,18 @@ retrofit={group="com.squareup.retrofit2",name="retrofit",version.ref = "retrofit
 logging-interceptor={group="com.squareup.okhttp3",name="logging-interceptor",version.ref="okhttp3Vers"}
 okhttp3={group="com.squareup.okhttp3",name="okhttp",version.ref="okhttp3Vers"}
 gson = "com.google.code.gson:gson:2.10.1"
+
+hiltAndroid = { group = "com.google.dagger", name = "hilt-android" ,version.ref = "daggerHiltVers"}
+hiltCompiler = { group = "com.google.dagger", name = "hilt-android-compiler" ,version.ref = "daggerHiltVers"}
+hiltNavigation={ group = "androidx.hilt", name="hilt-navigation-fragment", version.ref="hiltNavVers"}
+
+treeTeenABP={group="com.jakewharton.threetenabp",name="threetenabp", version.ref="threetenabpVers"}
+
+
+
+androidx-cardview={group="androidx.cardview",name="cardview", version.ref="cardviewVers"}
+glide={group="com.github.bumptech.glide", name="glide",version.ref="glideVers"}
+androidx-recyclerview={group="androidx.recyclerview", name="recyclerview", version.ref="recycledViewVers"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

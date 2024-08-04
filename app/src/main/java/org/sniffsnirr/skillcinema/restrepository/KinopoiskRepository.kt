@@ -5,26 +5,21 @@ import org.sniffsnirr.skillcinema.entities.Movie
 import java.text.SimpleDateFormat
 import java.time.Month
 import java.util.Date
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class KinopoiskRepository {
+@Singleton
+class KinopoiskRepository @Inject constructor(val retrofitInstance: KinopoiskDataSource){
 
-
-    suspend fun getPremieres(): List<Movie> {
-        val kinopoiskDataSource = KinopoiskDataSource()
-        val kinopoiskApi = kinopoiskDataSource.getApi()
-        val movies = kinopoiskApi.getPremieres(getCurrentYear(), getCurrentMonth())
+    suspend fun getPremieres(currentMonth:String,currentYear:Int): List<Movie> {
+        //val kinopoiskDataSource = KinopoiskDataSource()
+        val kinopoiskApi = retrofitInstance.getApi()
+        val movies = kinopoiskApi.getPremieres(currentYear, currentMonth)
         delay(4000)
         return movies.items
     }
 
-    private fun getCurrentMonth(): String {// текущий месяц
-        val month = SimpleDateFormat("MM").format(Date())
-        return Month.entries[month.toInt() - 1].toString()
-    }
 
-    private fun getCurrentYear(): Int {//текущий год
-        return SimpleDateFormat("yyyy").format(Date()).toInt()
-    }
 }
 
 
