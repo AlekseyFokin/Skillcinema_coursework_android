@@ -28,7 +28,8 @@ class MovieAdapter(var movieModel: List<MovieRVModel>):RecyclerView.Adapter<Movi
                 .into(poster)
             movieName.text=movieModel[position].movieName
             genre.text=movieModel[position].movieGenre
-            raiting.text=movieModel[position].rate
+            if (movieModel[position].rate.trim()=="0"||movieModel[position].rate.trim()=="0.0") {raiting.visibility=View.INVISIBLE}
+            else {raiting.text=movieModel[position].rate}
             if (movieModel[position].viewed)
             {viewed.visibility=View.VISIBLE}
             else{viewed.visibility=View.INVISIBLE}

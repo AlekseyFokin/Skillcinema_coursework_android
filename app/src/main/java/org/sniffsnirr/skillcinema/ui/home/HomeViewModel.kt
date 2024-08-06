@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-import org.sniffsnirr.skillcinema.entities.Movie
-import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
+import org.sniffsnirr.skillcinema.usecases.GetDynamicCompilation
 import org.sniffsnirr.skillcinema.usecases.GetMoviePremiers
+import org.sniffsnirr.skillcinema.usecases.GetPopularMovies
 import javax.inject.Inject
 
 @HiltViewModel
 //class HomeViewModel @Inject constructor(val kinopoiskRepository : KinopoiskRepository): ViewModel() {
-class HomeViewModel @Inject constructor(val getMoviePremiers: GetMoviePremiers):ViewModel() {
+class HomeViewModel @Inject constructor(val getMoviePremiers: GetMoviePremiers,val getPopularMovies: GetPopularMovies,val getDynamicCompilation: GetDynamicCompilation):ViewModel() {
     //private val kinopoiskRepository = KinopoiskRepository()
 
     private val _isLoading = MutableStateFlow(true)
@@ -34,7 +34,10 @@ class HomeViewModel @Inject constructor(val getMoviePremiers: GetMoviePremiers):
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 _isLoading.value = true
-                getMoviePremiers.getPremiersForNextTwoWeek()
+                getDynamicCompilation.getCompilation()
+              //getMoviePremiers.getPremiersForNextTwoWeek()
+             //  getPopularMovies.getPopularMovies()
+             //   getPopularMovies.getPopularMovies()
             }.fold(
                 onSuccess = { _premiers.value = it },
                 onFailure = { Log.d("MovieListViewModel", it.message ?: "") }
