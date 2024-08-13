@@ -19,6 +19,12 @@
             app:popExitAnim="@anim/slide_out"
             app:popUpTo="@id/collectionFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_navigation_home_to_pagingCollectionFragment"
+            app:destination="@id/pagingCollectionFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
 
     <fragment
@@ -83,6 +89,14 @@
         tools:layout="@layout/fragment_collection">
         <action
             android:id="@+id/action_collectionFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/pagingCollectionFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.collections.paging.PagingCollectionFragment"
+        android:label="PagingCollectionFragment" >
+        <action
+            android:id="@+id/action_pagingCollectionFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

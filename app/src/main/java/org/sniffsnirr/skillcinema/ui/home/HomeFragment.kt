@@ -51,35 +51,53 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.MoviesCollectionsForHomePage.collect {
                     //binding.mainRv.adapter = MainAdapter(it)
-                    binding.mainRv.adapter = MainAdapter(it,{collectionModel ->onCollectionClick(collectionModel)},{string2->onMovieClick(string2)})
-                     //binding.textHome.text = it.size.toString()
+                    binding.mainRv.adapter = MainAdapter(it,
+                        { collectionModel -> onCollectionClick(collectionModel) },
+                        { string2 -> onMovieClick(string2) })
+                    //binding.textHome.text = it.size.toString()
                 }
             }
         }
     }
 
-    fun onCollectionClick(collectionModel:MainModel ){
-        when(collectionModel.categoryDescription.first){
-                KinopoiskApi.PREMIERES.first ->{
-                    val bundle = Bundle()
-                    val arraylist = ArrayList<MovieRVModel>()
-                    arraylist.addAll(collectionModel.MovieRVModelList)
-                    Log.d("collection in", "${collectionModel.category}")
-                    //collectionModel.MovieRVModelList.toCollection(arraylist)
-                    bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
-                    bundle.putCharSequence(COLLECTION_NAME,collectionModel.category)
-                    findNavController().navigate(R.id.action_navigation_home_to_collectionFragment,bundle)
-                }
-                //KinopoiskApi.TOP_250_MOVIES=Pair<String,String>("TOP_250_MOVIES","Топ-250")
-                //val POPULAR_SERIES=Pair<String,String>("POPULAR_SERIES","Популярные сериалы")
-                //val PREMIERES=Pair<String,String>("PREMIERES","Премьеры")
-                //val DYNAMIC=Pair<String,String>("DYNAMIC","Основаны на фильтах")
+    fun onCollectionClick(collectionModel: MainModel) {
+        when (collectionModel.categoryDescription.first) {
+            KinopoiskApi.PREMIERES.first -> { // клик по коллекции премьер на 2 недели вперед. их количество ограничено и этот список уже есть, поэтому направляю во фрагмент и список и название
+                val bundle = Bundle()
+                val arraylist = ArrayList<MovieRVModel>()
+                arraylist.addAll(collectionModel.MovieRVModelList)
+                Log.d("collection in", "${collectionModel.category}")
+                bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
+                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_collectionFragment,
+                    bundle
+                )
+            }
+            KinopoiskApi.TOP_250_MOVIES.first -> {// клик по коллекции топ-250 (без фильтра) - требует пагинации, загружается сначала
+                val bundle = Bundle()
+                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                bundle.putCharSequence(COLLECTION_TYPE, collectionModel.categoryDescription.first)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_pagingCollectionFragment,
+                    bundle
+                )
+            }
+            KinopoiskApi.TOP_POPULAR_MOVIES.first -> {// клик по коллекции топ-250 (без фильтра) - требует пагинации, загружается сначала
+                val bundle = Bundle()
+                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                bundle.putCharSequence(COLLECTION_TYPE, collectionModel.categoryDescription.first)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_pagingCollectionFragment,
+                    bundle
+                )
+            }
 
-
-        else ->Log.d("ButtonClick", collectionModel.categoryDescription.first)}
+            else -> Log.d("ButtonClick", collectionModel.categoryDescription.first)
+        }
     }
 
-    fun onMovieClick(string :String){
+    fun onMovieClick(string: String) {
         Log.d("ButtonClick", string)
     }
 
@@ -88,8 +106,9 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
-        const val COLLECTION_MODEL="COLLECTION_MODEL"
-        const val COLLECTION_NAME="COLLECTION_NAME"
+    companion object {
+        const val COLLECTION_MODEL = "COLLECTION_MODEL"
+        const val COLLECTION_NAME = "COLLECTION_NAME"
+        const val COLLECTION_TYPE = "COLLECTION_TYPE"
     }
 }

@@ -50,7 +50,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:indeterminate="true"
         app:indicatorColor="@color/color_of_progress"
-
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

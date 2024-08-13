@@ -46,12 +46,12 @@ class HomePageUsecase @Inject constructor(
             Triple(KinopoiskApi.PREMIERES.first, null, null),
             false)
 
-//        val popular = MainModel(
-//            KinopoiskApi.TOP_POPULAR_MOVIES.second,
-//            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_POPULAR_MOVIES),
-//            Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first,null,null),
-//            false
-//        )
+        val popular = MainModel(
+            KinopoiskApi.TOP_POPULAR_MOVIES.second,
+            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_POPULAR_MOVIES),
+            Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first,null,null),
+            false
+        )
 //        val countryNgenre = getCountryAndGenre()
 //        var pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
 //
@@ -64,12 +64,12 @@ class HomePageUsecase @Inject constructor(
 //            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id,pairCountryNGenre.second.id),
 //            false
 //        )
-//        val top250 = MainModel( // топ - 250
-//            KinopoiskApi.TOP_250_MOVIES.second,
-//            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
-//            Triple(KinopoiskApi.TOP_250_MOVIES.first,null,null),
-//            false
-//        )
+        val top250 = MainModel( // топ - 250
+            KinopoiskApi.TOP_250_MOVIES.second,
+            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
+            Triple(KinopoiskApi.TOP_250_MOVIES.first,null,null),
+            false
+        )
 //        pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
 //        val dynamic2 = MainModel(//динамический список 2
 //            "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
@@ -89,7 +89,7 @@ class HomePageUsecase @Inject constructor(
 //        )
 
             //return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
-        return listOf(bannerModel, primeres)
+        return listOf(bannerModel, primeres, popular,top250)
     }
 
     private companion object {

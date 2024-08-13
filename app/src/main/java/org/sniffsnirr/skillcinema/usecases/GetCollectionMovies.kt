@@ -16,6 +16,7 @@ class GetCollectionMovies @Inject constructor(
         val listCollectionMovies = kinopoiskRepository.getCollection(collectionType.first)
         listCollectionMovies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(
+                movie.kinopoiskId,
                 movie.posterUrl,
                 reduction.stringReduction(movie.nameRu, 17),
                 reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),

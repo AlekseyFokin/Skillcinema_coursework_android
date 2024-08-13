@@ -14,7 +14,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class MoviePagingSource @Inject constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction) :
+class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction, val collectionType:String) :
     PagingSource<Int, MovieRVModel>() {
     override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int? = FIRST_PAGE
 
@@ -39,6 +39,7 @@ class MoviePagingSource @Inject constructor(val kinopoiskRepository: KinopoiskRe
         val movieRVModelList = mutableListOf<MovieRVModel>()
         movies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(
+                movie.kinopoiskId,
                 movie.posterUrl,
                 reduction.stringReduction(movie.nameRu, 17),
                 reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
