@@ -2,9 +2,13 @@ package org.sniffsnirr.skillcinema
 
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -12,6 +16,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -28,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
+    private lateinit var toolbar:Toolbar
+
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
         name = "skillcinema_settings",
@@ -40,24 +47,40 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        hideActionBar()//скрытие всех баров - они не нужны на фрагментах Onboard и loading
+        hideButtomBar()
         val navView: BottomNavigationView = binding.navView
+        toolbar = findViewById(R.id.myToolbar)
+
+
+        setSupportActionBar(toolbar)
+
+
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+        navController!!.setGraph(R.navigation.mobile_navigation)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile
             )
         )
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        navController = navHostFragment.navController
 
-        setupActionBarWithNavController(navController!!, appBarConfiguration)
-        navView.setupWithNavController(navController!!)
+       //setupActionBarWithNavController(navController!!,appBarConfiguration)
 
-        hideBars()//скрытие всех баров - они не нужны на фрагментах Onboard и loading
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+
+        toolbar.setNavigationIcon(R.drawable.action_bar_icon)
+
+
 
         lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
+
+        toolbar.setNavigationOnClickListener { navController!!.popBackStack() }
     }
 
     private suspend fun isFirstStart() {
@@ -82,17 +105,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun hideBars() {
+    fun hideButtomBar() {
         binding.navView.visibility =
             View.GONE// скрываю элементы управления
-        getSupportActionBar()?.hide()
-    }
+            }
 
-    fun showBars() {
+    fun showButtomBar() {
         binding.navView.visibility =
             View.VISIBLE// показываю элементы управления
-        getSupportActionBar()?.show()
+            }
+
+    fun hideActionBar() {
+        //   getSupportActionBar()?.hide()
+        binding.myToolbar.visibility=View.INVISIBLE
     }
+
+    fun showActionBar() {
+       //     getSupportActionBar()?.show()
+        binding.myToolbar.visibility=View.VISIBLE
+    }
+
+    fun setActionBarTitle(title:String){
+           getSupportActionBar()?.title=title
+    }
+
+
 
     companion object {
         val FIRST_START =

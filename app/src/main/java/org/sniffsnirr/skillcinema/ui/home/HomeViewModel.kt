@@ -12,34 +12,32 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 import org.sniffsnirr.skillcinema.usecases.GetDynamicCompilation
 import org.sniffsnirr.skillcinema.usecases.GetMoviePremiers
-import org.sniffsnirr.skillcinema.usecases.GetPopularMovies
+import org.sniffsnirr.skillcinema.usecases.GetCollectionMovies
+import org.sniffsnirr.skillcinema.usecases.HomePageUsecase
 import javax.inject.Inject
 
 @HiltViewModel
 //class HomeViewModel @Inject constructor(val kinopoiskRepository : KinopoiskRepository): ViewModel() {
-class HomeViewModel @Inject constructor(val getMoviePremiers: GetMoviePremiers,val getPopularMovies: GetPopularMovies,val getDynamicCompilation: GetDynamicCompilation):ViewModel() {
+class HomeViewModel @Inject constructor(val homePageUsecase: HomePageUsecase):ViewModel() {
     //private val kinopoiskRepository = KinopoiskRepository()
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _premiers = MutableStateFlow<List<MainModel>>(emptyList())
-    val premiers = _premiers.asStateFlow()
+    private val _MoviesCollectionsForHomePage = MutableStateFlow<List<MainModel>>(emptyList())
+    val MoviesCollectionsForHomePage = _MoviesCollectionsForHomePage.asStateFlow()
 
     init {
-        loadPremiers()
+        loadMoviesCollectionsForHomePage()
     }
 
-    private fun loadPremiers() {
+    private fun loadMoviesCollectionsForHomePage() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 _isLoading.value = true
-                getDynamicCompilation.getCompilation()
-              //getMoviePremiers.getPremiersForNextTwoWeek()
-             //  getPopularMovies.getPopularMovies()
-             //   getPopularMovies.getPopularMovies()
+                homePageUsecase.getHomePageCollections()
             }.fold(
-                onSuccess = { _premiers.value = it },
+                onSuccess = { _MoviesCollectionsForHomePage.value = it },
                 onFailure = { Log.d("MovieListViewModel", it.message ?: "") }
             )
             _isLoading.value = false

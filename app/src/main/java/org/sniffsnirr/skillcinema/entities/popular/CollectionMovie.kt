@@ -3,7 +3,7 @@ package org.sniffsnirr.skillcinema.entities.popular
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 
-data class PopularMovie(
+data class CollectionMovie(
     val countries: List<Country>,
     val coverUrl: String,
     val description: String,

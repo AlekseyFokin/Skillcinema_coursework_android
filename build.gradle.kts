@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.compilerKsp) apply false
     id("com.google.dagger.hilt.android") version "2.48" apply false
+    alias(libs.plugins.kotlinPluginParcelize) apply false
 }

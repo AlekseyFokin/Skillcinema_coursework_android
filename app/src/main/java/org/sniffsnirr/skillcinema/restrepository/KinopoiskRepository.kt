@@ -2,15 +2,14 @@ package org.sniffsnirr.skillcinema.restrepository
 
 import kotlinx.coroutines.delay
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
-import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovieList
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
-import org.sniffsnirr.skillcinema.entities.popular.PopularMovie
+import org.sniffsnirr.skillcinema.entities.popular.CollectionMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class KinopoiskRepository @Inject constructor(val retrofitInstance: KinopoiskDataSource){
+class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSource){
     val kinopoiskApi = retrofitInstance.getApi()
 
     suspend fun getPremieres(currentMonth:String,currentYear:Int): List<PremierMovie> {
@@ -19,8 +18,8 @@ class KinopoiskRepository @Inject constructor(val retrofitInstance: KinopoiskDat
         return movies.items
     }
 
-    suspend fun getPopular(): List<PopularMovie> {
-        val movies = kinopoiskApi.getPopular()
+    suspend fun getCollection(collectionType:String,page:Int=1): List<CollectionMovie> {
+        val movies = kinopoiskApi.getCollection(collectionType,page)
         delay(1000)
         return movies.items
     }

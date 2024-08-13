@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compilerKsp)
     id("com.google.dagger.hilt.android") version "2.48"
+    alias(libs.plugins.kotlinPluginParcelize)
+
 }
 
 android {
@@ -71,4 +73,6 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
+
+    implementation(libs.androidx.paging)
 }

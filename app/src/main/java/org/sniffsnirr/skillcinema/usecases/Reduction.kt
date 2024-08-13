@@ -4,24 +4,28 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Reduction @Inject constructor(){
+class Reduction @Inject constructor() {
     fun arrayReduction(source: List<String>, reductionLength: Int, limitItem: Int): String {
         val string = source.joinToString(
             separator = ", ",
             limit = limitItem
         )
-        if (string.length > reductionLength) {
-            return string.take(reductionLength).plus("...")
+        return if (string.length > reductionLength) {
+            string.take(reductionLength).plus("...")
         } else {
-            return string
+            string
         }
     }
-    fun stringReduction(string: String, reductionLength: Int): String {
 
-        if (string.length > reductionLength) {
-            return string.take(reductionLength).plus("...")
+    fun stringReduction(string: String?, reductionLength: Int): String {
+        return if (string.isNullOrEmpty()) {
+            ""
         } else {
-            return string
+            if (string.length > reductionLength) {
+                string.take(reductionLength).plus("...")
+            } else {
+                string
+            }
         }
     }
 }

@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.usecases
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
-import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import javax.inject.Inject
 import org.threeten.bp.LocalDate
@@ -16,7 +15,7 @@ class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRep
     val todayPlusTwoWeek = today.plusWeeks(2)
 
 
-    suspend fun getPremiersForNextTwoWeek(): List<MainModel> {
+    suspend fun getPremiersForNextTwoWeek(): List<MovieRVModel> {
         val currentMonth = today.month.toString().uppercase(Locale.US)
         val currentYear = today.year
         val plusTwoWeekMonth = todayPlusTwoWeek.month.toString().uppercase(Locale.US)
@@ -45,7 +44,6 @@ class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRep
             }
 
 
-
         filtredPrimeresList.map { movie -> // создаю объекты для отображения в recyclerview
 
             val movieRVModel = MovieRVModel(
@@ -53,16 +51,14 @@ class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRep
                 reduction.stringReduction(movie.nameRu,17),
                 reduction.arrayReduction(movie.genres.map {it.genre},20,2) ,
                 "0",
+                false,
                 false
             )
             movieRVModelList.add(movieRVModel)
         }
-
-        val bannerModel = MainModel("", emptyList(), true)
-        val mainModel = MainModel("Премьеры", movieRVModelList, false)
-        val mainModelList = listOf(bannerModel, mainModel)
-
-        return mainModelList
+       //добавляю кнопку
+        movieRVModelList.add(MovieRVModel(isButton = true,categoryDescription = Triple("PRIMERES",null,null)))
+        return movieRVModelList
     }
 }
 

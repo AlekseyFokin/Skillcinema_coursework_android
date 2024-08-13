@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.5.2"
 kotlin = "1.9.23"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -26,6 +26,10 @@ threetenabpVers="1.4.7"
 glideVers="4.16.0"
 recycledViewVers="1.3.2"
 cardviewVers="1.0.0"
+
+kotlinParcelazeVers="1.9.0"
+
+pagingLibVers="3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,15 +60,17 @@ hiltNavigation={ group = "androidx.hilt", name="hilt-navigation-fragment", versi
 
 treeTeenABP={group="com.jakewharton.threetenabp",name="threetenabp", version.ref="threetenabpVers"}
 
-
-
 androidx-cardview={group="androidx.cardview",name="cardview", version.ref="cardviewVers"}
 glide={group="com.github.bumptech.glide", name="glide",version.ref="glideVers"}
 androidx-recyclerview={group="androidx.recyclerview", name="recyclerview", version.ref="recycledViewVers"}
+
+androidx-paging={group="androidx.paging",name="paging-runtime", version.ref="pagingLibVers"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 compilerKsp={ id = "com.google.devtools.ksp", version.ref = "kspVers" }
+
+kotlinPluginParcelize={id="org.jetbrains.kotlin.plugin.parcelize", version.ref="kotlinParcelazeVers"}
 

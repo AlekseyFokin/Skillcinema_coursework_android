@@ -42,7 +42,7 @@ class LoadingFragment : Fragment() {
             } else {
                 binding.loadingProgressbar.visibility = View.GONE
                 findNavController().navigate(R.id.action_loadingFragment_to_navigation_home)
-                (activity as MainActivity).showBars()
+                (activity as MainActivity).showButtomBar()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

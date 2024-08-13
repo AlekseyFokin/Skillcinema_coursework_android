@@ -7,10 +7,7 @@ import org.sniffsnirr.skillcinema.databinding.BannerItemBinding
 import org.sniffsnirr.skillcinema.databinding.ParentItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 
-const val BANNER = 0
-const val ITEM = 1
-
-class MainAdapter(val mainModelList: List<MainModel>) :
+class MainAdapter(val mainModelList: List<MainModel>,val onCollectionClick:(MainModel)->Unit,val onMovieClick:(String)->Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,7 +37,7 @@ class MainAdapter(val mainModelList: List<MainModel>) :
         return if (mainModelList[position].banner) {
             BANNER
         } else {
-            ITEM
+            MOVIES
         }
     }
 
@@ -52,10 +49,16 @@ class MainAdapter(val mainModelList: List<MainModel>) :
         fun bind(dataItem: MainModel) {
                 binding.apply {
                 moviesCategory.text = dataItem.category
-                val movieAdapter = MovieAdapter(dataItem.MovieRVModelList)
+                val movieAdapter = MovieAdapter(dataItem.MovieRVModelList,{collectionModel ->onCollectionClick(dataItem)},{string2->onMovieClick(string2)})
                 childRv.adapter = movieAdapter
             }
+            binding.giveMeAll.setOnClickListener {  onCollectionClick(dataItem)}
         }
+    }
+
+    companion object{
+        const val BANNER = 0
+        const val MOVIES = 1
     }
 
 
