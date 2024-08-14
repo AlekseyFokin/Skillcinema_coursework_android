@@ -8,13 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
-import org.sniffsnirr.skillcinema.databinding.FragmentPagingCollectionBinding
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCompilationBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment

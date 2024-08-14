@@ -5,7 +5,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
-import org.sniffsnirr.skillcinema.entities.popular.CollectionMovie
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
@@ -13,7 +12,7 @@ import java.util.Locale
 @ActivityRetainedScoped
 class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction, val collectionDescription:Triple<String,Int,Int>) :
     PagingSource<Int, MovieRVModel>() {
-    override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int? = FIRST_PAGE
+    override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int = FIRST_PAGE
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieRVModel> {
         val page = params.key ?: FIRST_PAGE

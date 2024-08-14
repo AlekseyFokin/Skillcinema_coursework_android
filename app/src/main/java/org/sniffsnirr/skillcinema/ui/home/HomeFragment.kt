@@ -10,8 +10,6 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.findNavController
 
 import dagger.hilt.android.AndroidEntryPoint

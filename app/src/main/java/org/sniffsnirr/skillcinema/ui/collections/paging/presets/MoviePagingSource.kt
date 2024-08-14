@@ -12,7 +12,7 @@ import java.util.Locale
 @ActivityRetainedScoped
 class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction, val collectionType:String) :
     PagingSource<Int, MovieRVModel>() {
-    override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int? = FIRST_PAGE
+    override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int = FIRST_PAGE
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieRVModel> {
         val page = params.key ?: FIRST_PAGE
