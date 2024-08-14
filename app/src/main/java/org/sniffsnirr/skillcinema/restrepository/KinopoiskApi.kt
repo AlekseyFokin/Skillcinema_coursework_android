@@ -2,7 +2,7 @@ package org.sniffsnirr.skillcinema.restrepository
 
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovieList
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
-import org.sniffsnirr.skillcinema.entities.popular.CollectionMovieList
+import org.sniffsnirr.skillcinema.entities.collections.CollectionMovieList
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
 import retrofit2.http.GET
 import retrofit2.http.Headers

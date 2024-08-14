@@ -3,7 +3,7 @@ package org.sniffsnirr.skillcinema.restrepository
 import kotlinx.coroutines.delay
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
-import org.sniffsnirr.skillcinema.entities.popular.CollectionMovie
+import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import javax.inject.Inject
 import javax.inject.Singleton

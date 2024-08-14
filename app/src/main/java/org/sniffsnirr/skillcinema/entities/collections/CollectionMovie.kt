@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.entities.popular
+package org.sniffsnirr.skillcinema.entities.collections
 
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre

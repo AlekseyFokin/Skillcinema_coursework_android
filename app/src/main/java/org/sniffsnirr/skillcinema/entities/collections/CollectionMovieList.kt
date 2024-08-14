@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.entities.popular
+package org.sniffsnirr.skillcinema.entities.collections
 
 data class CollectionMovieList(
     val items: List<CollectionMovie>,

@@ -4,7 +4,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import org.sniffsnirr.skillcinema.entities.popular.CollectionMovie
+import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
