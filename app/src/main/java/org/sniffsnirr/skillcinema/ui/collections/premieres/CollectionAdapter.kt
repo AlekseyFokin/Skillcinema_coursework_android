@@ -28,7 +28,7 @@ class CollectionAdapter(
         with(holder.binding) {
             Glide
                 .with(poster.context)
-                .load(movie.imageUrl)//.placeholder(R.drawable.baseline_auto_awesome_24)
+                .load(movie.imageUrl)
                 .into(poster)
             movieName.text = movie.movieName
             genre.text = movie.movieGenre

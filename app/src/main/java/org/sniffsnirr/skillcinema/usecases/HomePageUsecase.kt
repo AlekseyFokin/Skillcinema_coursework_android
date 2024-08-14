@@ -83,14 +83,14 @@ class HomePageUsecase @Inject constructor(
             false
         )
 
-        val populrSerials = MainModel( KinopoiskApi.POPULAR_SERIES.second, // популярные сериалы
+        val populrSerials = MainModel( KinopoiskApi.POPULAR_SERIES.second,
             getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
             Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
             false
-        )
+        )// популярные сериалы
 
             return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
-            // return listOf(bannerModel, primeres, popular,top250)
+
     }
 
     private companion object {

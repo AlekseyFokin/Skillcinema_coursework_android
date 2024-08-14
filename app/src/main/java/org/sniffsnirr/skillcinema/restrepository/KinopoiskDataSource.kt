@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 
 @Singleton
-class KinopoiskDataSource @Inject constructor(){
+class KinopoiskDataSource @Inject constructor() {
     private val interceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-    var gson: Gson = GsonBuilder()
+    private var gson: Gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd")
         .create()
     private val retrofit = Retrofit.Builder().baseUrl(BASE_URL).client(client)

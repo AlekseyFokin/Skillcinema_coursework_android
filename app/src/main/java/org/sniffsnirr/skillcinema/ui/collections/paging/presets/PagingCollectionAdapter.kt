@@ -22,14 +22,12 @@ class PagingCollectionAdapter(
         return MovieViewHolder(binding)
     }
 
-    //  override fun getItemCount() = movieModel.size
-
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = getItem(position)//movieModel[position]  val item
+        val movie = getItem(position)
         with(holder.binding) {
             Glide
                 .with(poster.context)
-                .load(movie?.imageUrl)//.placeholder(R.drawable.baseline_auto_awesome_24)
+                .load(movie?.imageUrl)
                 .into(poster)
             movieName.text = movie?.movieName
             genre.text = movie?.movieGenre
@@ -51,9 +49,11 @@ class PagingCollectionAdapter(
         }
     }
 }
+
 class DiffUtilCallback : DiffUtil.ItemCallback<MovieRVModel>() {
     override fun areItemsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
         oldItem.kinopoiskId == newItem.kinopoiskId
 
-    override fun areContentsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean = oldItem == newItem
+    override fun areContentsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
+        oldItem == newItem
 }

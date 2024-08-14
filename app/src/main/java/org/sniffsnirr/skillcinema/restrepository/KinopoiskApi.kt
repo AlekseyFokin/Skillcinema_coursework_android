@@ -24,7 +24,7 @@ interface KinopoiskApi {
         "Content-type: application/json"
     )
     @GET("/api/v2.2/films/collections")
-    suspend fun getCollection(// получение популярных фильмов и тд - первая страница (20)
+    suspend fun getCollection(// получение популярных фильмов и тд - первая страница (20) с пагинацией
         @Query("type") type: String,
         @Query("page") page: Int
     ): CollectionMovieList
@@ -45,17 +45,17 @@ interface KinopoiskApi {
         @Query("countries") countries: Int,
         @Query("genres") genres: Int,
         @Query("page") page: Int,
-    ): CompilationsMovieList// подборки
+    ): CompilationsMovieList// подборки - компиляции с выбором страны и жанра с пагинацией
 
 
-     companion object {
+    companion object {
         private const val api_key = "f1a491f0-8e90-44d1-898a-17656c4ea1de"
 
-        val TOP_POPULAR_MOVIES=Pair<String,String>("TOP_POPULAR_MOVIES","Популярное")
-        val TOP_250_MOVIES=Pair<String,String>("TOP_250_MOVIES","Топ-250")
-        val POPULAR_SERIES=Pair<String,String>("POPULAR_SERIES","Популярные сериалы")
-        val PREMIERES=Pair<String,String>("PREMIERES","Премьеры")
-        val DYNAMIC=Pair<String,String>("DYNAMIC","Основаны на фильтах")
+        val TOP_POPULAR_MOVIES = Pair("TOP_POPULAR_MOVIES", "Популярное")
+        val TOP_250_MOVIES = Pair("TOP_250_MOVIES", "Топ-250")
+        val POPULAR_SERIES = Pair("POPULAR_SERIES", "Популярные сериалы")
+        val PREMIERES = Pair("PREMIERES", "Премьеры")
+        val DYNAMIC = Pair("DYNAMIC", "Основаны на фильтах")
     }
 
 }

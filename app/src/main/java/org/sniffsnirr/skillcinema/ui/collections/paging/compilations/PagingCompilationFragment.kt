@@ -23,7 +23,7 @@ class PagingCompilationFragment : Fragment() {
     private val viewModel: PagingCompilationViewModel by viewModels()
     var _binding: FragmentPagingCompilationBinding? = null
     val binding get() = _binding!!
-    val pagedAdapter = PagingCompilationAdapter { string -> onMovieClick(string) }
+    private val pagedAdapter = PagingCompilationAdapter { string -> onMovieClick(string) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,15 +54,15 @@ class PagingCompilationFragment : Fragment() {
         binding.moviePagingCollectionRv.adapter =adapter
         binding.moviePagingCollectionRv.layoutManager = gridLayoutManager
 
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
-                    2
-                } else {
-                    1
-                }
-            }
-        }
+//        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() { //пробовал выгнать PagingLoadStateAdapter по середине фрагмента
+//            override fun getSpanSize(position: Int): Int {
+//                return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
+//                    2
+//                } else {
+//                    1
+//                }
+//            }
+//        }
 
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)
@@ -74,7 +74,7 @@ class PagingCompilationFragment : Fragment() {
         (activity as MainActivity).hideActionBar()
     }
 
-    fun onMovieClick(string: String) {
+    private fun onMovieClick(string: String) {
         Log.d("ButtonClick", string)
     }
 }

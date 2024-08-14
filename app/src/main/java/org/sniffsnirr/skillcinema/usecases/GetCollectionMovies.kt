@@ -1,7 +1,6 @@
 package org.sniffsnirr.skillcinema.usecases
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
@@ -21,8 +20,8 @@ class GetCollectionMovies @Inject constructor(
                 reduction.stringReduction(movie.nameRu, 17),
                 reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "  ${String.format(Locale.US, "%.1f", movie.ratingKinopoisk)}  ",
-                false,
-                false
+                viewed = false,
+                isButton = false
             )
             movieRVModelList.add(movieRVModel)
         }

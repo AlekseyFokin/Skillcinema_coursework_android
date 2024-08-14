@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(val homePageUsecase: HomePageUsecase):Vi
     }
 
     private fun loadMoviesCollectionsForHomePage() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки всего контента
             kotlin.runCatching {
                 _isLoading.value = true
                 homePageUsecase.getHomePageCollections()

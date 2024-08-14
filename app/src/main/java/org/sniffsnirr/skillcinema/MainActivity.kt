@@ -2,10 +2,7 @@ package org.sniffsnirr.skillcinema
 
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,11 +13,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -52,10 +46,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         toolbar = findViewById(R.id.myToolbar)
 
-
         setSupportActionBar(toolbar)
-
-
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
@@ -74,9 +65,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
-        toolbar.setNavigationIcon(R.drawable.action_bar_icon)
-
-
+         toolbar.setNavigationIcon(R.drawable.action_bar_icon)
 
         lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
 
@@ -107,20 +96,20 @@ class MainActivity : AppCompatActivity() {
 
     fun hideButtomBar() {
         binding.navView.visibility =
-            View.GONE// скрываю элементы управления
+            View.GONE// скрываю ButtomBar
             }
 
     fun showButtomBar() {
         binding.navView.visibility =
-            View.VISIBLE// показываю элементы управления
+            View.VISIBLE// показываю ButtomBar
             }
 
-    fun hideActionBar() {
+    fun hideActionBar() {//скрываю ToolBar
         //   getSupportActionBar()?.hide()
         binding.myToolbar.visibility=View.INVISIBLE
     }
 
-    fun showActionBar() {
+    fun showActionBar() {//показываю ToolBar
        //     getSupportActionBar()?.show()
         binding.myToolbar.visibility=View.VISIBLE
     }

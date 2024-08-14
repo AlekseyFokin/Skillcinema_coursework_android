@@ -31,7 +31,7 @@ class MovieAdapter(
             binding.apply {
                 Glide
                     .with(poster.context)
-                    .load(moviePoster.imageUrl)//.placeholder(R.drawable.baseline_auto_awesome_24)
+                    .load(moviePoster.imageUrl)
                     .into(poster)
                 movieName.text = moviePoster.movieName
                 genre.text = moviePoster.movieGenre

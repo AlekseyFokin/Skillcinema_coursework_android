@@ -14,12 +14,14 @@ import org.sniffsnirr.skillcinema.usecases.Reduction
 import javax.inject.Inject
 
 @HiltViewModel
-class PagingCollectionViewModel @Inject constructor(val kinopoiskRepository: KinopoiskRepository, val reduction: Reduction): ViewModel() {
-    // TODO: Implement the ViewModel
-    var collectionType:String=""
+class PagingCollectionViewModel @Inject constructor(
+    val kinopoiskRepository: KinopoiskRepository,
+    val reduction: Reduction
+) : ViewModel() {
+    var collectionType: String = "" //для пердачи типа коллекции
 
     val pagedMovies: Flow<PagingData<MovieRVModel>> = Pager(
-        config=PagingConfig(pageSize=10),
-        pagingSourceFactory={ MoviePagingSource(kinopoiskRepository,reduction,collectionType) }
+        config = PagingConfig(pageSize = 10),
+        pagingSourceFactory = { MoviePagingSource(kinopoiskRepository, reduction, collectionType) }
     ).flow.cachedIn(viewModelScope)
 }

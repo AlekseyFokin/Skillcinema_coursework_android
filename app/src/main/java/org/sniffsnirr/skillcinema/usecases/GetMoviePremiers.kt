@@ -11,8 +11,8 @@ import java.util.Locale
 
 @ActivityRetainedScoped
 class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRepository, val reduction:Reduction) {
-    val today = LocalDate.now()
-    val todayPlusTwoWeek = today.plusWeeks(2)
+    private val today = LocalDate.now()
+    private val todayPlusTwoWeek = today.plusWeeks(2)
 
 
     suspend fun getPremiersForNextTwoWeek(): List<MovieRVModel> {

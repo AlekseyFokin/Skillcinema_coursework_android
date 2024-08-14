@@ -12,5 +12,5 @@ data class MovieRVModel(
     val rate:String="",
     val viewed:Boolean=false,
     val isButton:Boolean,
-    val categoryDescription:Triple<String,Int?,Int?>?=null
+    val categoryDescription:Triple<String,Int?,Int?>?=null//используется если это кнопка
 ) : Parcelable

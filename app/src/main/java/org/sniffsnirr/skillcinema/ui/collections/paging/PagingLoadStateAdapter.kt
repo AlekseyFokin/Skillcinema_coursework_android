@@ -7,12 +7,15 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.ProgressForPagingBinding
 
-class PagingLoadStateAdapter:LoadStateAdapter<LoadStateViewHolder>() {//отображение прогрессбара для списка фильмов с пагинацией
-    override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) =Unit
+class PagingLoadStateAdapter : LoadStateAdapter<LoadStateViewHolder>() {
+    //отображение прогрессбара для списка фильмов с пагинацией
+    override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) = Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
-        val binding=ProgressForPagingBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ProgressForPagingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LoadStateViewHolder(binding)
     }
 }
-class LoadStateViewHolder(binding:ProgressForPagingBinding):RecyclerView.ViewHolder(binding.root)
+
+class LoadStateViewHolder(binding: ProgressForPagingBinding) : RecyclerView.ViewHolder(binding.root)

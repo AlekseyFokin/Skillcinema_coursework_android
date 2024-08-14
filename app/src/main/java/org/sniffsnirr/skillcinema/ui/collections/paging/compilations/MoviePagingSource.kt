@@ -10,14 +10,22 @@ import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
 @ActivityRetainedScoped
-class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction, val collectionDescription:Triple<String,Int,Int>) :
+class MoviePagingSource(
+    val kinopoiskRepository: KinopoiskRepository,
+    val reduction: Reduction,
+    val collectionDescription: Triple<String, Int, Int>
+) :
     PagingSource<Int, MovieRVModel>() {
     override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int = FIRST_PAGE
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieRVModel> {
         val page = params.key ?: FIRST_PAGE
         return kotlin.runCatching {
-            kinopoiskRepository.getCompilation(collectionDescription.second,collectionDescription.third, page)
+            kinopoiskRepository.getCompilation(
+                collectionDescription.second,
+                collectionDescription.third,
+                page
+            )
         }.fold(
             onSuccess = {
                 LoadResult.Page(
@@ -30,8 +38,7 @@ class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository
         )
     }
 
-    fun castToMovieRVModel(movies:List<CompilationsMovie>):List<MovieRVModel>
-    {
+    private fun castToMovieRVModel(movies: List<CompilationsMovie>): List<MovieRVModel> {
         val movieRVModelList = mutableListOf<MovieRVModel>()
         movies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(
@@ -40,16 +47,15 @@ class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository
                 reduction.stringReduction(movie.nameRu, 17),
                 reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "  ${String.format(Locale.US, "%.1f", movie.ratingKinopoisk)}  ",
-                false,
-                false
+                viewed = false,
+                isButton = false
             )
             movieRVModelList.add(movieRVModel)
         }
         return movieRVModelList
     }
 
-    companion object
-    const
-
-    val FIRST_PAGE = 1
+    companion object {
+        private const val FIRST_PAGE = 1
+    }
 }

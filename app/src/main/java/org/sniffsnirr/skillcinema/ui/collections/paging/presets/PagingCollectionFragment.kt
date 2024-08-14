@@ -22,7 +22,7 @@ class PagingCollectionFragment : Fragment() {
     private val viewModel: PagingCollectionViewModel by viewModels()
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
-    val pagedAdapter= PagingCollectionAdapter{ string->onMovieClick(string)}
+    private val pagedAdapter= PagingCollectionAdapter{ string->onMovieClick(string)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class PagingCollectionFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
     }
-    fun onMovieClick(string: String) {
+    private fun onMovieClick(string: String) {
         Log.d("ButtonClick", string)
     }
 }

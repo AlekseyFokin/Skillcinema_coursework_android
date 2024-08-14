@@ -27,7 +27,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // private val viewModel: HomeViewModel by navGraphViewModels(R.id.mobile_navigation)
     private val viewModel: HomeViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,27 +43,23 @@ class HomeFragment : Fragment() {
 
         binding.mainRv.setHasFixedSize(true)
 
-
-        viewLifecycleOwner.lifecycleScope.launch {// загрузка премьер
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка всего контента для HomeFragment
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.MoviesCollectionsForHomePage.collect {
-                    //binding.mainRv.adapter = MainAdapter(it)
                     binding.mainRv.adapter = MainAdapter(it,
                         { collectionModel -> onCollectionClick(collectionModel) },
                         { string2 -> onMovieClick(string2) })
-                    //binding.textHome.text = it.size.toString()
                 }
             }
         }
     }
 
-    fun onCollectionClick(collectionModel: MainModel) {
+    private fun onCollectionClick(collectionModel: MainModel) { //открытие соответсвующего фрагмента и передача в него параметров запроса
         when (collectionModel.categoryDescription.first) {
             KinopoiskApi.PREMIERES.first -> { // клик по коллекции премьер на 2 недели вперед. их количество ограничено и этот список уже есть, поэтому направляю во фрагмент и список и название
                 val bundle = Bundle()
                 val arraylist = ArrayList<MovieRVModel>()
                 arraylist.addAll(collectionModel.MovieRVModelList)
-                Log.d("collection in", "${collectionModel.category}")
                 bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
                 findNavController().navigate(
@@ -72,6 +67,7 @@ class HomeFragment : Fragment() {
                     bundle
                 )
             }
+
             KinopoiskApi.TOP_250_MOVIES.first -> {// клик по коллекции топ-250 (без фильтра) - требует пагинации, загружается сначала
                 val bundle = Bundle()
                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
@@ -81,6 +77,7 @@ class HomeFragment : Fragment() {
                     bundle
                 )
             }
+
             KinopoiskApi.TOP_POPULAR_MOVIES.first -> {// клик по коллекции популярных фильмов (без фильтра) - требует пагинации, загружается сначала
                 val bundle = Bundle()
                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
@@ -117,7 +114,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun onMovieClick(string: String) {
+    private fun onMovieClick(string: String) {
         Log.d("ButtonClick", string)
     }
 

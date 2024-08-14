@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSource){
-    val kinopoiskApi = retrofitInstance.getApi()
+    private val kinopoiskApi = retrofitInstance.getApi()
 
     suspend fun getPremieres(currentMonth:String,currentYear:Int): List<PremierMovie> {
         val movies = kinopoiskApi.getPremieres(currentYear, currentMonth)

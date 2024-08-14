@@ -24,14 +24,8 @@ class CollectionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
-        val collectionName=arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
-        Log.d("collection inin", "${collectionName}")
-
+        val collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
         (activity as MainActivity).setActionBarTitle(collectionName.toString())
-        //=collectionName
-//       with(activity?.window){
-//           enterTransition=Slide(Gravity.RIGHT)
-//           exitTransition=Slide(Gravity.LEFT)}
     }
 
     override fun onCreateView(
@@ -45,11 +39,10 @@ class CollectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var collectionModel: List<MovieRVModel>? = null
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            collectionModel =
-                arguments?.getParcelableArrayList<MovieRVModel>(HomeFragment.COLLECTION_MODEL)
+        collectionModel = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelableArrayList(HomeFragment.COLLECTION_MODEL)
         } else {
-            collectionModel = arguments?.getParcelableArrayList(
+            arguments?.getParcelableArrayList(
                 HomeFragment.COLLECTION_MODEL,
                 MovieRVModel::class.java
             )
@@ -68,7 +61,8 @@ class CollectionFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
     }
-    fun onMovieClick(string: String) {
+
+    private fun onMovieClick(string: String) {
         Log.d("ButtonClick", string)
     }
 
