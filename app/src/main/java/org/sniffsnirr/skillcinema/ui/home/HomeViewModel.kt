@@ -8,11 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
-import org.sniffsnirr.skillcinema.usecases.GetDynamicCompilation
-import org.sniffsnirr.skillcinema.usecases.GetMoviePremiers
-import org.sniffsnirr.skillcinema.usecases.GetCollectionMovies
 import org.sniffsnirr.skillcinema.usecases.HomePageUsecase
 import javax.inject.Inject
 
