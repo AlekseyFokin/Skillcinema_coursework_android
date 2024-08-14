@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.ui.collections.paging
+package org.sniffsnirr.skillcinema.ui.collections.paging.presets
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 class PagingCollectionAdapter(
 
     val onMovieClick: (String) -> Unit
-) : PagingDataAdapter<MovieRVModel,PagingCollectionAdapter.MovieViewHolder>(DiffUtilCallback()) {
+) : PagingDataAdapter<MovieRVModel, PagingCollectionAdapter.MovieViewHolder>(DiffUtilCallback()) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 

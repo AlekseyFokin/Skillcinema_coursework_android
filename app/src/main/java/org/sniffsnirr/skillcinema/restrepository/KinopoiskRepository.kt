@@ -30,8 +30,8 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         return countriesAndGenres
     }
 
-    suspend fun getCompilation(country:Int,genre:Int): List<CompilationsMovie> {
-        val movies = kinopoiskApi.getCompilation(country,genre)
+    suspend fun getCompilation(country:Int,genre:Int,page:Int=1): List<CompilationsMovie> {
+        val movies = kinopoiskApi.getCompilation(country,genre,page)
         delay(1000)
         return movies.items
     }

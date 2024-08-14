@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.ui.collections.paging
+package org.sniffsnirr.skillcinema.ui.collections.paging.presets
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -12,9 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
-import org.sniffsnirr.skillcinema.R
-import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCollectionBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 
 @AndroidEntryPoint
@@ -23,7 +22,7 @@ class PagingCollectionFragment : Fragment() {
     private val viewModel: PagingCollectionViewModel by viewModels()
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
-    val pagedAdapter=PagingCollectionAdapter{string->onMovieClick(string)}
+    val pagedAdapter= PagingCollectionAdapter{ string->onMovieClick(string)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +44,9 @@ class PagingCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.moviePagingCollectionRv.adapter=pagedAdapter.withLoadStateFooter(PagingLoadStateAdapter())
+        binding.moviePagingCollectionRv.adapter=pagedAdapter.withLoadStateFooter(
+            PagingLoadStateAdapter()
+        )
 
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)

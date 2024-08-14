@@ -83,12 +83,34 @@ class HomeFragment : Fragment() {
                     bundle
                 )
             }
-            KinopoiskApi.TOP_POPULAR_MOVIES.first -> {// клик по коллекции топ-250 (без фильтра) - требует пагинации, загружается сначала
+            KinopoiskApi.TOP_POPULAR_MOVIES.first -> {// клик по коллекции популярных фильмов (без фильтра) - требует пагинации, загружается сначала
                 val bundle = Bundle()
                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
                 bundle.putCharSequence(COLLECTION_TYPE, collectionModel.categoryDescription.first)
                 findNavController().navigate(
                     R.id.action_navigation_home_to_pagingCollectionFragment,
+                    bundle
+                )
+            }
+
+            KinopoiskApi.POPULAR_SERIES.first -> {// клик по коллекции популярных сериалов (без фильтра) - требует пагинации, загружается сначала
+                val bundle = Bundle()
+                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                bundle.putCharSequence(COLLECTION_TYPE, collectionModel.categoryDescription.first)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_pagingCollectionFragment,
+                    bundle
+                )
+            }
+
+            KinopoiskApi.DYNAMIC.first -> {// клик по динамической коллекции  (с фильтром) - требует пагинации, загружается сначала
+                val bundle = Bundle()
+                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                bundle.putCharSequence(COLLECTION_TYPE, collectionModel.categoryDescription.first)
+                bundle.putInt(COLLECTION_COUNTRY, collectionModel.categoryDescription.second!!)
+                bundle.putInt(COLLECTION_GENRE, collectionModel.categoryDescription.third!!)
+                findNavController().navigate(
+                    R.id.action_navigation_home_to_pagingCompilationFragment,
                     bundle
                 )
             }
@@ -110,5 +132,7 @@ class HomeFragment : Fragment() {
         const val COLLECTION_MODEL = "COLLECTION_MODEL"
         const val COLLECTION_NAME = "COLLECTION_NAME"
         const val COLLECTION_TYPE = "COLLECTION_TYPE"
+        const val COLLECTION_COUNTRY = "COLLECTION_COUNTRY"
+        const val COLLECTION_GENRE = "COLLECTION_GENRE"
     }
 }

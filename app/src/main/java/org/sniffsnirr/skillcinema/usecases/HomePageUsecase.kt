@@ -52,44 +52,46 @@ class HomePageUsecase @Inject constructor(
             Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first,null,null),
             false
         )
-//        val countryNgenre = getCountryAndGenre()
-//        var pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
-//
-//        val dynamic1 = MainModel(// динамический список 1
-//            "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
-//            getDynamicCompilation.getCompilation(
-//                pairCountryNGenre.first.id,
-//                pairCountryNGenre.second.id
-//            ),
-//            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id,pairCountryNGenre.second.id),
-//            false
-//        )
+
+        val countryNgenre = getCountryAndGenre()
+        var pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
+
+        val dynamic1 = MainModel(// динамический список 1
+            "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
+            getDynamicCompilation.getCompilation(
+                pairCountryNGenre.first.id,
+                pairCountryNGenre.second.id
+            ),
+            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id,pairCountryNGenre.second.id),
+            false
+        )
+
         val top250 = MainModel( // топ - 250
             KinopoiskApi.TOP_250_MOVIES.second,
             getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
             Triple(KinopoiskApi.TOP_250_MOVIES.first,null,null),
             false
         )
-//        pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
-//        val dynamic2 = MainModel(//динамический список 2
-//            "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
-//            getDynamicCompilation.getCompilation(
-//                pairCountryNGenre.first.id,
-//                pairCountryNGenre.second.id
-//            ),
-//            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id, pairCountryNGenre.second.id),
-//            false
-//        )
-//
-//        val populrSerials = MainModel( // популярные сериалы
-//            KinopoiskApi.POPULAR_SERIES.second,
-//            getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
-//            Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
-//            false
-//        )
+        pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
+        val dynamic2 = MainModel(//динамический список 2
+            "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
+            getDynamicCompilation.getCompilation(
+                pairCountryNGenre.first.id,
+                pairCountryNGenre.second.id
+            ),
+            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id, pairCountryNGenre.second.id),
+            false
+        )
 
-            //return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
-        return listOf(bannerModel, primeres, popular,top250)
+        val populrSerials = MainModel( // популярные сериалы
+            KinopoiskApi.POPULAR_SERIES.second,
+            getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
+            Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
+            false
+        )
+
+            return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
+            // return listOf(bannerModel, primeres, popular,top250)
     }
 
     private companion object {

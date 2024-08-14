@@ -1,17 +1,13 @@
-package org.sniffsnirr.skillcinema.ui.collections.paging
+package org.sniffsnirr.skillcinema.ui.collections.paging.presets
 
-import android.util.Log
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingSource
-import androidx.paging.PagingSource.LoadResult.Page
 import androidx.paging.PagingState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.popular.CollectionMovie
-import org.sniffsnirr.skillcinema.entities.popular.CollectionMovieList
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
-import javax.inject.Inject
 
 @ActivityRetainedScoped
 class MoviePagingSource constructor(val kinopoiskRepository: KinopoiskRepository,val reduction: Reduction, val collectionType:String) :

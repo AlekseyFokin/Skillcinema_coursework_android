@@ -44,7 +44,7 @@ interface KinopoiskApi {
     suspend fun getCompilation(
         @Query("countries") countries: Int,
         @Query("genres") genres: Int,
-        @Query("page") page: Int=1,
+        @Query("page") page: Int,
     ): CompilationsMovieList// подборки
 
 
