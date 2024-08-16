@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:expandableTextView="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -146,18 +147,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_poster" />
 
-        <TextView
+        <io.github.glailton.expandabletextview.ExpandableTextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="26dp"
-            android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество…"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp"
+            android:fontFamily="@font/hkgrotesk_regular"
+            expandableTextView:collapsedLines="3"
+            expandableTextView:animDuration="500"
+
+            expandableTextView:readLessText="..."
+            expandableTextView:textMode="line"
+            expandableTextView:isExpanded="true"
+            app:expandType="layout"
+            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/short_desc" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_rv_for_poster"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/parent_item_for_poster"
+            />
+
+<!--        <TextView-->
+<!--            android:id="@+id/desc"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="26dp"-->
+<!--            android:fontFamily="@font/hkgrotesk_regular"-->
+<!--            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество…"-->
+<!--            android:textColor="@color/color_of_main_label_in_onboarding"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/short_desc" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

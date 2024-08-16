@@ -10,7 +10,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 class CollectionAdapter(
     var movieModel: List<MovieRVModel>,
-    val onMovieClick: (String) -> Unit
+    val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<CollectionAdapter.MovieViewHolder>() {
 
     inner class MovieViewHolder(val binding: MovieItemBinding) :
@@ -44,7 +44,7 @@ class CollectionAdapter(
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie.movieName)
+            onMovieClick(movie.kinopoiskId)
         }
 
     }

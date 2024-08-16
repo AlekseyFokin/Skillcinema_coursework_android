@@ -83,8 +83,7 @@ class HomePageUsecase @Inject constructor(
             false
         )
 
-        val populrSerials = MainModel( KinopoiskApi.POPULAR_SERIES.second,getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
-            Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
+        val populrSerials = MainModel( KinopoiskApi.POPULAR_SERIES.second,getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES), Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
             false
         )// популярные сериалы
 

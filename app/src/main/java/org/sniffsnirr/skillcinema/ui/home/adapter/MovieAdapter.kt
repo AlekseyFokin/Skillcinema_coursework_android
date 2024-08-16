@@ -12,7 +12,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 class MovieAdapter(
     var movieModel: List<MovieRVModel>,
     val onCollectionClick: (String) -> Unit,
-    val onMovieClick: (String) -> Unit
+    val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ButtonViewHolder(val binding: ShowMeAllBinding) :
@@ -46,7 +46,7 @@ class MovieAdapter(
                     viewed.visibility = View.INVISIBLE
                 }
             }
-            binding.cd.setOnClickListener { onMovieClick(moviePoster.movieName) }
+            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }
         }
     }
 

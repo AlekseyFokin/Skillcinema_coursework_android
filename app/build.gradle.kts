@@ -75,4 +75,6 @@ dependencies {
     implementation(libs.androidx.cardview)
 
     implementation(libs.androidx.paging)
+
+    implementation(libs.glailton.expandabletextview)
 }

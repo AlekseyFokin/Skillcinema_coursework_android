@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.MainActivity
+import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 @AndroidEntryPoint
@@ -51,7 +54,7 @@ class CollectionFragment : Fragment() {
         if (!collectionModel.isNullOrEmpty()) {
             val movieCollection = collectionModel.toList()
             Log.d("collection", "${movieCollection.size}")
-            val adapter = CollectionAdapter(movieCollection) { string2 -> onMovieClick(string2) }
+            val adapter = CollectionAdapter(movieCollection) { idMovie -> onMovieClick(idMovie) }
             binding.movieCollectionRv.adapter = adapter
             binding.movieCollectionRv.setHasFixedSize(true)
         }
@@ -62,8 +65,15 @@ class CollectionFragment : Fragment() {
         (activity as MainActivity).hideActionBar()
     }
 
-    private fun onMovieClick(string: String) {
-        Log.d("ButtonClick", string)
+    private fun onMovieClick(idMovie: Int?) {
+        Log.d("ButtonClick", "$idMovie")
+        val bundle = Bundle()
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_collectionFragment_to_oneMovieFragment,
+                bundle
+            )
+        }
     }
-
 }

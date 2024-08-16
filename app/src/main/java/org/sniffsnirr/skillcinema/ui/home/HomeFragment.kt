@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
                 viewModel.MoviesCollectionsForHomePage.collect {
                     binding.mainRv.adapter = MainAdapter(it,
                         { collectionModel -> onCollectionClick(collectionModel) },
-                        { string2 -> onMovieClick(string2) })
+                        { idMovie -> onMovieClick(idMovie) })
                 }
             }
         }
@@ -114,8 +114,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onMovieClick(string: String) {
-        Log.d("ButtonClick", string)
+    private fun onMovieClick(idMovie: Int?) {
+        Log.d("ButtonClick","$idMovie")
+        val bundle = Bundle()
+        if(idMovie!=null){
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_navigation_home_to_oneMovieFragment,
+                bundle
+            )
+        }
+
+
     }
 
     override fun onDestroyView() {
@@ -129,5 +139,6 @@ class HomeFragment : Fragment() {
         const val COLLECTION_TYPE = "COLLECTION_TYPE"
         const val COLLECTION_COUNTRY = "COLLECTION_COUNTRY"
         const val COLLECTION_GENRE = "COLLECTION_GENRE"
+        const val ID_MOVIE="ID_MOVIE"
     }
 }

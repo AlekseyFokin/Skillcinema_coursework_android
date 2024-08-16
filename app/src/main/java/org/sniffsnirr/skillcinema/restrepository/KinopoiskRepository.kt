@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
+import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,6 +35,10 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         val movies = kinopoiskApi.getCompilation(country,genre,page)
         delay(1000)
         return movies.items
+    }
+
+    suspend fun getOneMovie(idMovie:Int):OnlyOneMovie{
+        return kinopoiskApi.getOnlyOneMovie(idMovie)
     }
 
 

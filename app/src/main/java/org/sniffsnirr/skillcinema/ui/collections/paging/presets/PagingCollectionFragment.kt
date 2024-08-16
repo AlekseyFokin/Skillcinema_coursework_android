@@ -8,13 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
+import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCollectionBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 
 @AndroidEntryPoint
 class PagingCollectionFragment : Fragment() {
@@ -22,7 +25,7 @@ class PagingCollectionFragment : Fragment() {
     private val viewModel: PagingCollectionViewModel by viewModels()
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
-    private val pagedAdapter= PagingCollectionAdapter{ string->onMovieClick(string)}
+    private val pagedAdapter= PagingCollectionAdapter{ idMovie->onMovieClick(idMovie)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +60,15 @@ class PagingCollectionFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
     }
-    private fun onMovieClick(string: String) {
-        Log.d("ButtonClick", string)
+    private fun onMovieClick(idMovie: Int?) {
+        Log.d("ButtonClick", "$idMovie")
+        val bundle = Bundle()
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_pagingCollectionFragment_to_oneMovieFragment,
+                bundle
+            )
+        }
     }
 }

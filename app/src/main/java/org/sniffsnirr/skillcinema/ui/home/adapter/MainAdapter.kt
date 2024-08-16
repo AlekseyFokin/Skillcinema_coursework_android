@@ -10,7 +10,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 class MainAdapter(
     val mainModelList: List<MainModel>,
     val onCollectionClick: (MainModel) -> Unit,
-    val onMovieClick: (String) -> Unit
+    val onMovieClick: (Int?) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -57,7 +57,7 @@ class MainAdapter(
                 moviesCategory.text = dataItem.category
                 val movieAdapter = MovieAdapter(dataItem.MovieRVModelList,
                     { collectionModel -> onCollectionClick(dataItem) },
-                    { string2 -> onMovieClick(string2) })
+                    { idMovie -> onMovieClick(idMovie) })
                 childRv.adapter = movieAdapter
             }
             binding.giveMeAll.setOnClickListener { onCollectionClick(dataItem) }

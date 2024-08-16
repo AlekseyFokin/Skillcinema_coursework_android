@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 
 class PagingCollectionAdapter(
 
-    val onMovieClick: (String) -> Unit
+    val onMovieClick: (Int?) -> Unit
 ) : PagingDataAdapter<MovieRVModel, PagingCollectionAdapter.MovieViewHolder>(DiffUtilCallback()) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -44,7 +44,7 @@ class PagingCollectionAdapter(
         }
         holder.binding.root.setOnClickListener {
             movie?.let {
-                onMovieClick(movie.movieName)
+                onMovieClick(movie.kinopoiskId)
             }
         }
     }
