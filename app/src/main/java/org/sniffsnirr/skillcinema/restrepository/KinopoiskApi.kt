@@ -3,10 +3,12 @@ package org.sniffsnirr.skillcinema.restrepository
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovieList
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovieList
+import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface KinopoiskApi {
     @Headers(
@@ -46,6 +48,10 @@ interface KinopoiskApi {
         @Query("genres") genres: Int,
         @Query("page") page: Int,
     ): CompilationsMovieList// подборки - компиляции с выбором страны и жанра с пагинацией
+
+    @GET("/api/v2.2/films/{movie}")
+    suspend fun getOnlyOneMovie(
+        @Path("movie") idMovie: Int): OnlyOneMovie// подборки - компиляции с выбором страны и жанра с пагинацией
 
 
     companion object {

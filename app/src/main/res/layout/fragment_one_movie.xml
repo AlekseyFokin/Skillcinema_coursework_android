@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/main_poster"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="poster"
+            android:foreground="#73000000"
+            android:scaleType="center"
+            android:src="@drawable/poster_example"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/main_poster"
+            app:layout_constraintEnd_toEndOf="@id/main_poster"
+            app:layout_constraintStart_toStartOf="@id/main_poster">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="250dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo"
+
+                />
+
+            <TextView
+                android:id="@+id/rate_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="6.4, Приключения Электроников"
+                android:textAppearance="@style/MyMoviePosterStyle" />
+
+            <TextView
+                android:id="@+id/year_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="2020, драма, приключения"
+                android:textAppearance="@style/MyMoviePosterStyle" />
+
+            <TextView
+                android:id="@+id/country_duration_bond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Россия, 1 ч 33 мин, 16+"
+                android:textAppearance="@style/MyMoviePosterStyle" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/main_poster"
+                app:layout_constraintEnd_toEndOf="@id/main_poster"
+                app:layout_constraintStart_toStartOf="@id/main_poster">
+
+                <ImageButton
+                    android:id="@+id/add_to_favorites"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_heart"
+                    app:tint="@color/color_of_miss_button" />
+
+                <ImageButton
+                    android:id="@+id/want_to_see"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_bookmark"
+                    app:tint="@color/color_of_miss_button" />
+
+                <ImageButton
+                    android:id="@+id/viewed"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_dont_viewed"
+                    app:tint="@color/color_of_miss_button" />
+
+                <ImageButton
+                    android:id="@+id/share"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_send_over"
+                    app:tint="@color/color_of_miss_button" />
+
+                <ImageButton
+                    android:id="@+id/some_more"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:background="#00FFFFFF"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_some_more"
+                    app:tint="@color/color_of_miss_button" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/short_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="26dp"
+            android:fontFamily="@font/hkgrotesk_bold"
+            android:text="Юный баскетболист заводит дружбу с писателем-затворником. Окрыляющая драма Гаса Ван Сента с призом Берлинале"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_poster" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="26dp"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество…"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/short_desc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
