@@ -5,6 +5,7 @@ import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Count
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovieList
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
+import org.sniffsnirr.skillcinema.entities.staff.Staff
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -51,8 +52,13 @@ interface KinopoiskApi {
 
     @GET("/api/v2.2/films/{movie}")
     suspend fun getOnlyOneMovie(
-        @Path("movie") idMovie: Int): OnlyOneMovie// подборки - компиляции с выбором страны и жанра с пагинацией
+        @Path("movie") idMovie: Int
+    ): OnlyOneMovie// подборки - компиляции с выбором страны и жанра с пагинацией
 
+    @GET("/api/v1/staff")
+    suspend fun getActorsAndMoviemen(
+        @Query("filmId") filmId: Int
+    ): List<Staff>
 
     companion object {
         private const val api_key = "f1a491f0-8e90-44d1-898a-17656c4ea1de"

@@ -9,10 +9,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
-import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
+import org.sniffsnirr.skillcinema.entities.Country
+import org.sniffsnirr.skillcinema.entities.Genre
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
+import java.util.Locale
 
 
 class OneMovieFragment : Fragment() {
@@ -20,11 +25,13 @@ class OneMovieFragment : Fragment() {
     val binding get() = _binding!!
 
     private val viewModel: OneMovieViewModel by viewModels()
-    private var idMovie: Int = 0
+
+    private val actorsAdapter = MoviemenAdapter()
+  //  private var idMovie: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        idMovie = arguments?.getInt(OneMovieFragment.RV_1_NAME) ?: 0
+        val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
         viewModel.setIdMovie(idMovie)
     }
 
@@ -39,33 +46,31 @@ class OneMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {// загрузка всего контента для HomeFragment
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieInfo.collect {
                     with(binding)
                     {
-                        countryDurationBond.text = it?.countries?.joinToString(
-                            separator = ",",
-                            limit = 3,
-                            truncated = "..."
-                        )+", ${minutеsToHour(it?.filmLength)}, ${ageLimit(it?.ratingAgeLimits)} "
+                        countryDurationBond.text = concatCountryDurationBond(it?.countries, it?.filmLength,it?.ratingAgeLimits)
                         desc.text = it?.description
-                        rateName.text="${it?.ratingKinopoisk.toString()} ${it?.nameRu}"
+                        rateName.text=concatRateNameRu(it?.ratingKinopoisk, it?.nameRu)
                         shortDesc.text=it?.shortDescription
-                        yearGenre.text= "${it?.year} , ${it?.genres?.joinToString (separator = ",",
-                            limit = 3,
-                            truncated = "..."
-                        )}"
+                        yearGenre.text= concatYearGenre(it?.year , it?.genres)
                     }
                 }
             }
         }
+binding.mainRvForPoster.adapter=actorsAdapter
+        viewModel.actorsInfo.onEach {
+            actorsAdapter.setData(it.take(20))
+
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    fun minutеsToHour(minutеs:Int?):String{
-        if (minutеs!=null){
-       val  hours= minutеs/60
-       val minutes_out= minutеs%60
+    fun minutesToHour(minutes:Int?):String{
+        if (minutes!=null){
+       val  hours= minutes/60
+       val minutes_out= minutes%60
         return "$hours ч $minutes_out мин"}
         else { return ""}
     }
@@ -74,6 +79,28 @@ class OneMovieFragment : Fragment() {
         return if (!string.isNullOrEmpty()){
             "${string.filter { it.isDigit() }}+"
         } else ""
+    }
+    fun concatCountryDurationBond(countries:List<Country>?, duration:Int?, bond:String?):String{
+        val someCountries=countries?.joinToString(
+        separator = ",",
+        limit = 3,
+        truncated = "..."
+        )
+       val durationInHour= minutesToHour(duration)
+       val ageBond=ageLimit(bond)
+       return "$someCountries, $durationInHour, $ageBond"
+    }
+
+    fun concatRateNameRu(rate:Double?,  name:String?):String{
+        return  "${String.format(Locale.US, "%.1f", rate)} $name"
+    }
+
+    fun concatYearGenre(year: Int?, genres: List<Genre>?):String {
+        val someGenres=genres?.joinToString (separator = ",",
+            limit = 3,
+            truncated = "..."
+        )
+        return "$year , $someGenres"
     }
 
     companion object {

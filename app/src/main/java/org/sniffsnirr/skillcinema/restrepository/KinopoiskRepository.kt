@@ -6,6 +6,7 @@ import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Count
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
+import org.sniffsnirr.skillcinema.entities.staff.Staff
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,7 +42,9 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         return kinopoiskApi.getOnlyOneMovie(idMovie)
     }
 
-
+    suspend fun getActorsAndMoviemen(movieId:Int): List<Staff> {
+        return kinopoiskApi.getActorsAndMoviemen(movieId)
+    }
 
 
 }

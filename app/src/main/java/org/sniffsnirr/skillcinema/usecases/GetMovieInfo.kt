@@ -7,8 +7,7 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import javax.inject.Inject
 @ActivityRetainedScoped
 class GetMovieInfo @Inject constructor(
-    val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val kinopoiskRepository: KinopoiskRepository
 ){
     suspend fun getInfo(idMovie:Int): OnlyOneMovie {
 

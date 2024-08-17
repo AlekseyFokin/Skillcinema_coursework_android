@@ -39,17 +39,18 @@ class HomePageUsecase @Inject constructor(
     }
 
     suspend fun getHomePageCollections(): List<MainModel> {// получение всех списков для главной страницы
-        val bannerModel = MainModel("", emptyList(), Triple("BANNER",null,null),true) // баннер
+        val bannerModel = MainModel("", emptyList(), Triple("BANNER", null, null), true) // баннер
         val primeres = MainModel(// премьеры
             KinopoiskApi.PREMIERES.second,
             getMoviePremiers.getPremiersForNextTwoWeek(),
             Triple(KinopoiskApi.PREMIERES.first, null, null),
-            false)
+            false
+        )
 
         val popular = MainModel(
             KinopoiskApi.TOP_POPULAR_MOVIES.second,
             getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_POPULAR_MOVIES),
-            Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first,null,null),
+            Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first, null, null),
             false
         )
 
@@ -62,14 +63,18 @@ class HomePageUsecase @Inject constructor(
                 pairCountryNGenre.first.id,
                 pairCountryNGenre.second.id
             ),
-            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id,pairCountryNGenre.second.id),
+            Triple(
+                KinopoiskApi.DYNAMIC.first,
+                pairCountryNGenre.first.id,
+                pairCountryNGenre.second.id
+            ),
             false
         )
 
         val top250 = MainModel( // топ - 250
             KinopoiskApi.TOP_250_MOVIES.second,
             getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
-            Triple(KinopoiskApi.TOP_250_MOVIES.first,null,null),
+            Triple(KinopoiskApi.TOP_250_MOVIES.first, null, null),
             false
         )
         pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
@@ -79,15 +84,22 @@ class HomePageUsecase @Inject constructor(
                 pairCountryNGenre.first.id,
                 pairCountryNGenre.second.id
             ),
-            Triple(KinopoiskApi.DYNAMIC.first,pairCountryNGenre.first.id, pairCountryNGenre.second.id),
+            Triple(
+                KinopoiskApi.DYNAMIC.first,
+                pairCountryNGenre.first.id,
+                pairCountryNGenre.second.id
+            ),
             false
         )
 
-        val populrSerials = MainModel( KinopoiskApi.POPULAR_SERIES.second,getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES), Triple(KinopoiskApi.POPULAR_SERIES.first,null,null),
+        val populrSerials = MainModel(
+            KinopoiskApi.POPULAR_SERIES.second,
+            getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
+            Triple(KinopoiskApi.POPULAR_SERIES.first, null, null),
             false
         )// популярные сериалы
 
-            return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
+        return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
 
     }
 

@@ -124,8 +124,6 @@ class HomeFragment : Fragment() {
                 bundle
             )
         }
-
-
     }
 
     override fun onDestroyView() {
