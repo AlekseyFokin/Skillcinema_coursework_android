@@ -157,29 +157,107 @@
             android:fontFamily="@font/hkgrotesk_regular"
             expandableTextView:collapsedLines="3"
             expandableTextView:animDuration="500"
-
             expandableTextView:readLessText="..."
             expandableTextView:textMode="line"
-            expandableTextView:isExpanded="true"
+            expandableTextView:isExpanded="false"
             app:expandType="layout"
             android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/short_desc" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_rv_for_poster"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <LinearLayout
+            android:id="@+id/header_actors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/desc"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="5"
+            android:paddingTop="26dp"
+            android:paddingStart="26dp"
+            android:paddingEnd="26dp">
 
+            <TextView
+                android:id="@+id/actors_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="В фильме снимались"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/number_of_actors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:textColor="@color/color_of_progress"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_actors"
+            android:padding="8dp"
             />
 
+        <LinearLayout
+            android:id="@+id/header_moviemen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/actors_rv"
+            android:paddingTop="26dp"
+            android:paddingStart="26dp"
+            android:paddingEnd="26dp">
+
+            <TextView
+                android:id="@+id/moviemen_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Над фильмом работали"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/number_of_moviemen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:textColor="@color/color_of_progress"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/moviemen_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_moviemen"
+            android:padding="8dp"
+            />
+<!--        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+<!--        app:spanCount="5"-->
 <!--        <TextView-->
 <!--            android:id="@+id/desc"-->
 <!--            android:layout_width="match_parent"-->

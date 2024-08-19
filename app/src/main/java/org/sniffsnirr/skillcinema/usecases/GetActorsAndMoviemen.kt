@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.usecases
 
+import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
@@ -12,6 +13,7 @@ class GetActorsAndMoviemen @Inject constructor(
    suspend fun getActorsAndMoviemen(movieId:Int):Pair<List<Staff>,List<Staff>>{
 
       val commonList= kinopoiskRepository.getActorsAndMoviemen(movieId)
+       Log.d("получение актеров","${commonList.size}")
       val actorsList=commonList.filter { staff-> staff.professionKey=="ACTOR" }
       val moviemenList=commonList.filter { staff-> staff.professionKey!="ACTOR" }
       return Pair(actorsList,moviemenList)

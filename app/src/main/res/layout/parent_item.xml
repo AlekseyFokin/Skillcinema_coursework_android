@@ -54,6 +54,7 @@
         android:orientation="horizontal"
         android:padding="8dp"
         tools:listitem="@layout/movie_item"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 

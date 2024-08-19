@@ -50,11 +50,19 @@ interface KinopoiskApi {
         @Query("page") page: Int,
     ): CompilationsMovieList// подборки - компиляции с выбором страны и жанра с пагинацией
 
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
     @GET("/api/v2.2/films/{movie}")
     suspend fun getOnlyOneMovie(
         @Path("movie") idMovie: Int
     ): OnlyOneMovie// подборки - компиляции с выбором страны и жанра с пагинацией
 
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
     @GET("/api/v1/staff")
     suspend fun getActorsAndMoviemen(
         @Query("filmId") filmId: Int
