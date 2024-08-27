@@ -17,21 +17,18 @@ class HomePageUsecase @Inject constructor(
 
 ) {
 
-    suspend fun getCountryAndGenre(): Pair<List<Country>, List<Genre>> {// получение списка стран и жанров
+    private suspend fun getCountryAndGenre(): Pair<List<Country>, List<Genre>> {// получение списка стран и жанров
         val countriesAndGenres = kinopoiskRepository.getCountryAndGenre()
         val countries =
             countriesAndGenres.countries.filter { country -> country.country in GREAT_CINEMA_COUNTRIES }// фильтрую фильмы которые произведены в странах из списка
         val genres = countriesAndGenres.genres
-
-
         return Pair(countries, genres)
     }
 
-    fun getRandomCountryNGenre(countriesNgenres: Pair<List<Country>, List<Genre>>): Pair<Country, Genre> {//выбор страны и жанра случайным образом
+    private fun getRandomCountryNGenre(countriesNgenres: Pair<List<Country>, List<Genre>>): Pair<Country, Genre> {//выбор страны и жанра случайным образом
         val mutableCountries = countriesNgenres.first.toMutableList()
         mutableCountries.shuffle()
         val country = mutableCountries[0]
-
         val mutableGenres = countriesNgenres.second.toMutableList()
         mutableGenres.shuffle()
         val genre = mutableGenres[0]
@@ -98,9 +95,7 @@ class HomePageUsecase @Inject constructor(
             Triple(KinopoiskApi.POPULAR_SERIES.first, null, null),
             false
         )// популярные сериалы
-
         return listOf(bannerModel, primeres, popular, dynamic1, top250, dynamic2, populrSerials)
-
     }
 
     private companion object {

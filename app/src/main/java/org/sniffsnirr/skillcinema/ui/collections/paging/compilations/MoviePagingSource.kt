@@ -9,6 +9,7 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
+// класс загрузки пагинирующей компилции на основе выбора страны и жанра с приведением к MovieRVModel типу
 @ActivityRetainedScoped
 class MoviePagingSource(
     val kinopoiskRepository: KinopoiskRepository,
@@ -38,7 +39,7 @@ class MoviePagingSource(
         )
     }
 
-    private fun castToMovieRVModel(movies: List<CompilationsMovie>): List<MovieRVModel> {
+    private fun castToMovieRVModel(movies: List<CompilationsMovie>): List<MovieRVModel> {// функция приведения CompilationsMovie к MovieRVModel
         val movieRVModelList = mutableListOf<MovieRVModel>()
         movies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(

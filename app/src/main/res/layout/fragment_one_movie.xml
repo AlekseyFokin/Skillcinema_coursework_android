@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:expandableTextView="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:adjustViewBounds="true"
-            android:contentDescription="poster"
+            android:contentDescription="@string/imageDescriptionPoster"
             android:foreground="#73000000"
             android:scaleType="center"
             android:src="@drawable/poster_example"
@@ -38,7 +37,7 @@
                 android:layout_marginBottom="15dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo"
-
+                android:contentDescription="@string/movie_logo"
                 />
 
             <TextView
@@ -85,7 +84,8 @@
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_heart"
-                    app:tint="@color/color_of_miss_button" />
+                    app:tint="@color/color_of_miss_button"
+                    android:contentDescription="@string/add_to_favorites_button"/>
 
                 <ImageButton
                     android:id="@+id/want_to_see"
@@ -96,7 +96,8 @@
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_bookmark"
-                    app:tint="@color/color_of_miss_button" />
+                    app:tint="@color/color_of_miss_button"
+                    android:contentDescription="@string/want_to_see_movie_button"/>
 
                 <ImageButton
                     android:id="@+id/viewed"
@@ -107,7 +108,8 @@
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_dont_viewed"
-                    app:tint="@color/color_of_miss_button" />
+                    app:tint="@color/color_of_miss_button"
+                    android:contentDescription="viewed_movie_button"/>
 
                 <ImageButton
                     android:id="@+id/share"
@@ -118,7 +120,9 @@
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_send_over"
-                    app:tint="@color/color_of_miss_button" />
+                    app:tint="@color/color_of_miss_button"
+                    android:contentDescription="@string/share_button"
+                    />
 
                 <ImageButton
                     android:id="@+id/some_more"
@@ -129,7 +133,9 @@
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_some_more"
-                    app:tint="@color/color_of_miss_button" />
+                    app:tint="@color/color_of_miss_button"
+                    android:contentDescription="@string/some_more_button"
+                    />
 
             </LinearLayout>
         </LinearLayout>
@@ -147,24 +153,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_poster" />
 
-        <io.github.glailton.expandabletextview.ExpandableTextView
+        <net.expandable.ExpandableTextView
+            app:expanded="false"
+            app:expand_enabled="true"
+            app:collapse_lines="3"
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="26dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/short_desc"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp"
             android:fontFamily="@font/hkgrotesk_regular"
-            expandableTextView:collapsedLines="3"
-            expandableTextView:animDuration="500"
-            expandableTextView:readLessText="..."
-            expandableTextView:textMode="line"
-            expandableTextView:isExpanded="false"
-            app:expandType="layout"
-            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/short_desc" />
+            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"/>
 
         <LinearLayout
             android:id="@+id/header_actors"
@@ -251,25 +254,105 @@
             android:id="@+id/moviemen_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_moviemen"
             android:padding="8dp"
             />
-<!--        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-<!--        app:spanCount="5"-->
-<!--        <TextView-->
-<!--            android:id="@+id/desc"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="26dp"-->
-<!--            android:fontFamily="@font/hkgrotesk_regular"-->
-<!--            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество…"-->
-<!--            android:textColor="@color/color_of_main_label_in_onboarding"-->
-<!--            android:textSize="16sp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/short_desc" />-->
+
+        <LinearLayout
+            android:id="@+id/header_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moviemen_rv"
+            android:paddingTop="26dp"
+            android:paddingStart="26dp"
+            android:paddingEnd="26dp">
+
+            <TextView
+                android:id="@+id/gallery_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Галерея"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/number_of_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:text="Все >"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:textColor="@color/color_of_progress"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gallery_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_gallery"
+            android:padding="8dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/header_related_movies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gallery_rv"
+            android:paddingTop="26dp"
+            android:paddingStart="26dp"
+            android:paddingEnd="26dp">
+
+            <TextView
+                android:id="@+id/related_movies_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Похожие фильмы"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/number_of_related_movies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:text=">"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:textColor="@color/color_of_progress"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/related_movies_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_related_movies"
+            android:padding="8dp"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

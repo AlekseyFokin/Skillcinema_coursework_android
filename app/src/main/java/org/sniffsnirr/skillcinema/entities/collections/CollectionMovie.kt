@@ -3,6 +3,7 @@ package org.sniffsnirr.skillcinema.entities.collections
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 
+//модель данных для получения готовых коллекций - топ 250 и тд - отдельное кино
 data class CollectionMovie(
     val countries: List<Country>,
     val coverUrl: String,

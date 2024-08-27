@@ -16,6 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOnboardingMainBinding
+
+// фрагмент onboarding - появляется только при первой загрузке приложения
+// использует viewPager для отображения нескольких фрагментов внутри одного фрагмента вместе с ползунком
 @AndroidEntryPoint
 class OnboardingMainFragment : Fragment() {
 

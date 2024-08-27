@@ -19,22 +19,22 @@ import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 
+// фрагмент для отображения фильмов одной коллекции ( пресета на стороне API напримео топ-250)
 @AndroidEntryPoint
 class PagingCollectionFragment : Fragment() {
 
     private val viewModel: PagingCollectionViewModel by viewModels()
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
-    private val pagedAdapter= PagingCollectionAdapter{ idMovie->onMovieClick(idMovie)}
+    private val pagedAdapter = PagingCollectionAdapter { idMovie -> onMovieClick(idMovie) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val collectionType=arguments?.getCharSequence(HomeFragment.COLLECTION_TYPE)
-        viewModel.collectionType=collectionType.toString()
+        val collectionType = arguments?.getCharSequence(HomeFragment.COLLECTION_TYPE)
+        viewModel.collectionType = collectionType.toString()
         (activity as MainActivity).showActionBar()
-        val collectionName=arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
+        val collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
         (activity as MainActivity).setActionBarTitle(collectionName.toString())
-
     }
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class PagingCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.moviePagingCollectionRv.adapter=pagedAdapter.withLoadStateFooter(
+        binding.moviePagingCollectionRv.adapter = pagedAdapter.withLoadStateFooter(
             PagingLoadStateAdapter()
         )
 
@@ -60,6 +60,7 @@ class PagingCollectionFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
     }
+
     private fun onMovieClick(idMovie: Int?) {
         Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()

@@ -10,6 +10,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 
+// Адаптер с пагинацией для компиляций
 class PagingCompilationAdapter(
 
     val onMovieClick: (Int?) -> Unit

@@ -3,8 +3,10 @@ package org.sniffsnirr.skillcinema.restrepository
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovieList
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovieList
+import org.sniffsnirr.skillcinema.entities.images.Images
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
+import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -55,18 +57,36 @@ interface KinopoiskApi {
         "Content-type: application/json"
     )
     @GET("/api/v2.2/films/{movie}")
-    suspend fun getOnlyOneMovie(
+    suspend fun getOnlyOneMovie( // информация по одному фильму
         @Path("movie") idMovie: Int
-    ): OnlyOneMovie// подборки - компиляции с выбором страны и жанра с пагинацией
+    ): OnlyOneMovie
 
     @Headers(
         "X-API-KEY: $api_key",
         "Content-type: application/json"
     )
     @GET("/api/v1/staff")
-    suspend fun getActorsAndMoviemen(
+    suspend fun getActorsAndMoviemen( // получение всех актеров и кинематографистов по одному фильму
         @Query("filmId") filmId: Int
     ): List<Staff>
+
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
+    @GET("/api/v2.2/films/{movie}/images")
+    suspend fun getImageByType(
+        @Path("movie") idMovie: Int,
+        @Query("type") type: String,
+        @Query("page") page: Int
+    ): Images// получение изображений по конкретному фильму и типу изображений - с пагинацией
+
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
+    @GET("/api/v2.2/films/{movie}/similars")
+    suspend fun getRelatedMovies(@Path("movie") idMovie: Int): RelatedMovies // получение подобных фильмов
 
     companion object {
         private const val api_key = "f1a491f0-8e90-44d1-898a-17656c4ea1de"

@@ -76,5 +76,6 @@ dependencies {
 
     implementation(libs.androidx.paging)
 
-    implementation(libs.glailton.expandabletextview)
+    implementation (libs.expandabletextview)
+
 }

@@ -7,6 +7,8 @@ import org.sniffsnirr.skillcinema.databinding.BannerItemBinding
 import org.sniffsnirr.skillcinema.databinding.ParentItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 
+
+// Адаптер для rv верхнего уровня - отличает два типа item  - баннер и коллекции фильмов
 class MainAdapter(
     val mainModelList: List<MainModel>,
     val onCollectionClick: (MainModel) -> Unit,

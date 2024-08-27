@@ -19,7 +19,8 @@ class PagingCompilationViewModel @Inject constructor(
     val reduction: Reduction
 ) : ViewModel() {
 
-    var collectionType: Triple<String, Int, Int> = Triple("", 0, 0)// для передачи параметров запроса
+    var collectionType: Triple<String, Int, Int> =
+        Triple("", 0, 0)// для передачи параметров запроса
 
     val pagedMovies: Flow<PagingData<MovieRVModel>> = Pager(
         config = PagingConfig(pageSize = 10),

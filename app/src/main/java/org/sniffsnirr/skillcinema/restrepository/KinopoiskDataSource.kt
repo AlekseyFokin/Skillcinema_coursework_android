@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// настройка retrofit и логгеров
 
 @Singleton
 class KinopoiskDataSource @Inject constructor() {

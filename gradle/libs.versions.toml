@@ -31,7 +31,9 @@ kotlinParcelazeVers="1.9.0"
 
 pagingLibVers="3.3.0"
 
-expandabletextviewVers="1.0.4"
+#expandabletextviewVers="1.0.4"
+expandabletextviewVers="0.3.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -67,8 +69,9 @@ glide={group="com.github.bumptech.glide", name="glide",version.ref="glideVers"}
 androidx-recyclerview={group="androidx.recyclerview", name="recyclerview", version.ref="recycledViewVers"}
 
 androidx-paging={group="androidx.paging",name="paging-runtime", version.ref="pagingLibVers"}
-glailton-expandabletextview={group="io.github.glailton.expandabletextview",name="expandabletextview", version.ref="expandabletextviewVers"}
-
+#glailton-expandabletextview={group="io.github.glailton.expandabletextview",name="expandabletextview", version.ref="expandabletextviewVers"}
+#ms-square-expandabletextview={group="com.ms-square",name="expandableTextView", version.ref="expandabletextviewVers"}
+expandabletextview={group="com.github.yuzumone",name="ExpandableTextView", version.ref="expandabletextviewVers"}
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

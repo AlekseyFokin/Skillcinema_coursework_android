@@ -14,4 +14,10 @@
     <string name="picture_on_boarding2">picture on boarding2</string>
     <string name="picture_on_boarding1">picture on boarding1</string>
     <string name="text_on_boarding2">Делись \nс друзьями</string>
+    <string name="imageDescriptionPoster">poster</string>
+    <string name="movie_logo">movie_logo</string>
+    <string name="add_to_favorites_button">add_to_favorites_button</string>
+    <string name="want_to_see_movie_button">want_to_see_movie_button</string>
+    <string name="some_more_button">some_more_button</string>
+    <string name="share_button">share_button</string>
 </resources>

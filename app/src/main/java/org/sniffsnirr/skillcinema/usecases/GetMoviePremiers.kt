@@ -8,9 +8,13 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import java.util.Locale
 
-
+// на основе текущей даты - получение премьер на 2 недели вперед, с учетом конца месяца.
+// используется threetenabp - библиотека Backport JSR-310 java8 - для работы со временем
 @ActivityRetainedScoped
-class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRepository, val reduction:Reduction) {
+class GetMoviePremiers @Inject constructor(
+    val kinopoiskRepository: KinopoiskRepository,
+    val reduction: Reduction
+) {
     private val today = LocalDate.now()
     private val todayPlusTwoWeek = today.plusWeeks(2)
 
@@ -43,22 +47,26 @@ class GetMoviePremiers @Inject constructor(val kinopoiskRepository: KinopoiskRep
                         )
             }
 
-
         filtredPrimeresList.map { movie -> // создаю объекты для отображения в recyclerview
 
             val movieRVModel = MovieRVModel(
                 movie.kinopoiskId,
                 movie.posterUrl,
-                reduction.stringReduction(movie.nameRu,17),
-                reduction.arrayReduction(movie.genres.map {it.genre},20,2) ,
+                reduction.stringReduction(movie.nameRu, 17),
+                reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "0",
                 false,
                 false
             )
             movieRVModelList.add(movieRVModel)
         }
-       //добавляю кнопку
-        movieRVModelList.add(MovieRVModel(isButton = true,categoryDescription = Triple("PRIMERES",null,null)))
+        //добавляю кнопку
+        movieRVModelList.add(
+            MovieRVModel(
+                isButton = true,
+                categoryDescription = Triple("PRIMERES", null, null)
+            )
+        )
         return movieRVModelList
     }
 }

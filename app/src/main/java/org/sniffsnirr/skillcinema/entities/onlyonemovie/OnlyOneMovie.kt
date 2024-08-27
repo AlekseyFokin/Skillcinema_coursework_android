@@ -3,7 +3,7 @@ package org.sniffsnirr.skillcinema.entities.onlyonemovie
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 
-
+// модель данных для получения полной информации по одному фильму
 data class OnlyOneMovie(
     val completed: Boolean,
     val countries: List<Country>,

@@ -5,12 +5,14 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
 import javax.inject.Inject
+
+// получение коллекции фильмов и преобразование полученной модели к модели MovieRVModel
 @ActivityRetainedScoped
 class GetCollectionMovies @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
     val reduction: Reduction
-    ) {
-    suspend fun getCollectionMovies(collectionType:Pair<String,String>): List<MovieRVModel> {
+) {
+    suspend fun getCollectionMovies(collectionType: Pair<String, String>): List<MovieRVModel> {
         val movieRVModelList = mutableListOf<MovieRVModel>()
         val listCollectionMovies = kinopoiskRepository.getCollection(collectionType.first)
         listCollectionMovies.map { movie -> // создаю объекты для отображения в recyclerview
@@ -26,7 +28,12 @@ class GetCollectionMovies @Inject constructor(
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку
-        movieRVModelList.add(MovieRVModel(isButton = true, categoryDescription = Triple(collectionType.first,null,null)))
+        movieRVModelList.add(
+            MovieRVModel(
+                isButton = true,
+                categoryDescription = Triple(collectionType.first, null, null)
+            )
+        )
         return movieRVModelList
     }
 }

@@ -5,12 +5,13 @@ import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 
 import javax.inject.Inject
+
+// получение информации по фильму
 @ActivityRetainedScoped
 class GetMovieInfo @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
-){
-    suspend fun getInfo(idMovie:Int): OnlyOneMovie {
-
+) {
+    suspend fun getInfo(idMovie: Int): OnlyOneMovie {
         return kinopoiskRepository.getOneMovie(idMovie)
-        }
+    }
 }

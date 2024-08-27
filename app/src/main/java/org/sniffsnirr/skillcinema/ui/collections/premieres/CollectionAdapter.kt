@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
+// Адаптер для премьер на будущие 2 недели - их ограниченное количество, поэтому без пагинации
 class CollectionAdapter(
     var movieModel: List<MovieRVModel>,
     val onMovieClick: (Int?) -> Unit
@@ -21,7 +22,7 @@ class CollectionAdapter(
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount()=movieModel.size
+    override fun getItemCount() = movieModel.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieModel[position]
@@ -46,6 +47,5 @@ class CollectionAdapter(
         holder.binding.root.setOnClickListener {
             onMovieClick(movie.kinopoiskId)
         }
-
     }
 }

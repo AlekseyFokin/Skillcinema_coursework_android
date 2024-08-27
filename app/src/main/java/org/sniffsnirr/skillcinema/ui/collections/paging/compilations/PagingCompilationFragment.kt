@@ -20,6 +20,7 @@ import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 
+// фрагмент для отображения фильмов определенной компиляции (страна/ жанр)
 @AndroidEntryPoint
 class PagingCompilationFragment : Fragment() {
 
@@ -38,7 +39,6 @@ class PagingCompilationFragment : Fragment() {
         (activity as MainActivity).showActionBar()
         val collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
         (activity as MainActivity).setActionBarTitle(collectionName.toString())
-
     }
 
     override fun onCreateView(
@@ -51,21 +51,11 @@ class PagingCompilationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val footerAdapter=PagingLoadStateAdapter()
-        val adapter=pagedAdapter.withLoadStateFooter(footerAdapter)
+        val footerAdapter = PagingLoadStateAdapter()
+        val adapter = pagedAdapter.withLoadStateFooter(footerAdapter)
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-        binding.moviePagingCollectionRv.adapter =adapter
+        binding.moviePagingCollectionRv.adapter = adapter
         binding.moviePagingCollectionRv.layoutManager = gridLayoutManager
-
-//        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() { //пробовал выгнать PagingLoadStateAdapter по середине фрагмента
-//            override fun getSpanSize(position: Int): Int {
-//                return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
-//                    2
-//                } else {
-//                    1
-//                }
-//            }
-//        }
 
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)

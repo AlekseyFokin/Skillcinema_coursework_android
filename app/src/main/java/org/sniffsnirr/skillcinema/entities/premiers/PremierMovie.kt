@@ -4,6 +4,7 @@ import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import java.util.Date
 
+// модель данных для получения премьер
 data class PremierMovie(
     val countries: List<Country>,
     val duration: Int,

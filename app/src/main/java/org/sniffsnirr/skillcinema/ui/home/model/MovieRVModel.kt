@@ -3,14 +3,15 @@ package org.sniffsnirr.skillcinema.ui.home.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+// модель данных для rv нижнего уровня, это либо movie либо кнопка
 @Parcelize
 data class MovieRVModel(
-    val kinopoiskId: Int?=null,
-    val imageUrl:String="",
-    val movieName:String="",
-    val movieGenre:String="",
-    val rate:String="",
-    val viewed:Boolean=false,
-    val isButton:Boolean,
-    val categoryDescription:Triple<String,Int?,Int?>?=null//используется если это кнопка
+    val kinopoiskId: Int? = null,
+    val imageUrl: String = "",
+    val movieName: String = "",
+    val movieGenre: String = "",
+    val rate: String = "",
+    val viewed: Boolean = false,
+    val isButton: Boolean,
+    val categoryDescription: Triple<String, Int?, Int?>? = null//используется если это кнопка
 ) : Parcelable

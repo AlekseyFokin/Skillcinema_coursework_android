@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.entities.staff
 
+// модель данных для получения актера или кинематографиста
 data class Staff(
     val description: String,
     val nameEn: String,

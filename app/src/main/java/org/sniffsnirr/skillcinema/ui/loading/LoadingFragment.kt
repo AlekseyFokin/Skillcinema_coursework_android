@@ -15,9 +15,11 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentLoadingBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeViewModel
+
+// первый фрагмент загрузки приложения, завязан на HomeViewModel
 @AndroidEntryPoint
 class LoadingFragment : Fragment() {
-      private val viewModel: HomeViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private val viewModel: HomeViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
 
     private var _binding: FragmentLoadingBinding? = null
     val binding get() = _binding!!

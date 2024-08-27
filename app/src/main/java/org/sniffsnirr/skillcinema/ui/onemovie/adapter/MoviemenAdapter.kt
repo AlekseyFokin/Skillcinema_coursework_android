@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.ActorMoviemanBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 
-class MoviemenAdapter() :
+// адаптер для rv содрежащего актеров или кинематографистов
+class MoviemenAdapter :
     RecyclerView.Adapter<MoviemenAdapter.ActorViewHolder>() {
 
     private var actors: List<Staff> = emptyList()
@@ -17,7 +18,13 @@ class MoviemenAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
-       return ActorViewHolder(ActorMoviemanBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ActorViewHolder(
+            ActorMoviemanBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = actors.size
@@ -25,8 +32,8 @@ class MoviemenAdapter() :
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         val item = actors.getOrNull(position)
         with(holder.binding) {
-            actorName.text=item?.nameRu
-            rule.text=item?.description
+            actorName.text = item?.nameRu
+            rule.text = item?.description
             item?.let {
                 Glide
                     .with(actorPhoto.context)

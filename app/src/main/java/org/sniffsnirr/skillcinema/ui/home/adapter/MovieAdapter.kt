@@ -9,6 +9,7 @@ import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
+//Адаптер для вложенного rv, отличает фильм и кнопку
 class MovieAdapter(
     var movieModel: List<MovieRVModel>,
     val onCollectionClick: (String) -> Unit,
@@ -19,7 +20,7 @@ class MovieAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieModel: MovieRVModel) {
             binding.showMeAllBtn.setOnClickListener {
-                onCollectionClick(movieModel.categoryDescription?.first?:"")
+                onCollectionClick(movieModel.categoryDescription?.first ?: "")
             }
         }
     }
@@ -80,8 +81,10 @@ class MovieAdapter(
             (holder as PosterViewHolder).bind(movieModel[position])
         }
     }
-companion object{
-    const val MOVIE = 0
-    const val BUTTON = 1}
+
+    companion object {
+        const val MOVIE = 0
+        const val BUTTON = 1
+    }
 
 }

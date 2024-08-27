@@ -20,8 +20,8 @@ class HomeViewModel @Inject constructor(val homePageUsecase: HomePageUsecase):Vi
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _MoviesCollectionsForHomePage = MutableStateFlow<List<MainModel>>(emptyList())
-    val MoviesCollectionsForHomePage = _MoviesCollectionsForHomePage.asStateFlow()
+    private val _moviesCollectionsForHomePage = MutableStateFlow<List<MainModel>>(emptyList())
+    val moviesCollectionsForHomePage = _moviesCollectionsForHomePage.asStateFlow()
 
     init {
         loadMoviesCollectionsForHomePage()
@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(val homePageUsecase: HomePageUsecase):Vi
                 _isLoading.value = true
                 homePageUsecase.getHomePageCollections()
             }.fold(
-                onSuccess = { _MoviesCollectionsForHomePage.value = it },
+                onSuccess = { _moviesCollectionsForHomePage.value = it },
                 onFailure = { Log.d("MovieListViewModel", it.message ?: "") }
             )
             _isLoading.value = false

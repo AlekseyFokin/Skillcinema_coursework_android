@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {// загрузка всего контента для HomeFragment
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.MoviesCollectionsForHomePage.collect {
+                viewModel.moviesCollectionsForHomePage.collect {
                     binding.mainRv.adapter = MainAdapter(it,
                         { collectionModel -> onCollectionClick(collectionModel) },
                         { idMovie -> onMovieClick(idMovie) })

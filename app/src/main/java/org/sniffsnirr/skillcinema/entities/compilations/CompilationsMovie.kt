@@ -3,6 +3,7 @@ package org.sniffsnirr.skillcinema.entities.compilations
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 
+//модель данных для получения коллекций на основе выбора стран и  жанров - отдельное кино
 data class CompilationsMovie(
     val countries: List<Country>,
     val genres: List<Genre>,
