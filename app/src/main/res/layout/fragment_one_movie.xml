@@ -154,7 +154,7 @@
             app:layout_constraintTop_toBottomOf="@id/main_poster" />
 
         <net.expandable.ExpandableTextView
-            app:expanded="false"
+            app:expanded="true"
             app:expand_enabled="true"
             app:collapse_lines="3"
             android:id="@+id/desc"

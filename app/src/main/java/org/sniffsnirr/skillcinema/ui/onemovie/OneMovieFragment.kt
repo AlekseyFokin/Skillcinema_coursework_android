@@ -2,6 +2,7 @@ package org.sniffsnirr.skillcinema.ui.onemovie
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -18,10 +20,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
+import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
@@ -34,17 +38,20 @@ class OneMovieFragment : Fragment() {
 
     private val viewModel: OneMovieViewModel by viewModels()
 
-    private val actorsAdapter = MoviemenAdapter()
+    private val actorsAdapter = MoviemenAdapter(){idStaff,staffName,staffType -> onMoviemanClick(idStaff,staffName,staffType)}
 
-    private val moviemenAdapter = MoviemenAdapter()
+    private val moviemenAdapter = MoviemenAdapter(){idStaff,staffName,staffType -> onMoviemanClick(idStaff,staffName,staffType)}
 
     private val galleryAdapter = GalleryAdapter()
 
     private val relatedMoviesAdapter = RelatedMoviesAdapter()
 
+    var idMovie=0
+    var movieName=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
+        idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
         viewModel.setIdMovie(idMovie)
         (activity as MainActivity).showActionBar()
         (activity as MainActivity).setActionBarTitle("")
@@ -66,6 +73,8 @@ class OneMovieFragment : Fragment() {
                 viewModel.movieInfo.collect {
                     with(binding)
                     {
+                        movieName=it?.nameRu?:""
+
                         countryDurationBond.text = concatCountryDurationBond(
                             it?.countries,
                             it?.filmLength,
@@ -123,6 +132,20 @@ class OneMovieFragment : Fragment() {
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+
+        binding.numberOfActors.setOnClickListener {
+            Log.d("AllActors", "$idMovie")
+            val bundle = Bundle()
+            if (idMovie != null) {
+                bundle.putInt(ID_MOVIE, idMovie)
+                bundle.putCharSequence(MOVIE_NAME,movieName)
+                findNavController().navigate(
+                    R.id.action_oneMovieFragment_to_allMovieMansFragment,
+                    bundle
+                )
+            }
+        }
     }
 
     private fun minutesToHour(minutes: Int?): String { //перевод минут в часы и минуты
@@ -175,6 +198,19 @@ class OneMovieFragment : Fragment() {
         return "$year , $someGenres"
     }
 
+    private fun onMoviemanClick(idStaff: Int?,staffName:String, staffType:String) {
+        Log.d("ButtonClick", "$idStaff")
+        val bundle = Bundle()
+        if (idStaff != null) {
+            bundle.putInt(ID_STAFF, idStaff)
+
+            findNavController().navigate(
+                R.id.action_oneMovieFragment_to_moviemanFragment,
+                bundle
+            )
+        }
+      }
+
     companion object {
         const val RV_1_NAME = "В фильме снимались"
         const val RV_2_NAME = "Над фильмом работали"
@@ -190,5 +226,8 @@ class OneMovieFragment : Fragment() {
         const val WALLPAPER = "Обои"
         const val COVER = "Обложки"
         const val SCREENSHOT = "Скриншоты"
-    }
+
+        const val ID_STAFF="ID_STAFF"
+        const val MOVIE_NAME="MOVIE_NAME"
+            }
 }

@@ -153,5 +153,45 @@
         <action
             android:id="@+id/action_oneMovieFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_moviemanFragment"
+            app:destination="@id/moviemanFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_allMovieMansFragment"
+            app:destination="@id/allMovieMansFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
+    <fragment
+        android:id="@+id/moviemanFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment"
+        android:label="fragment_movieman"
+        tools:layout="@layout/fragment_movieman" >
+        <action
+            android:id="@+id/action_moviemanFragment_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_moviemanFragment_to_moviemanPhotoFragment"
+            app:destination="@id/moviemanPhotoFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviemanPhotoFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.movieman.MoviemanPhotoFragment"
+        android:label="fragment_movieman_photo"
+        tools:layout="@layout/fragment_movieman_photo" />
+    <fragment
+        android:id="@+id/allMovieMansFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans.AllMovieMansFragment"
+        android:label="fragment_all_movie_mans"
+        tools:layout="@layout/fragment_all_movie_mans" />
 </navigation>

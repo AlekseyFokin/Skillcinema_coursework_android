@@ -6,6 +6,7 @@ import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Count
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.entities.images.Image
 import org.sniffsnirr.skillcinema.entities.images.Images
+import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
@@ -66,7 +67,10 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
 
     suspend fun getRelatedMovies(idMovie: Int): RelatedMovies {// получение списка похожих фильмов
         return kinopoiskApi.getRelatedMovies(idMovie)
+    }
 
+    suspend fun getMoviemanInfo(idStaff:Int):MoviemanInfo{
+        return kinopoiskApi.getMoviemanInfo(idStaff)
     }
 
 }

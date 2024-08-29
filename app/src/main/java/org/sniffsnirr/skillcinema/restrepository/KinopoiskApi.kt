@@ -4,6 +4,7 @@ import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovieList
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovieList
 import org.sniffsnirr.skillcinema.entities.images.Images
+import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
@@ -87,6 +88,14 @@ interface KinopoiskApi {
     )
     @GET("/api/v2.2/films/{movie}/similars")
     suspend fun getRelatedMovies(@Path("movie") idMovie: Int): RelatedMovies // получение подобных фильмов
+
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
+    @GET("/api/v1/staff/{staffId}")
+    suspend fun getMoviemanInfo(@Path("staffId") staffId: Int): MoviemanInfo // получение подобных фильмов
+
 
     companion object {
         private const val api_key = "f1a491f0-8e90-44d1-898a-17656c4ea1de"
