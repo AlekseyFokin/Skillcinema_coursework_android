@@ -2,11 +2,13 @@ package org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +19,7 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAllMovieMansBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
+import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment.Companion.ID_STAFF
 
 @AndroidEntryPoint
 class AllMovieMansFragment : Fragment() {
@@ -49,12 +52,24 @@ class AllMovieMansFragment : Fragment() {
 
         binding.allmoviemanRv.setHasFixedSize(true)
         binding.allmoviemanRv.layoutManager =
-            LinearLayoutManager(requireContext(),  GridLayoutManager.HORIZONTAL, false)
-        val adapter=AllMovieMansAdapter()
-        binding.allmoviemanRv.adapter = AllMovieMansAdapter()
-
+            LinearLayoutManager(requireContext(),  GridLayoutManager.VERTICAL, false)
+        val adapter=AllMovieMansAdapter({idStaff -> onMoviemanClick(idStaff)})
+        binding.allmoviemanRv.adapter = adapter
         viewModel.movieMenInfo.onEach {//загрузка актеров
             adapter.setData(it)
          }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun onMoviemanClick(idStaff: Int?) {
+        Log.d("moviemanClick", "$idStaff")
+        val bundle = Bundle()
+        if (idStaff != null) {
+            bundle.putInt(ID_STAFF, idStaff)
+
+            findNavController().navigate(
+                R.id.action_allMovieMansFragment_to_moviemanFragment,
+                bundle
+            )
+        }
     }
 }

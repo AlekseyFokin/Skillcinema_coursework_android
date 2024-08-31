@@ -15,35 +15,41 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentMoviemanBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
+import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
 @AndroidEntryPoint
 class MoviemanFragment : Fragment() {
 
-    private var _binding:FragmentMoviemanBinding?= null
+    private var _binding: FragmentMoviemanBinding? = null
     val binding get() = _binding!!
 
     private val viewModel: MoviemanViewModel by viewModels()
 
-    private var photoURL=""
+    private var photoURL = ""
+    private var moviemanName=""
+    private var idMovieman=0
+    private lateinit var bestMovies:List<MovieRVModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val idMovieman = arguments?.getInt(OneMovieFragment.ID_STAFF)?:0
+        idMovieman = arguments?.getInt(OneMovieFragment.ID_STAFF) ?: 0
         viewModel.getBestMovies(idMovieman)
-        // TODO: Use the ViewModel
-    }
+        (activity as MainActivity).showActionBar()
+        (activity as MainActivity).setActionBarTitle("")
+       }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding=FragmentMoviemanBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviemanBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,38 +57,60 @@ class MoviemanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.moviemanInfo.onEach {//
-            binding.nameMovieman.text=it?.nameRu
-            binding.profOfMovieman.text=it?.profession
-            photoURL=it?.posterUrl?:""
+            moviemanName=it?.nameRu?:""
+            binding.nameMovieman.text = it?.nameRu
+            binding.profOfMovieman.text = it?.profession
+            photoURL = it?.posterUrl ?: ""
             Glide
-                    .with(binding.photoMovieman.context)
-                    .load(it?.posterUrl)
-                    .into(binding.photoMovieman)
+                .with(binding.photoMovieman.context)
+                .load(it?.posterUrl)
+                .into(binding.photoMovieman)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.bestMoviesRv.setHasFixedSize(true)
         binding.bestMoviesRv.layoutManager =
-            LinearLayoutManager(requireContext(),GridLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireContext(), GridLayoutManager.HORIZONTAL, false)
 
-        viewModel.bestMovies.onEach {// загрузка кенематографистов
-            binding.bestMoviesRv.adapter = BestMovieAdapter(it,{ onCollectionClick()},{ idMovie ->onMovieClick(idMovie)})
+        viewModel.bestMovies.onEach {// загрузка лучших рейтинговых фильмов с участием актера
+            binding.bestMoviesRv.adapter =
+                BestMovieAdapter(it, { onCollectionClick() }, { idMovie -> onMovieClick(idMovie) })
+            bestMovies=it
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.numberMovies.onEach {
-            binding.numberOfMovies.text="$it фильма"
+            binding.numberOfMovies.text = "$it фильма"
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        binding.photoMovieman.setOnClickListener {
+        binding.photoMovieman.setOnClickListener {//открытие фрагмента с фотографией актера
             val bundle = Bundle()
+            bundle.putCharSequence(PHOTO_URL, photoURL)
+            findNavController().navigate(
+                R.id.action_moviemanFragment_to_moviemanPhotoFragment,
+                bundle
+            )
+        }
 
-                bundle.putCharSequence(PHOTO_URL,photoURL )
-                findNavController().navigate(
-                    R.id.action_moviemanFragment_to_moviemanPhotoFragment,
-                    bundle
-                )
-            }
+        binding.allBestMoviesButton.setOnClickListener {//открытие фрагмента с лучшими фильмами актера
+            val bundle = Bundle()
+            bundle.putCharSequence(MOVIEMAN_NAME, moviemanName)
+            val arrayListOfBestMovies=ArrayList<MovieRVModel>()
+            bestMovies.map { movie->arrayListOfBestMovies.add(movie) }
+            bundle.putParcelableArrayList(BEST_MOVIES_LIST,arrayListOfBestMovies)
+            findNavController().navigate(
+                R.id.action_moviemanFragment_to_tenBestMoviesFragment,
+                bundle
+            )
+        }
 
+        binding.allMoviesFilmography.setOnClickListener {//открытие фрагмента с фильмографии
+            val bundle = Bundle()
+            bundle.putInt(MOVIEMAN_ID,idMovieman )
 
+            findNavController().navigate(
+                R.id.action_moviemanFragment_to_filmographyFragment,
+                bundle
+            )
+        }
     }
 
     private fun onMovieClick(idMovie: Int?) {
@@ -104,12 +132,17 @@ class MoviemanFragment : Fragment() {
         //    bundle.putInt(HomeFragment.ID_MOVIE, idMovie)
         //    findNavController().navigate(
         //        R.id.action_moviemanFragment_to_oneMovieFragment,
-         //       bundle
-         //   )
-       // }
+        //       bundle
+        //   )
+        // }
     }
 
-    companion object{
-        const val PHOTO_URL="PHOTO_URL"
+
+
+    companion object {
+        const val PHOTO_URL = "PHOTO_URL"
+        const val MOVIEMAN_NAME = "MOVIEMAN_NAME"
+        const val BEST_MOVIES_LIST="BEST_MOVIES_LIST"
+        const val MOVIEMAN_ID = "MOVIEMAN_ID"
     }
 }

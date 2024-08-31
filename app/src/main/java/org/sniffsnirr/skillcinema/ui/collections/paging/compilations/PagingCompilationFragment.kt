@@ -53,6 +53,7 @@ class PagingCompilationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val footerAdapter = PagingLoadStateAdapter()
         val adapter = pagedAdapter.withLoadStateFooter(footerAdapter)
+
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
         binding.moviePagingCollectionRv.adapter = adapter
         binding.moviePagingCollectionRv.layoutManager = gridLayoutManager

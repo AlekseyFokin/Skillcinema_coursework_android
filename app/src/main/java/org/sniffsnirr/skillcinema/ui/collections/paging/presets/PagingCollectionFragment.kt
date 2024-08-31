@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -47,9 +48,23 @@ class PagingCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.moviePagingCollectionRv.adapter = pagedAdapter.withLoadStateFooter(
-            PagingLoadStateAdapter()
-        )
+        val myGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        val footerAdapter: PagingLoadStateAdapter = PagingLoadStateAdapter()
+        val myAdapter = pagedAdapter.withLoadStateFooter(footerAdapter)
+
+        binding.moviePagingCollectionRv.layoutManager = myGridLayout
+        binding.moviePagingCollectionRv.adapter = myAdapter
+
+        myGridLayout.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == myAdapter.itemCount && footerAdapter.itemCount > 0) {
+                    2
+                } else {
+                    1
+                }
+
+            }
+        }
 
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)

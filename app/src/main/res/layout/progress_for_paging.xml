@@ -10,5 +10,5 @@
         android:layout_height="36.35dp"
         android:indeterminate="true"
         app:indicatorColor="@color/color_of_progress"
-        android:layout_gravity="center" />
+        android:layout_gravity="center_horizontal" />
 </FrameLayout>

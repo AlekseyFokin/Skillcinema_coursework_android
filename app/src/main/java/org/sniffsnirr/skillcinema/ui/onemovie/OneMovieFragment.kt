@@ -38,9 +38,9 @@ class OneMovieFragment : Fragment() {
 
     private val viewModel: OneMovieViewModel by viewModels()
 
-    private val actorsAdapter = MoviemenAdapter(){idStaff,staffName,staffType -> onMoviemanClick(idStaff,staffName,staffType)}
+    private val actorsAdapter = MoviemenAdapter(){idStaff -> onMoviemanClick(idStaff)}
 
-    private val moviemenAdapter = MoviemenAdapter(){idStaff,staffName,staffType -> onMoviemanClick(idStaff,staffName,staffType)}
+    private val moviemenAdapter = MoviemenAdapter(){idStaff -> onMoviemanClick(idStaff)}
 
     private val galleryAdapter = GalleryAdapter()
 
@@ -81,6 +81,7 @@ class OneMovieFragment : Fragment() {
                             it?.ratingAgeLimits
                         )
                         desc.setText(it?.description ?: "")
+                        desc.isExpanded=false
                         rateName.text = concatRateNameRu(it?.ratingKinopoisk, it?.nameRu)
                         shortDesc.text = it?.shortDescription
                         yearGenre.text = concatYearGenre(it?.year, it?.genres)
@@ -198,7 +199,7 @@ class OneMovieFragment : Fragment() {
         return "$year , $someGenres"
     }
 
-    private fun onMoviemanClick(idStaff: Int?,staffName:String, staffType:String) {
+    private fun onMoviemanClick(idStaff: Int?) {
         Log.d("ButtonClick", "$idStaff")
         val bundle = Bundle()
         if (idStaff != null) {

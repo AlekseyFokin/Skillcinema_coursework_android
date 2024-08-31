@@ -8,7 +8,7 @@ import org.sniffsnirr.skillcinema.databinding.ActorMoviemanBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 
 // адаптер для rv содрежащего актеров или кинематографистов
-class MoviemenAdapter(val onMovieClick: (Int,String,String) -> Unit) :
+class MoviemenAdapter(val onMovieClick: (Int) -> Unit) :
     RecyclerView.Adapter<MoviemenAdapter.ActorViewHolder>() {
 
     private var actors: List<Staff> = emptyList()
@@ -41,7 +41,7 @@ class MoviemenAdapter(val onMovieClick: (Int,String,String) -> Unit) :
                     .into(actorPhoto)
             }
             root.setOnClickListener {
-                onMovieClick(item?.staffId?:0,item?.nameRu?:"",item?.professionText?:"")
+                onMovieClick(item?.staffId?:0)
             }
         }
     }

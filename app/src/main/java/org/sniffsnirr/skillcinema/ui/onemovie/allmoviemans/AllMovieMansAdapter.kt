@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.ActorMoviemanBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 
-class AllMovieMansAdapter: RecyclerView.Adapter<AllMovieMansAdapter.AllMovieMansHolder>() {
+class AllMovieMansAdapter(val onMoviemanClick: (Int) -> Unit): RecyclerView.Adapter<AllMovieMansAdapter.AllMovieMansHolder>() {
 
     private var moviemanList: List<Staff> = emptyList()
 
@@ -32,6 +32,8 @@ class AllMovieMansAdapter: RecyclerView.Adapter<AllMovieMansAdapter.AllMovieMans
                 .load(it.posterUrl)
                 .into(holder.binding.actorPhoto)
         }
+        holder.binding.root.setOnClickListener {  onMoviemanClick(item?.staffId?:0)}
+
     }
     inner class AllMovieMansHolder(val binding: ActorMoviemanBinding): RecyclerView.ViewHolder(binding.root)
 }

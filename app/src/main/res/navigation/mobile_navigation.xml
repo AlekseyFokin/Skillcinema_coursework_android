@@ -183,6 +183,18 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_moviemanFragment_to_tenBestMoviesFragment"
+            app:destination="@id/tenBestMoviesFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_moviemanFragment_to_filmographyFragment"
+            app:destination="@id/filmographyFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/moviemanPhotoFragment"
@@ -193,5 +205,29 @@
         android:id="@+id/allMovieMansFragment"
         android:name="org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans.AllMovieMansFragment"
         android:label="fragment_all_movie_mans"
-        tools:layout="@layout/fragment_all_movie_mans" />
+        tools:layout="@layout/fragment_all_movie_mans" >
+        <action
+            android:id="@+id/action_allMovieMansFragment_to_moviemanFragment"
+            app:destination="@id/moviemanFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/tenBestMoviesFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.movieman.tenbestmovies.TenBestMoviesFragment"
+        android:label="fragment_ten_best_movies"
+        tools:layout="@layout/fragment_ten_best_movies" >
+        <action
+            android:id="@+id/action_tenBestMoviesFragment_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/filmographyFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.movieman.filmography.FilmographyFragment"
+        android:label="fragment_filmography"
+        tools:layout="@layout/fragment_filmography" />
 </navigation>

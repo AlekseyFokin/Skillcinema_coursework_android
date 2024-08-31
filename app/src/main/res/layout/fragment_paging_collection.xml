@@ -11,8 +11,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movie_paging_collection_rv"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
+
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_marginStart="60dp"
@@ -21,3 +20,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
+<!--    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+<!--    app:spanCount="2"-->
