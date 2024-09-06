@@ -33,9 +33,12 @@ class AllMovieMansFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
         val movieName=arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME) ?: ""
-        viewModel.loadAllMoviemanByMovieId(idMovie)
+        val typeOfMoviemans=arguments?.getBoolean(OneMovieFragment.ACTORS_OR_MOVIEMANS)?:true
+        viewModel.loadAllMoviemanByMovieId(idMovie,typeOfMoviemans)
         (activity as MainActivity).showActionBar()
-        (activity as MainActivity).setActionBarTitle("Все актеры ${movieName}" )
+        if (typeOfMoviemans) {
+        (activity as MainActivity).setActionBarTitle("В фильме ${movieName} снимались" )}
+        else {(activity as MainActivity).setActionBarTitle("Над фильмом ${movieName} раюотали" )}
 
     }
 
@@ -71,5 +74,11 @@ class AllMovieMansFragment : Fragment() {
                 bundle
             )
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).showActionBar()
+        (activity as MainActivity).setActionBarTitle("")
     }
 }

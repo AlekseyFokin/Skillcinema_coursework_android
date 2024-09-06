@@ -17,7 +17,7 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out"
-            app:popUpTo="@id/collectionFragment"
+            app:popUpTo="@id/navigation_home"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_navigation_home_to_pagingCollectionFragment"
@@ -58,9 +58,9 @@
         <action
             android:id="@+id/action_loadingFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_loadingFragment_to_onboardingMainFragment"
-            app:destination="@id/onboardingMainFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_loadingFragment_to_onboardingMainFragment"-->
+<!--            app:destination="@id/onboardingMainFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/onboardingMainFragment"
@@ -99,9 +99,9 @@
         android:name="org.sniffsnirr.skillcinema.ui.collections.premieres.CollectionFragment"
         android:label="fragment_collection"
         tools:layout="@layout/fragment_collection">
-        <action
-            android:id="@+id/action_collectionFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+<!--        <action-->
+<!--            android:id="@+id/action_collectionFragment_to_navigation_home"-->
+<!--            app:destination="@id/navigation_home" />-->
         <action
             android:id="@+id/action_collectionFragment_to_oneMovieFragment"
             app:destination="@id/oneMovieFragment"
@@ -113,9 +113,9 @@
         android:id="@+id/pagingCollectionFragment"
         android:name="org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment"
         android:label="PagingCollectionFragment" >
-        <action
-            android:id="@+id/action_pagingCollectionFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+<!--        <action-->
+<!--            android:id="@+id/action_pagingCollectionFragment_to_navigation_home"-->
+<!--            app:destination="@id/navigation_home" />-->
         <action
             android:id="@+id/action_pagingCollectionFragment_to_oneMovieFragment"
             app:destination="@id/oneMovieFragment"
@@ -127,9 +127,9 @@
         android:id="@+id/pagingCompilationFragment"
         android:name="org.sniffsnirr.skillcinema.ui.collections.paging.compilations.PagingCompilationFragment"
         android:label="PagingCompilationFragment" >
-        <action
-            android:id="@+id/action_pagingCompilationFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+<!--        <action-->
+<!--            android:id="@+id/action_pagingCompilationFragment_to_navigation_home"-->
+<!--            app:destination="@id/navigation_home" />-->
         <action
             android:id="@+id/action_pagingCompilationFragment_to_oneMovieFragment"
             app:destination="@id/oneMovieFragment"
@@ -141,18 +141,18 @@
         android:id="@+id/oneMovieFragment"
         android:name="org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment"
         android:label="OneMovieFragment" >
-        <action
-            android:id="@+id/action_oneMovieFragment_to_pagingCollectionFragment"
-            app:destination="@id/pagingCollectionFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_oneMovieFragment_to_pagingCollectionFragment"-->
+<!--            app:destination="@id/pagingCollectionFragment" />-->
         <action
             android:id="@+id/action_oneMovieFragment_to_collectionFragment"
             app:destination="@id/collectionFragment" />
-        <action
-            android:id="@+id/action_oneMovieFragment_to_pagingCompilationFragment"
-            app:destination="@id/pagingCompilationFragment" />
-        <action
-            android:id="@+id/action_oneMovieFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+<!--        <action-->
+<!--            android:id="@+id/action_oneMovieFragment_to_pagingCompilationFragment"-->
+<!--            app:destination="@id/pagingCompilationFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_oneMovieFragment_to_navigation_home"-->
+<!--            app:destination="@id/navigation_home" />-->
         <action
             android:id="@+id/action_oneMovieFragment_to_moviemanFragment"
             app:destination="@id/moviemanFragment"
@@ -162,6 +162,12 @@
         <action
             android:id="@+id/action_oneMovieFragment_to_allMovieMansFragment"
             app:destination="@id/allMovieMansFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
@@ -211,7 +217,8 @@
             app:destination="@id/moviemanFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
-            app:popExitAnim="@anim/slide_out" />
+            app:popExitAnim="@anim/slide_out"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/tenBestMoviesFragment"
@@ -229,5 +236,29 @@
         android:id="@+id/filmographyFragment"
         android:name="org.sniffsnirr.skillcinema.ui.movieman.filmography.FilmographyFragment"
         android:label="fragment_filmography"
-        tools:layout="@layout/fragment_filmography" />
+        tools:layout="@layout/fragment_filmography" >
+        <action
+            android:id="@+id/action_filmographyFragment_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onemovie.gallery.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_sliderPhotoFragment"
+            app:destination="@id/sliderPhotoFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/sliderPhotoFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onemovie.gallery.SliderPhotoFragment"
+        android:label="fragment_slider_photo"
+        tools:layout="@layout/fragment_slider_photo" />
 </navigation>

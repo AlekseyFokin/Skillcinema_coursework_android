@@ -19,13 +19,14 @@ class AllMovieMansViewModel @Inject constructor(val getActorsAndMoviemen: GetAct
     private val _movieMenInfo = MutableStateFlow<List<Staff>>(emptyList())
     val movieMenInfo = _movieMenInfo.asStateFlow()
 
-    fun loadAllMoviemanByMovieId(idMovie: Int) {
+    fun loadAllMoviemanByMovieId(idMovie: Int, typeOfMovieman:Boolean) {
         viewModelScope.launch(Dispatchers.IO) {// получение и актеров и кинематографистов  по фильму
             kotlin.runCatching {
                 getActorsAndMoviemen.getActorsAndMoviemen(idMovie)
             }.fold(
                 onSuccess = {
-                    _movieMenInfo.value = it.first
+                  if(typeOfMovieman)   {_movieMenInfo.value = it.first}
+                    else {_movieMenInfo.value = it.second}
                 },
                 onFailure = { Log.d("AllActors", it.message ?: "") }
             )

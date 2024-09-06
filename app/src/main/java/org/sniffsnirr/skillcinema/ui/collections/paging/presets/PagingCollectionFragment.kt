@@ -50,7 +50,7 @@ class PagingCollectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val myGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         val footerAdapter: PagingLoadStateAdapter = PagingLoadStateAdapter()
-        val myAdapter = pagedAdapter.withLoadStateFooter(footerAdapter)
+        val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
 
         binding.moviePagingCollectionRv.layoutManager = myGridLayout
         binding.moviePagingCollectionRv.adapter = myAdapter

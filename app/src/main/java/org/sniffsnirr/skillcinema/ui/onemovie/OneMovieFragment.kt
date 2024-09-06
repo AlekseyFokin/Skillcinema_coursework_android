@@ -136,16 +136,35 @@ class OneMovieFragment : Fragment() {
 
 
         binding.numberOfActors.setOnClickListener {
-            Log.d("AllActors", "$idMovie")
+            getAllActorsOrMoviemans(true)//актеры
+        }
+
+        binding.numberOfMoviemen.setOnClickListener {
+            getAllActorsOrMoviemans(false)// кинематографисты
+        }
+
+        binding.numberOfGallery.setOnClickListener {
             val bundle = Bundle()
             if (idMovie != null) {
                 bundle.putInt(ID_MOVIE, idMovie)
-                bundle.putCharSequence(MOVIE_NAME,movieName)
                 findNavController().navigate(
-                    R.id.action_oneMovieFragment_to_allMovieMansFragment,
+                    R.id.action_oneMovieFragment_to_galleryFragment,
                     bundle
                 )
             }
+        }
+    }
+
+    private fun  getAllActorsOrMoviemans(typrOfMoviemans:Boolean){
+        val bundle = Bundle()
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            bundle.putCharSequence(MOVIE_NAME,movieName)
+            bundle.putBoolean(ACTORS_OR_MOVIEMANS,typrOfMoviemans)
+            findNavController().navigate(
+                R.id.action_oneMovieFragment_to_allMovieMansFragment,
+                bundle
+            )
         }
     }
 
@@ -218,17 +237,9 @@ class OneMovieFragment : Fragment() {
         const val RV_3_NAME = "Галерея"
         const val RV_4_NAME = "Похожие фильмы"
 
-        const val STILL = "Кадры"
-        const val SHOOTING = "Изображения со съемок"
-        const val POSTER = "Постеры"
-        const val FAN_ART = "Фан-арты"
-        const val PROMO = "Промо"
-        const val CONCEPT = "Концепт-арты"
-        const val WALLPAPER = "Обои"
-        const val COVER = "Обложки"
-        const val SCREENSHOT = "Скриншоты"
-
         const val ID_STAFF="ID_STAFF"
         const val MOVIE_NAME="MOVIE_NAME"
+        const val ACTORS_OR_MOVIEMANS="ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
+     //   const val MOVIE_ID="MOVIE_ID"
             }
 }

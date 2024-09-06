@@ -39,4 +39,5 @@ class MoviemanViewModel @Inject constructor(val getMoviemanBestRatingMovie: GetM
             )
         }
     }
+
 }

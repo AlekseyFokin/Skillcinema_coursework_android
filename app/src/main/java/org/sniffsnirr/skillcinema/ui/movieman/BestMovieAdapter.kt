@@ -18,7 +18,7 @@ class BestMovieAdapter(var movieModel: List<MovieRVModel>,
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieModel: MovieRVModel) {
             binding.showMeAllBtn.setOnClickListener {
-             //   onCollectionClick()
+                onCollectionClick()
             }
         }
     }

@@ -1,0 +1,11 @@
+<com.google.android.material.chip.Chip android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:chipBackgroundColor="@color/chip_color_selector"
+    app:chipStrokeWidth="2dp"
+    app:chipStrokeColor="@color/chip_stroke_color_selector"
+    android:textColor="@color/chip_font_color_selector"
+    app:checkedIconVisible="false"
+    android:checkable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+

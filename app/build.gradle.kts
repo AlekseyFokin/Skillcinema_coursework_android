@@ -78,4 +78,6 @@ dependencies {
 
     implementation (libs.expandabletextview)
 
+    implementation(libs.android.flexbox)
+implementation(libs.glide.slider)
 }

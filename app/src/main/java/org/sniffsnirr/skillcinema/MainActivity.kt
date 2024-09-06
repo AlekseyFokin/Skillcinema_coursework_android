@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+
         navController = navHostFragment.navController
         navController!!.setGraph(R.navigation.mobile_navigation)
 
@@ -118,6 +119,10 @@ class MainActivity : AppCompatActivity() {
            getSupportActionBar()?.title=title
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+       // val navController = navController(R.id.navController)
+        return navController!!.navigateUp() || super.onSupportNavigateUp()
+    }
 
 
     companion object {

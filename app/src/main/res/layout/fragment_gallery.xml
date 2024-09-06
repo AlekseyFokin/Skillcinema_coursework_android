@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.movieman.filmography.FilmographyFragment">
-
-    <TextView
-        android:id="@+id/movieman_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="26dp"
-        android:fontFamily="@font/inter_semibold"
-        android:textColor="@color/color_of_main_label_in_onboarding"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.onemovie.gallery.GalleryFragment">
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/filmography_chipgroup"
+        android:id="@+id/gallery_chipgroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
@@ -28,12 +16,12 @@
         android:layout_marginBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieman_name"
+        app:layout_constraintTop_toTopOf="parent"
         app:singleSelection="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movies_rv"
-        android:layout_width="match_parent"
+        android:id="@+id/images_rv"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="26dp"
         android:layout_marginTop="24dp"
@@ -41,9 +29,9 @@
         android:layout_marginBottom="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filmography_chipgroup" />
-    
+        app:layout_constraintTop_toBottomOf="@id/gallery_chipgroup"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <FrameLayout
         android:id="@+id/frame_progress"
         android:layout_width="match_parent"
@@ -58,7 +46,4 @@
             app:indicatorColor="@color/color_of_progress"/>
 
     </FrameLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

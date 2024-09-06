@@ -91,15 +91,7 @@ class MoviemanFragment : Fragment() {
         }
 
         binding.allBestMoviesButton.setOnClickListener {//открытие фрагмента с лучшими фильмами актера
-            val bundle = Bundle()
-            bundle.putCharSequence(MOVIEMAN_NAME, moviemanName)
-            val arrayListOfBestMovies=ArrayList<MovieRVModel>()
-            bestMovies.map { movie->arrayListOfBestMovies.add(movie) }
-            bundle.putParcelableArrayList(BEST_MOVIES_LIST,arrayListOfBestMovies)
-            findNavController().navigate(
-                R.id.action_moviemanFragment_to_tenBestMoviesFragment,
-                bundle
-            )
+            getBesMovies()
         }
 
         binding.allMoviesFilmography.setOnClickListener {//открытие фрагмента с фильмографии
@@ -126,16 +118,19 @@ class MoviemanFragment : Fragment() {
     }
 
     private fun onCollectionClick() {
-        //Log.d("ButtonClick", "$idMovie")
-        //val bundle = Bundle()
-        //if (idMovie != null) {
-        //    bundle.putInt(HomeFragment.ID_MOVIE, idMovie)
-        //    findNavController().navigate(
-        //        R.id.action_moviemanFragment_to_oneMovieFragment,
-        //       bundle
-        //   )
-        // }
+        getBesMovies()
     }
+
+    private fun getBesMovies()
+    {val bundle = Bundle()
+        bundle.putCharSequence(MOVIEMAN_NAME, moviemanName)
+        val arrayListOfBestMovies=ArrayList<MovieRVModel>()
+        bestMovies.map { movie->arrayListOfBestMovies.add(movie) }
+        bundle.putParcelableArrayList(BEST_MOVIES_LIST,arrayListOfBestMovies)
+        findNavController().navigate(
+            R.id.action_moviemanFragment_to_tenBestMoviesFragment,
+            bundle
+        )}
 
 
 

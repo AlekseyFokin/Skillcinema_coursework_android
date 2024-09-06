@@ -65,6 +65,15 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         return images.items
     }
 
+    suspend fun getNumberOfImages(
+        idMovie: Int,
+        type: String,
+        page: Int = 1
+    ): Int {// получение количества изображений определенного типа, связанных с конкретным фильмом
+        val images = kinopoiskApi.getImageByType(idMovie, type, page)
+        return images.total
+    }
+
     suspend fun getRelatedMovies(idMovie: Int): RelatedMovies {// получение списка похожих фильмов
         return kinopoiskApi.getRelatedMovies(idMovie)
     }
