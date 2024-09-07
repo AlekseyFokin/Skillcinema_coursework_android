@@ -183,6 +183,12 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_serialSeasonFragment"
+            app:destination="@id/serialSeasonFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/moviemanFragment"
@@ -284,4 +290,9 @@
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
     </fragment>
+    <fragment
+        android:id="@+id/serialSeasonFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.serial.SerialSeasonFragment"
+        android:label="fragment_serial_season"
+        tools:layout="@layout/fragment_serial_season" />
 </navigation>

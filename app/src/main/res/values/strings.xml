@@ -25,4 +25,5 @@
     <string name="gallery_label">Галерея</string>
     <string name="recent_movies_label">Похожие фильмы</string>
     <string name="serial_seasons_label">Сезоны и серии</string>
+    <string name="season_label">Сезон</string>
 </resources>

@@ -179,6 +179,17 @@ class OneMovieFragment : Fragment() {
                 )
             }
         }
+        binding.allSeasonsSeries.setOnClickListener {
+            val bundle = Bundle()
+            if (idMovie != null) {
+                bundle.putInt(ID_MOVIE, idMovie)
+                bundle.putCharSequence(MOVIE_NAME,movieName)
+                findNavController().navigate(
+                    R.id.action_oneMovieFragment_to_serialSeasonFragment,
+                    bundle
+                )
+            }
+        }
     }
 
     private fun  getAllActorsOrMoviemans(typrOfMoviemans:Boolean){
