@@ -10,6 +10,7 @@ import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
+import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -78,8 +79,12 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         return kinopoiskApi.getRelatedMovies(idMovie)
     }
 
-    suspend fun getMoviemanInfo(idStaff:Int):MoviemanInfo{
+    suspend fun getMoviemanInfo(idStaff:Int):MoviemanInfo{//получение информации про кинематографиста
         return kinopoiskApi.getMoviemanInfo(idStaff)
+    }
+
+    suspend fun getSerialsInfo(idMovie:Int):SeasonsSerial{// получение информации про сериал
+        return kinopoiskApi.getSeasonsSerialInfo(idMovie)
     }
 
 }

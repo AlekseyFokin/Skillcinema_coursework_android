@@ -26,6 +26,8 @@ import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
+import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.BEST_MOVIES_LIST
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
@@ -44,10 +46,11 @@ class OneMovieFragment : Fragment() {
 
     private val galleryAdapter = GalleryAdapter()
 
-    private val relatedMoviesAdapter = RelatedMoviesAdapter()
+    private val relatedMoviesAdapter = RelatedMoviesAdapter{idMovie->onMovieClick(idMovie)}
 
     var idMovie=0
     var movieName=""
+    private lateinit var relatedMovies:List<MovieRVModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +87,7 @@ class OneMovieFragment : Fragment() {
                         desc.isExpanded=false
                         rateName.text = concatRateNameRu(it?.ratingKinopoisk, it?.nameRu)
                         shortDesc.text = it?.shortDescription
-                        yearGenre.text = concatYearGenre(it?.year, it?.genres)
+                        yearGenre.text = concatYearGenre(it?.year, it?.genres,it?.type)
                         Glide
                             .with(mainPoster.context)
                             .load(it?.posterUrl)
@@ -94,6 +97,10 @@ class OneMovieFragment : Fragment() {
                             .with(logo.context)
                             .load(it?.logoUrl)
                             .into(logo)
+
+                         if(it?.type != "TV_SERIES")
+                         {headerSerial.visibility=View.GONE
+                         viewModel.getNumberEpisodsOfFirstSeason(idMovie)}
                     }
                 }
             }
@@ -132,6 +139,11 @@ class OneMovieFragment : Fragment() {
         viewModel.relatedMovies.onEach {// загрузка похожих фильмов
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
+            relatedMovies=it
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.numberseries.onEach {// для сериала коичество серий первого эпизода
+            binding.numberOfSeasonSeries.text = "1 сезон, ${it} серий >"
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
@@ -149,6 +161,20 @@ class OneMovieFragment : Fragment() {
                 bundle.putInt(ID_MOVIE, idMovie)
                 findNavController().navigate(
                     R.id.action_oneMovieFragment_to_galleryFragment,
+                    bundle
+                )
+            }
+        }
+
+        binding.numberOfRelatedMovies.setOnClickListener {
+            val bundle = Bundle()
+            if (movieName != null) {
+                bundle.putCharSequence(MOVIE_NAME, movieName)
+                val arrayListOfRelatedMovies=ArrayList<MovieRVModel>()
+                relatedMovies.map { movie->arrayListOfRelatedMovies.add(movie) }
+                bundle.putParcelableArrayList(RELATED_MOVIES_LIST,arrayListOfRelatedMovies)
+                findNavController().navigate(
+                    R.id.action_oneMovieFragment_to_relatedMoviesFragment,
                     bundle
                 )
             }
@@ -208,28 +234,40 @@ class OneMovieFragment : Fragment() {
 
     private fun concatYearGenre(
         year: Int?,
-        genres: List<Genre>?
+        genres: List<Genre>?,
+        type:String?
     ): String {// конкатинация года выпуска и жанров
         val someGenres = genres?.joinToString(
             separator = ",",
             limit = 3,
             truncated = "..."
         )
-        return "$year , $someGenres"
+        val isSerial=if (type=="TV_SERIES"){"1 сезон"} else{""}
+        return "$year ,$isSerial , $someGenres"
     }
 
     private fun onMoviemanClick(idStaff: Int?) {
-        Log.d("ButtonClick", "$idStaff")
         val bundle = Bundle()
         if (idStaff != null) {
             bundle.putInt(ID_STAFF, idStaff)
-
             findNavController().navigate(
                 R.id.action_oneMovieFragment_to_moviemanFragment,
                 bundle
             )
         }
       }
+
+    private fun onMovieClick(idMovie:Int?)
+    {
+        val bundle = Bundle()
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_oneMovieFragment_self,
+                bundle
+            )
+        }
+    }
 
     companion object {
         const val RV_1_NAME = "В фильме снимались"
@@ -240,6 +278,7 @@ class OneMovieFragment : Fragment() {
         const val ID_STAFF="ID_STAFF"
         const val MOVIE_NAME="MOVIE_NAME"
         const val ACTORS_OR_MOVIEMANS="ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
-     //   const val MOVIE_ID="MOVIE_ID"
+        const val RELATED_MOVIES_LIST="RELATED_MOVIES_LIST"
+
             }
 }

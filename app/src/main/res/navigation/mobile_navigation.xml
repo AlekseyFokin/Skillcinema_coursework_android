@@ -171,6 +171,18 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_self"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_relatedMoviesFragment"
+            app:destination="@id/relatedMoviesFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/moviemanFragment"
@@ -261,4 +273,15 @@
         android:name="org.sniffsnirr.skillcinema.ui.onemovie.gallery.SliderPhotoFragment"
         android:label="fragment_slider_photo"
         tools:layout="@layout/fragment_slider_photo" />
+    <fragment
+        android:id="@+id/relatedMoviesFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onemovie.relatedmovies.RelatedMoviesFragment"
+        android:label="RelatedMoviesFragment" >
+        <action
+            android:id="@+id/action_relatedMoviesFragment_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
 </navigation>

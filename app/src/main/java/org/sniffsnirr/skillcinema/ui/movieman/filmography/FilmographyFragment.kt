@@ -41,8 +41,12 @@ class FilmographyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         staffId = arguments?.getInt(MoviemanFragment.MOVIEMAN_ID) ?: 0
         (activity as MainActivity).showActionBar()
-        (activity as MainActivity).setActionBarTitle("Фильмография")
         viewModel.getMoviesByProfessionKey(staffId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setActionBarTitle(FRAGMENT_NAME)
     }
 
     override fun onCreateView(
@@ -141,5 +145,7 @@ class FilmographyFragment : Fragment() {
             Pair("HRONO_TITR_FEMALE", "Актриса дубляжа"),
             Pair("DESIGN","Дизайнер")
         )
+
+        const val FRAGMENT_NAME="Фильмография"
     }
 }

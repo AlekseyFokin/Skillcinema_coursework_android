@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.ui.movieman.tenbestmovies
+package org.sniffsnirr.skillcinema.ui.onemovie.relatedmovies
 
 import android.os.Build
 import android.os.Bundle
@@ -11,64 +11,60 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
-import org.sniffsnirr.skillcinema.databinding.FragmentPagingCompilationBinding
-import org.sniffsnirr.skillcinema.databinding.FragmentTenBestMoviesBinding
+import org.sniffsnirr.skillcinema.databinding.FragmentRelatedMoviesBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.BEST_MOVIES_LIST
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.MOVIEMAN_NAME
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.PHOTO_URL
-import org.sniffsnirr.skillcinema.ui.movieman.filmography.FilmographyFragment.Companion.FRAGMENT_NAME
+import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
-class TenBestMoviesFragment : Fragment() {
+class RelatedMoviesFragment : Fragment() {
 
-    var _binding: FragmentTenBestMoviesBinding? = null
+    private var _binding: FragmentRelatedMoviesBinding? = null
     val binding get() = _binding!!
-    var moviemanName = ""
+    var movieName = ""
     lateinit var arrayListOfBestMovies: ArrayList<MovieRVModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
-        moviemanName = arguments?.getCharSequence(MoviemanFragment.MOVIEMAN_NAME).toString()
+        movieName = arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME).toString() ?: ""
         arrayListOfBestMovies = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelableArrayList(BEST_MOVIES_LIST)!!
+            arguments?.getParcelableArrayList(OneMovieFragment.RELATED_MOVIES_LIST)!!
         } else {
             arguments?.getParcelableArrayList(
-                BEST_MOVIES_LIST,
+                OneMovieFragment.RELATED_MOVIES_LIST,
                 MovieRVModel::class.java
             )!!
         }
-      }
+    }
 
     override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).setActionBarTitle("$moviemanName. $BEST_MOVIES")
+                super.onResume()
+        (activity as MainActivity).showActionBar()
+        (activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME $movieName")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTenBestMoviesBinding.inflate(inflater, container, false)
+        _binding = FragmentRelatedMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tenBestMoviesRv.setHasFixedSize(true)
-        binding.tenBestMoviesRv.layoutManager=GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
-        binding.tenBestMoviesRv.adapter=TenBestMovieAdapter(arrayListOfBestMovies){idMovie->onMovieClick(idMovie)}
+        binding.relatedMoviesRv.setHasFixedSize(true)
+        binding.relatedMoviesRv.layoutManager=
+            GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false)
+        binding.relatedMoviesRv.adapter= RelatedMovieAdapter(arrayListOfBestMovies){ idMovie->onMovieClick(idMovie)}
     }
 
+
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(HomeFragment.ID_MOVIE, idMovie)
             findNavController().navigate(
-                R.id.action_tenBestMoviesFragment_to_oneMovieFragment,
+                R.id.action_relatedMoviesFragment_to_oneMovieFragment,
                 bundle
             )
         }
@@ -80,7 +76,6 @@ class TenBestMoviesFragment : Fragment() {
     }
 
     companion object{
-        const val BEST_MOVIES="Лучшие фильмы"
+        const val FRAGMENT_NAME="Фильмы, похожие на"
     }
-
 }

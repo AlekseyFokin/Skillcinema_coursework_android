@@ -41,8 +41,12 @@ class MoviemanFragment : Fragment() {
         idMovieman = arguments?.getInt(OneMovieFragment.ID_STAFF) ?: 0
         viewModel.getBestMovies(idMovieman)
         (activity as MainActivity).showActionBar()
-        (activity as MainActivity).setActionBarTitle("")
        }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setActionBarTitle("")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

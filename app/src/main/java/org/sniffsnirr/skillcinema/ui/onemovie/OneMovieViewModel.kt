@@ -16,6 +16,7 @@ import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
 import org.sniffsnirr.skillcinema.usecases.GetImages
 import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
 import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
+import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +24,8 @@ class OneMovieViewModel @Inject constructor(
     val getMovieInfo: GetMovieInfo,
     val getActorsAndMoviemen: GetActorsAndMoviemen,
     val getImages: GetImages,
-    val getRelatedMoviesInfo: GetRelatedMoviesInfo
+    val getRelatedMoviesInfo: GetRelatedMoviesInfo,
+    val getSerialInfo: GetSerialInfo
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -41,6 +43,9 @@ class OneMovieViewModel @Inject constructor(
 
     private val _relatedMovies = MutableStateFlow<List<MovieRVModel>>(emptyList())
     val relatedMovies = _relatedMovies.asStateFlow()
+
+    private val _numberseries = MutableStateFlow<Int>(0)
+    val numberseries = _numberseries.asStateFlow()
 
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
@@ -88,6 +93,17 @@ class OneMovieViewModel @Inject constructor(
             }.fold(
                 onSuccess = { _relatedMovies.value = it },
                 onFailure = { Log.d("relatedMovies", it.message ?: "") }
+            )
+        }
+    }
+
+    fun getNumberEpisodsOfFirstSeason(idMovie: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                getSerialInfo.getNumberOfEpisodsOfFirstSeason(idMovie)
+            }.fold(
+                onSuccess = { _numberseries .value = it },
+                onFailure = { Log.d("numberseries", it.message ?: "") }
             )
         }
     }

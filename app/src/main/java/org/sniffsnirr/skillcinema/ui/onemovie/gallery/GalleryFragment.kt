@@ -1,23 +1,17 @@
 package org.sniffsnirr.skillcinema.ui.onemovie.gallery
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
-import android.util.DisplayMetrics
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowMetrics
-import androidx.core.view.doOnLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.map
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -25,7 +19,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,12 +27,7 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentGalleryBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionAdapter
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment
-import org.sniffsnirr.skillcinema.ui.movieman.filmography.FilmographyFragment.Companion.SET_OF_PROFESSION_KEY
-import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
-import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment.Companion.ID_STAFF
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
@@ -49,6 +37,7 @@ class GalleryFragment : Fragment() {
     val binding get() = _binding!!
     private var movieId = 0
     val listOfPhotoUrl = ArrayList<String>()
+    lateinit var pagedAdapter:GalleryAdapter
     //  private val pagedAdapter = GalleryAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +48,11 @@ class GalleryFragment : Fragment() {
         Log.d("ID_MoVIE", "$movieId")
         viewModel.idMovie = movieId
         viewModel.getNumberOfImagesByType(MAP_OF_IMAGE_TYPE.keys)
+
+      //  val displayMetrics = requireContext().resources.displayMetrics
+      //  val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+
+        pagedAdapter= GalleryAdapter(resources.displayMetrics.widthPixels) { photoUrl -> onPhotoClick(photoUrl) }
     }
 
     override fun onCreateView(
@@ -78,7 +72,7 @@ class GalleryFragment : Fragment() {
         myLayout.setJustifyContent(JustifyContent.CENTER)
         myLayout.setAlignItems(AlignItems.CENTER)
 
-        val pagedAdapter = GalleryAdapter{photoUrl->onPhotoClick(photoUrl)}
+
         val footerAdapter = PagingLoadStateAdapter()
         val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
 
@@ -108,14 +102,8 @@ class GalleryFragment : Fragment() {
 
                 chip.setOnClickListener {
                     lifecycleScope.launch {
-                        viewModel.getImages(item.key).collectLatest {
-                            response ->
-                            Log.d("вообще сюда заходит", "даа!!$response.")
+                        viewModel.getImages(item.key).collectLatest { response ->
                             pagedAdapter.submitData(response)
-                            listOfPhotoUrl.clear()
-
-                            response.map { image -> listOfPhotoUrl.add(image.imageUrl)
-                            Log.d("listOfPhotoUrl", "добавил ${image.imageUrl}")}
                         }
                     }
                 }
@@ -137,7 +125,11 @@ class GalleryFragment : Fragment() {
     private fun onPhotoClick(photoUrl: String?) {
         Log.d("onPhotoClick", "")
         val bundle = Bundle()
-        listOfPhotoUrl.map{url-> Log.d("listOfPhotoUrl"," отправляю- $url")}
+        listOfPhotoUrl.clear()
+        pagedAdapter.snapshot().map { image ->
+            listOfPhotoUrl.add(image?.imageUrl.toString())
+        }
+
         if (photoUrl != null) {
             bundle.putCharSequence(PHOTO_URL, photoUrl)
             bundle.putStringArrayList(LIST_OF_PHOTO_URL, listOfPhotoUrl)

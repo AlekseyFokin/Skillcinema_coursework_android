@@ -28,17 +28,16 @@ class AllMovieMansFragment : Fragment() {
     val binding get()=_binding!!
 
     private val viewModel: AllMovieMansViewModel by viewModels()
+    var typeOfMoviemans=true
+    var movieName=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
-        val movieName=arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME) ?: ""
-        val typeOfMoviemans=arguments?.getBoolean(OneMovieFragment.ACTORS_OR_MOVIEMANS)?:true
+        movieName=arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME).toString()
+        typeOfMoviemans=arguments?.getBoolean(OneMovieFragment.ACTORS_OR_MOVIEMANS)?:true
         viewModel.loadAllMoviemanByMovieId(idMovie,typeOfMoviemans)
         (activity as MainActivity).showActionBar()
-        if (typeOfMoviemans) {
-        (activity as MainActivity).setActionBarTitle("В фильме ${movieName} снимались" )}
-        else {(activity as MainActivity).setActionBarTitle("Над фильмом ${movieName} раюотали" )}
 
     }
 
@@ -50,9 +49,15 @@ class AllMovieMansFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (typeOfMoviemans) {
+            (activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_ACTOR_1 ${movieName} $FRAGMENT_NAME_ACTOR_2" )}
+        else {(activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_MOVIEMAN_1 ${movieName} $FRAGMENT_NAME_MOVIEMAN_2" )}
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.allmoviemanRv.setHasFixedSize(true)
         binding.allmoviemanRv.layoutManager =
             LinearLayoutManager(requireContext(),  GridLayoutManager.VERTICAL, false)
@@ -80,5 +85,13 @@ class AllMovieMansFragment : Fragment() {
         super.onStop()
         (activity as MainActivity).showActionBar()
         (activity as MainActivity).setActionBarTitle("")
+    }
+
+    companion object{
+        const val FRAGMENT_NAME_ACTOR_1="В фильме"
+        const val FRAGMENT_NAME_ACTOR_2="снимались"
+
+        const val FRAGMENT_NAME_MOVIEMAN_1="Над фильмом"
+        const val FRAGMENT_NAME_MOVIEMAN_2="работали"
     }
 }

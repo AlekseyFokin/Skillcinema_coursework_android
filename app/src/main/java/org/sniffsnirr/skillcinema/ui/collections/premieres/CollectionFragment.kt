@@ -28,13 +28,18 @@ class CollectionFragment : Fragment() {
     private val viewModel: CollectionViewModel by viewModels()
     var _binding: FragmentCollectionBinding? = null
     val binding get() = _binding!!
+    var collectionName=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
-        val collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
-        (activity as MainActivity).setActionBarTitle(collectionName.toString())
-        viewModel.loadPremiers()
+        collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
+         viewModel.loadPremiers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setActionBarTitle(collectionName)
     }
 
     override fun onCreateView(
@@ -63,6 +68,11 @@ class CollectionFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).setActionBarTitle("")
     }
 
     private fun onMovieClick(idMovie: Int?) {

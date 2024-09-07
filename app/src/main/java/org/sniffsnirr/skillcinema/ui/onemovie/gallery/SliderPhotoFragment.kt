@@ -14,7 +14,10 @@ import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.DefaultSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
 import dagger.hilt.android.AndroidEntryPoint
+import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.databinding.FragmentSliderPhotoBinding
+import org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans.AllMovieMansFragment.Companion.FRAGMENT_NAME_ACTOR_1
+import org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans.AllMovieMansFragment.Companion.FRAGMENT_NAME_ACTOR_2
 
 
 @AndroidEntryPoint
@@ -35,8 +38,6 @@ class SliderPhotoFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
         photoUrl = arguments?.getCharSequence(GalleryFragment.PHOTO_URL).toString()
         listOfUrl = arguments?.getStringArrayList(GalleryFragment.LIST_OF_PHOTO_URL) ?: ArrayList()
-
-
     }
 
     override fun onCreateView(
@@ -52,44 +53,31 @@ class SliderPhotoFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
         slider = binding.slider
         val requestOptions = RequestOptions()
-        requestOptions.centerCrop()
 
         listOfUrl.map { url ->
             val sliderView = DefaultSliderView(slider.context)
-            Log.d("slider", "$url")
             sliderView
                 .image(url)
                 .description(url)
-                .setRequestOption(requestOptions)
                 .setProgressBarVisible(true)
-                .setOnSliderClickListener(this);
             slider.addSlider(sliderView);
         }
 
-        slider.setPresetTransformer(SliderLayout.Transformer.Accordion)
+        slider.stopAutoCycle()
 
-        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom)
-        slider.setCustomAnimation(DescriptionAnimation())
-        slider.setDuration(400)
-        slider.addOnPageChangeListener(this)
-        slider.stopCyclingWhenTouch(false)
-//slider.setCurrentPosition(listOfUrl.lastIndexOf(photoUrl),false)
+        slider.setCurrentPosition(listOfUrl.lastIndexOf(photoUrl), false)
     }
 
     override fun onSliderClick(slider: BaseSliderView?) {
-
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
     }
 
     override fun onPageSelected(position: Int) {
-
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-
     }
 
     override fun onStop() {

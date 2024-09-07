@@ -10,7 +10,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 // адаптер для rv содрежащего подобные фильму
 
-class RelatedMoviesAdapter : RecyclerView.Adapter<RelatedMoviesAdapter.RelatedMoviesHolder>() {
+class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adapter<RelatedMoviesAdapter.RelatedMoviesHolder>() {
 
     private var relatedMovies: List<MovieRVModel> = emptyList()
 
@@ -51,6 +51,7 @@ class RelatedMoviesAdapter : RecyclerView.Adapter<RelatedMoviesAdapter.RelatedMo
                 viewed.visibility = View.INVISIBLE
             }
         }
+        holder.binding.cd.setOnClickListener { onMovieClick(movie.kinopoiskId) }
     }
 
     inner class RelatedMoviesHolder(val binding: MovieItemBinding) :

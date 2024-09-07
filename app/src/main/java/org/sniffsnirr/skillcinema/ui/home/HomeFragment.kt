@@ -118,7 +118,8 @@ class HomeFragment : Fragment() {
         Log.d("ButtonClick","$idMovie")
         val bundle = Bundle()
         if(idMovie!=null){
-            bundle.putInt(ID_MOVIE, idMovie)
+           bundle.putInt(ID_MOVIE, idMovie)
+         //   bundle.putInt(ID_MOVIE, 1355060)
             findNavController().navigate(
                 R.id.action_navigation_home_to_oneMovieFragment,
                 bundle

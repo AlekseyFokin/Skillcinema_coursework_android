@@ -20,4 +20,9 @@
     <string name="want_to_see_movie_button">want_to_see_movie_button</string>
     <string name="some_more_button">some_more_button</string>
     <string name="share_button">share_button</string>
+    <string name="actors_in_movie_label">В фильме снимались</string>
+    <string name="moviemans_in_movie_label">Над фильмом работали</string>
+    <string name="gallery_label">Галерея</string>
+    <string name="recent_movies_label">Похожие фильмы</string>
+    <string name="serial_seasons_label">Сезоны и серии</string>
 </resources>

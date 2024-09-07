@@ -28,14 +28,19 @@ class PagingCollectionFragment : Fragment() {
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
     private val pagedAdapter = PagingCollectionAdapter { idMovie -> onMovieClick(idMovie) }
+    var collectionName=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val collectionType = arguments?.getCharSequence(HomeFragment.COLLECTION_TYPE)
         viewModel.collectionType = collectionType.toString()
         (activity as MainActivity).showActionBar()
-        val collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME)
-        (activity as MainActivity).setActionBarTitle(collectionName.toString())
+        collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setActionBarTitle(collectionName)
     }
 
     override fun onCreateView(
@@ -55,17 +60,6 @@ class PagingCollectionFragment : Fragment() {
         binding.moviePagingCollectionRv.layoutManager = myGridLayout
         binding.moviePagingCollectionRv.adapter = myAdapter
 
-        myGridLayout.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == myAdapter.itemCount && footerAdapter.itemCount > 0) {
-                    2
-                } else {
-                    1
-                }
-
-            }
-        }
-
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -74,6 +68,11 @@ class PagingCollectionFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).setActionBarTitle("")
     }
 
     private fun onMovieClick(idMovie: Int?) {

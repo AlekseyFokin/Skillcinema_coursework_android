@@ -35,10 +35,9 @@
                 android:layout_width="250dp"
                 android:layout_height="100dp"
                 android:layout_marginBottom="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/logo"
                 android:contentDescription="@string/movie_logo"
-                />
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo" />
 
             <TextView
                 android:id="@+id/rate_name"
@@ -81,11 +80,11 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/add_to_favorites_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_heart"
-                    app:tint="@color/color_of_miss_button"
-                    android:contentDescription="@string/add_to_favorites_button"/>
+                    app:tint="@color/color_of_miss_button" />
 
                 <ImageButton
                     android:id="@+id/want_to_see"
@@ -93,11 +92,11 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/want_to_see_movie_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_bookmark"
-                    app:tint="@color/color_of_miss_button"
-                    android:contentDescription="@string/want_to_see_movie_button"/>
+                    app:tint="@color/color_of_miss_button" />
 
                 <ImageButton
                     android:id="@+id/viewed"
@@ -105,11 +104,11 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
+                    android:contentDescription="viewed_movie_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_dont_viewed"
-                    app:tint="@color/color_of_miss_button"
-                    android:contentDescription="viewed_movie_button"/>
+                    app:tint="@color/color_of_miss_button" />
 
                 <ImageButton
                     android:id="@+id/share"
@@ -117,12 +116,11 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/share_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_send_over"
-                    app:tint="@color/color_of_miss_button"
-                    android:contentDescription="@string/share_button"
-                    />
+                    app:tint="@color/color_of_miss_button" />
 
                 <ImageButton
                     android:id="@+id/some_more"
@@ -130,12 +128,11 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
+                    android:contentDescription="@string/some_more_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_some_more"
-                    app:tint="@color/color_of_miss_button"
-                    android:contentDescription="@string/some_more_button"
-                    />
+                    app:tint="@color/color_of_miss_button" />
 
             </LinearLayout>
         </LinearLayout>
@@ -154,38 +151,90 @@
             app:layout_constraintTop_toBottomOf="@id/main_poster" />
 
         <net.expandable.ExpandableTextView
-            app:expanded="true"
-            app:expand_enabled="true"
-            app:collapse_lines="3"
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="26dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/short_desc"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp"
-            android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Писатель Уильям Форрестер долгие годы прожил в добровольном затворничестве от мира. Последний раз о нем слышали сорок лет назад, когда он выпустил в свет превосходный роман, завоевавший Пулитцеровскую премию. Но с тех пор никому не удалось переступить за порог дома этого отшельника.\n\nОднако 16-летнему парнишке по имени Джамал Уоллес удается проникнуть в жилище живой легенды и разговорить нелюдимого старца. И это случайная встреча оказывается судьбоносной. Благодаря ей ушедший в себя Форрестер снова обретает вкус к жизни за пределами своей «башни из слоновой кости». А Джамал, талантливый баскетболист, которому светит блестящая спортивная карьера, открывает, что его истинное призвание – литературное творчество"/>
+            app:collapse_lines="3"
+            app:expand_enabled="true"
+            app:expanded="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/short_desc" />
+
+        <LinearLayout
+            android:id="@+id/header_serial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="26dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="26dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/desc">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/season_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="@string/serial_seasons_label"
+                    android:textColor="@color/color_of_main_label_in_onboarding"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/number_of_season_series"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="1 сезон, "
+                    android:textColor="@color/color_of_genre"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/all_seasons_series"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:text="Все>"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:textColor="@color/color_of_progress"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/header_actors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="26dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/desc"
-            android:paddingTop="26dp"
-            android:paddingStart="26dp"
-            android:paddingEnd="26dp">
+            app:layout_constraintTop_toBottomOf="@id/header_serial">
 
             <TextView
                 android:id="@+id/actors_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="В фильме снимались"
+                android:text="@string/actors_in_movie_label"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -200,6 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
                 android:fontFamily="@font/hkgrotesk_medium"
+                android:text="Все>"
                 android:textColor="@color/color_of_progress"
                 android:textSize="14sp" />
 
@@ -209,28 +259,27 @@
             android:id="@+id/actors_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_actors"
             android:padding="8dp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_actors" />
 
         <LinearLayout
             android:id="@+id/header_moviemen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="26dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/actors_rv"
-            android:paddingTop="26dp"
-            android:paddingStart="26dp"
-            android:paddingEnd="26dp">
+            app:layout_constraintTop_toBottomOf="@id/actors_rv">
 
             <TextView
                 android:id="@+id/moviemen_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Над фильмом работали"
+                android:text="@string/moviemans_in_movie_label"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -254,28 +303,27 @@
             android:id="@+id/moviemen_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_moviemen"
             android:padding="8dp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_moviemen" />
 
         <LinearLayout
             android:id="@+id/header_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="26dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/moviemen_rv"
-            android:paddingTop="26dp"
-            android:paddingStart="26dp"
-            android:paddingEnd="26dp">
+            app:layout_constraintTop_toBottomOf="@id/moviemen_rv">
 
             <TextView
                 android:id="@+id/gallery_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Галерея"
+                android:text="@string/gallery_label"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -289,8 +337,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:text="Все >"
                 android:fontFamily="@font/hkgrotesk_medium"
+                android:text="Все >"
                 android:textColor="@color/color_of_progress"
                 android:textSize="14sp" />
 
@@ -301,28 +349,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_gallery"
             android:padding="8dp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_gallery" />
 
         <LinearLayout
             android:id="@+id/header_related_movies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="26dp"
+            android:paddingTop="26dp"
+            android:paddingEnd="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gallery_rv"
-            android:paddingTop="26dp"
-            android:paddingStart="26dp"
-            android:paddingEnd="26dp">
+            app:layout_constraintTop_toBottomOf="@id/gallery_rv">
 
             <TextView
                 android:id="@+id/related_movies_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Похожие фильмы"
+                android:text="@string/recent_movies_label"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -336,8 +383,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:text=">"
                 android:fontFamily="@font/hkgrotesk_medium"
+                android:text=">"
                 android:textColor="@color/color_of_progress"
                 android:textSize="14sp" />
 
@@ -347,11 +394,10 @@
             android:id="@+id/related_movies_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_related_movies"
-            android:padding="8dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/header_related_movies" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
