@@ -33,7 +33,7 @@ class MoviemanViewModel @Inject constructor(val getMoviemanBestRatingMovie: GetM
                 onSuccess = {
                     _moviemanInfo.value = it.first
                     _bestMovies.value = it.second
-                    _numberMovies.value=it.third
+                    _numberMovies.value = it.third
                 },
                 onFailure = { Log.d("bestMoviesMovies", it.message ?: "") }
             )

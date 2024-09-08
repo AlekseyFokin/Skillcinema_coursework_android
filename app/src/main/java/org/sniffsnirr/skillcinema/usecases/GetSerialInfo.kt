@@ -10,9 +10,9 @@ class GetSerialInfo @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
 ) {
 
-    suspend fun getNumberOfEpisodsOfFirstSeason(idMovie: Int): Int {
+    suspend fun getNumberOfEpisodesOfFirstSeason(idMovie: Int): Int {
         val serialInfo = kinopoiskRepository.getSerialsInfo(idMovie)
-        return serialInfo.items[0].number
+        return serialInfo.items[0].episodes.size
     }
 
     suspend fun getAllSeialInfo(idMovie: Int): SeasonsSerial {

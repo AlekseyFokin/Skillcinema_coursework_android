@@ -1,6 +1,5 @@
 package org.sniffsnirr.skillcinema.usecases
 
-import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
@@ -17,10 +16,8 @@ class GetMoviemanBestRatingMovie @Inject constructor(
     private suspend fun getBestRatingMovieByMovieman(idStaff: Int): Triple<MoviemanInfo,List<Int>,Int>{
         val filmIdList = mutableListOf<Int>()
         val moviemanInfo = kinopoiskRepository.getMoviemanInfo(idStaff)
-         //moviemanInfo.films.onEach { film-> Log.d("BestM","rating___${film.rating}====${film.ratingDouble}")}
-        moviemanInfo.films.sortedByDescending { film -> film.ratingDouble }.take(10)
+         moviemanInfo.films.sortedByDescending { film -> film.ratingDouble }.take(10)
         .map { film -> filmIdList.add(film.filmId) }
-
         return Triple(moviemanInfo,filmIdList,moviemanInfo.films.size)
     }
 

@@ -26,4 +26,10 @@
     <string name="recent_movies_label">Похожие фильмы</string>
     <string name="serial_seasons_label">Сезоны и серии</string>
     <string name="season_label">Сезон</string>
+    <string name="actor_photo_description">Фото актера</string>
+    <string name="photo_from_gallery">элемент галереи</string>
+    <string name="poster">Постер</string>
+    <string name="viewed_label">метка что просмотрено</string>
+    <string name="label_on_button">изображение на кнопке- стрелка</string>
+    <string name="gallery_item">элемент галереи</string>
 </resources>

@@ -26,6 +26,7 @@
                 android:layout_height="136dp"
                 android:background="@drawable/rounded_image"
                 android:scaleType="fitXY"
+                android:contentDescription="@string/poster"
                 />
         </androidx.cardview.widget.CardView>
 
@@ -72,6 +73,7 @@
         app:layout_constraintBottom_toBottomOf="@id/cd"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/viewed_label"
         app:tint="#FFFFFF"
         />
 

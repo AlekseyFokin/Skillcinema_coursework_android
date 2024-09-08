@@ -44,7 +44,7 @@ class OneMovieViewModel @Inject constructor(
     private val _relatedMovies = MutableStateFlow<List<MovieRVModel>>(emptyList())
     val relatedMovies = _relatedMovies.asStateFlow()
 
-    private val _numberseries = MutableStateFlow<Int>(0)
+    private val _numberseries = MutableStateFlow(0)
     val numberseries = _numberseries.asStateFlow()
 
     fun setIdMovie(idMovie: Int) {
@@ -97,12 +97,12 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun getNumberEpisodsOfFirstSeason(idMovie: Int){
+    fun getNumberEpisodsOfFirstSeason(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                getSerialInfo.getNumberOfEpisodsOfFirstSeason(idMovie)
+                getSerialInfo.getNumberOfEpisodesOfFirstSeason(idMovie)
             }.fold(
-                onSuccess = { _numberseries .value = it },
+                onSuccess = { _numberseries.value = it },
                 onFailure = { Log.d("numberseries", it.message ?: "") }
             )
         }

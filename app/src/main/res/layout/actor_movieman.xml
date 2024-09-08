@@ -18,7 +18,9 @@
             android:layout_width="49dp"
             android:layout_height="68dp"
             android:background="@drawable/rounded_image"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:contentDescription="@string/actor_photo_description"
+            />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout

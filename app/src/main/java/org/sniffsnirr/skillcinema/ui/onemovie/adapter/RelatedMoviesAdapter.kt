@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-// адаптер для rv содрежащего подобные фильму
+// адаптер для rv содрежащего подобные фильмы
 
 class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adapter<RelatedMoviesAdapter.RelatedMoviesHolder>() {
 

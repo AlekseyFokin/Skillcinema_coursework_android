@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,7 +77,7 @@ class FilmographyFragment : Fragment() {
                     label = "Актриса"
                 }
                 label = "$label   ${item.value.size}"
-                val string = SpannableString(label)
+                val string = SpannableString(label)// Одна строка - два размера шрифта
                 string.setSpan(
                     RelativeSizeSpan(0.7f),
                     string.lastIndexOf(" "),
@@ -105,15 +104,12 @@ class FilmographyFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.isLoading.onEach {
-          if (it) {binding.frameProgress.visibility=View.VISIBLE
-          Log.d("progressbar", "on")}
-            else{binding.frameProgress.visibility=View.INVISIBLE
-              Log.d("progressbar", "off")}
+          if (it) {binding.frameProgress.visibility=View.VISIBLE}
+            else{binding.frameProgress.visibility=View.INVISIBLE}
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(HomeFragment.ID_MOVIE, idMovie)

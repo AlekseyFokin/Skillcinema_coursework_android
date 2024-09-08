@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.collections.paging.compilations
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +27,7 @@ class PagingCompilationFragment : Fragment() {
     var _binding: FragmentPagingCompilationBinding? = null
     val binding get() = _binding!!
     private val pagedAdapter = PagingCompilationAdapter { idMovie -> onMovieClick(idMovie) }
-    var collectionName=""
+    private var collectionName=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,6 @@ class PagingCompilationFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).setActionBarTitle("")
@@ -81,7 +79,6 @@ class PagingCompilationFragment : Fragment() {
     }
 
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)

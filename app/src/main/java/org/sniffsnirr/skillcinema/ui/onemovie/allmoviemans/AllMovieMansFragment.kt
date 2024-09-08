@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.onemovie.allmoviemans
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +60,7 @@ class AllMovieMansFragment : Fragment() {
         binding.allmoviemanRv.setHasFixedSize(true)
         binding.allmoviemanRv.layoutManager =
             LinearLayoutManager(requireContext(),  GridLayoutManager.VERTICAL, false)
-        val adapter=AllMovieMansAdapter({idStaff -> onMoviemanClick(idStaff)})
+        val adapter=AllMovieMansAdapter { idStaff -> onMoviemanClick(idStaff) }
         binding.allmoviemanRv.adapter = adapter
         viewModel.movieMenInfo.onEach {//загрузка актеров
             adapter.setData(it)
@@ -69,7 +68,6 @@ class AllMovieMansFragment : Fragment() {
     }
 
     private fun onMoviemanClick(idStaff: Int?) {
-        Log.d("moviemanClick", "$idStaff")
         val bundle = Bundle()
         if (idStaff != null) {
             bundle.putInt(ID_STAFF, idStaff)

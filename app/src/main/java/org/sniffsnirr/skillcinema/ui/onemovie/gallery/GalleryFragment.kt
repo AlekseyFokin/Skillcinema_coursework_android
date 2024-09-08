@@ -36,23 +36,18 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     val binding get() = _binding!!
     private var movieId = 0
-    val listOfPhotoUrl = ArrayList<String>()
-    lateinit var pagedAdapter:GalleryAdapter
-    //  private val pagedAdapter = GalleryAdapter()
+    private val listOfPhotoUrl = ArrayList<String>()
+    private lateinit var pagedAdapter: GalleryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movieId = arguments?.getInt(ID_MOVIE) ?: 0
         (activity as MainActivity).showActionBar()
         (activity as MainActivity).setActionBarTitle("Галерея")
-        Log.d("ID_MoVIE", "$movieId")
         viewModel.idMovie = movieId
         viewModel.getNumberOfImagesByType(MAP_OF_IMAGE_TYPE.keys)
-
-      //  val displayMetrics = requireContext().resources.displayMetrics
-      //  val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-
-        pagedAdapter= GalleryAdapter(resources.displayMetrics.widthPixels) { photoUrl -> onPhotoClick(photoUrl) }
+        pagedAdapter =
+            GalleryAdapter(resources.displayMetrics.widthPixels) { photoUrl -> onPhotoClick(photoUrl) }
     }
 
     override fun onCreateView(
@@ -72,7 +67,6 @@ class GalleryFragment : Fragment() {
         myLayout.setJustifyContent(JustifyContent.CENTER)
         myLayout.setAlignItems(AlignItems.CENTER)
 
-
         val footerAdapter = PagingLoadStateAdapter()
         val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
 
@@ -82,13 +76,12 @@ class GalleryFragment : Fragment() {
         // собрать chipGroup
         viewModel.numberOfImagesByType.onEach {
             it.forEach { item ->
-                Log.d("MAP_GALLERY", "${item.key} - ${item.value}")
                 val chip: Chip = View.inflate(
                     binding.galleryChipgroup.context,
                     R.layout.chip_templ,
                     null
                 ) as Chip
-                var label = "${MAP_OF_IMAGE_TYPE.get(item.key)} ${item.value}"
+                val label = "${MAP_OF_IMAGE_TYPE.get(item.key)} ${item.value}"
 
                 val string = SpannableString(label)
                 string.setSpan(
@@ -98,7 +91,6 @@ class GalleryFragment : Fragment() {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 chip.text = string
-
 
                 chip.setOnClickListener {
                     lifecycleScope.launch {
@@ -114,19 +106,16 @@ class GalleryFragment : Fragment() {
         viewModel.isLoading.onEach {
             if (it) {
                 binding.frameProgress.visibility = View.VISIBLE
-                Log.d("progressbar", "on")
             } else {
                 binding.frameProgress.visibility = View.INVISIBLE
-                Log.d("progressbar", "off")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun onPhotoClick(photoUrl: String?) {
-        Log.d("onPhotoClick", "")
         val bundle = Bundle()
         listOfPhotoUrl.clear()
-        pagedAdapter.snapshot().map { image ->
+        pagedAdapter.snapshot().map { image -> //эти фото отправлены в слайдер
             listOfPhotoUrl.add(image?.imageUrl.toString())
         }
 
@@ -146,8 +135,8 @@ class GalleryFragment : Fragment() {
     }
 
     companion object {
-        val PHOTO_URL = "ID_PHOTO"
-        val LIST_OF_PHOTO_URL = "LIST_OF_PHOTO_URL"
+        const val PHOTO_URL = "ID_PHOTO"
+        const val LIST_OF_PHOTO_URL = "LIST_OF_PHOTO_URL"
 
         val MAP_OF_IMAGE_TYPE = mapOf(
             Pair("STILL", "Кадры"),

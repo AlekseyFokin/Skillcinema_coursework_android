@@ -1,11 +1,9 @@
 package org.sniffsnirr.skillcinema.restrepository
 
-import kotlinx.coroutines.delay
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.CountriesGenres
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.entities.images.Image
-import org.sniffsnirr.skillcinema.entities.images.Images
 import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
@@ -79,11 +77,11 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
         return kinopoiskApi.getRelatedMovies(idMovie)
     }
 
-    suspend fun getMoviemanInfo(idStaff:Int):MoviemanInfo{//получение информации про кинематографиста
+    suspend fun getMoviemanInfo(idStaff: Int): MoviemanInfo {//получение информации про кинематографиста
         return kinopoiskApi.getMoviemanInfo(idStaff)
     }
 
-    suspend fun getSerialsInfo(idMovie:Int):SeasonsSerial{// получение информации про сериал
+    suspend fun getSerialsInfo(idMovie: Int): SeasonsSerial {// получение информации про сериал
         return kinopoiskApi.getSeasonsSerialInfo(idMovie)
     }
 

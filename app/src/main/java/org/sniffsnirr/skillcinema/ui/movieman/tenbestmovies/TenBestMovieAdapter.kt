@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-// Адаптер
+// Адаптер десять лучших фильмов
 class TenBestMovieAdapter(
     var movieModel: List<MovieRVModel>,
     val onMovieClick: (Int?) -> Unit

@@ -12,6 +12,7 @@
     android:src="@drawable/poster_example"
     android:adjustViewBounds="true"
     android:scaleType="fitCenter"
+    android:contentDescription="@string/actor_photo_description"
     />
 
 

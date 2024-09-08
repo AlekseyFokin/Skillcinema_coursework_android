@@ -1,6 +1,5 @@
 package org.sniffsnirr.skillcinema.ui.onemovie.gallery
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -9,17 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.StaggeredGalleryItemBinding
 import org.sniffsnirr.skillcinema.entities.images.Image
 
-class GalleryAdapter(val widthDisplay:Int ,val onPhotoClick: (String?) -> Unit) :
+class GalleryAdapter(val widthDisplay: Int, val onPhotoClick: (String?) -> Unit) :
     PagingDataAdapter<Image, GalleryAdapter.ImageViewHolder>(
         DiffUtilCallback()
     ) {
 
     override fun onBindViewHolder(holder: GalleryAdapter.ImageViewHolder, position: Int) {
         val image = getItem(position)
-
-       Log.d("widthDisplay","$widthDisplay")
-
-if (position % 3==0){holder.binding.galleryImage.layoutParams.width=(widthDisplay - 56*holder.binding.galleryImage.getContext().getResources().getDisplayMetrics().density).toInt()}
+      if (position % 3 == 0) {// каждая третья картинка на всю ширину экрана
+            holder.binding.galleryImage.layoutParams.width =
+                (widthDisplay - 56 * holder.binding.galleryImage.getContext().getResources()
+                    .getDisplayMetrics().density).toInt()
+        }
 
         with(holder.binding) {
             com.bumptech.glide.Glide

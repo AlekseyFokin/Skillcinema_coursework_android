@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="26dp"
         android:fontFamily="@font/inter_regular"
-        android:text="1 сезон"
+        android:text=""
         android:textColor="@color/color_of_genre"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,9 +1,7 @@
 package org.sniffsnirr.skillcinema.ui.collections.premieres
 
-import android.os.Build
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +16,6 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-
 
 // фрагмент для отображения премьер
 @AndroidEntryPoint
@@ -54,13 +50,12 @@ class CollectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.premierMovies.onEach {
             if (!it.isNullOrEmpty()) {
-                val premierMoviesWithoutHeader = it?.filter { it.isButton == false }
-                val adapter = CollectionAdapter(premierMoviesWithoutHeader!!) { idMovie ->
+                val premierMoviesWithoutHeader = it.filter { it.isButton == false }
+                val adapter = CollectionAdapter(premierMoviesWithoutHeader) { idMovie ->
                     onMovieClick(idMovie)
                 }
                 binding.movieCollectionRv.adapter = adapter
                 binding.movieCollectionRv.setHasFixedSize(true)
-                Log.d("что дошло до фрагмента", "${it.size}")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
@@ -76,7 +71,7 @@ class CollectionFragment : Fragment() {
     }
 
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
+
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)

@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.collections.paging.presets
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +27,7 @@ class PagingCollectionFragment : Fragment() {
     var _binding: FragmentPagingCollectionBinding? = null
     val binding get() = _binding!!
     private val pagedAdapter = PagingCollectionAdapter { idMovie -> onMovieClick(idMovie) }
-    var collectionName=""
+    var collectionName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +53,7 @@ class PagingCollectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-        val footerAdapter: PagingLoadStateAdapter = PagingLoadStateAdapter()
+        val footerAdapter = PagingLoadStateAdapter()
         val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
 
         binding.moviePagingCollectionRv.layoutManager = myGridLayout
@@ -76,7 +75,6 @@ class PagingCollectionFragment : Fragment() {
     }
 
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)

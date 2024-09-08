@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.onemovie
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,7 +25,6 @@ import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.BEST_MOVIES_LIST
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
@@ -40,9 +37,9 @@ class OneMovieFragment : Fragment() {
 
     private val viewModel: OneMovieViewModel by viewModels()
 
-    private val actorsAdapter = MoviemenAdapter(){idStaff -> onMoviemanClick(idStaff)}
+    private val actorsAdapter = MoviemenAdapter{idStaff -> onMoviemanClick(idStaff)}
 
-    private val moviemenAdapter = MoviemenAdapter(){idStaff -> onMoviemanClick(idStaff)}
+    private val moviemenAdapter = MoviemenAdapter{idStaff -> onMoviemanClick(idStaff)}
 
     private val galleryAdapter = GalleryAdapter()
 
@@ -98,9 +95,10 @@ class OneMovieFragment : Fragment() {
                             .load(it?.logoUrl)
                             .into(logo)
 
-                         if(it?.type != "TV_SERIES")
-                         {headerSerial.visibility=View.GONE
+                         if(it?.type == "TV_SERIES")
+                         {headerSerial.visibility=View.VISIBLE
                          viewModel.getNumberEpisodsOfFirstSeason(idMovie)}
+                        else {headerSerial.visibility=View.GONE}
                     }
                 }
             }
@@ -254,7 +252,7 @@ class OneMovieFragment : Fragment() {
             truncated = "..."
         )
         val isSerial=if (type=="TV_SERIES"){"1 сезон"} else{""}
-        return "$year ,$isSerial , $someGenres"
+        return "$year, $isSerial, $someGenres"
     }
 
     private fun onMoviemanClick(idStaff: Int?) {
@@ -281,10 +279,6 @@ class OneMovieFragment : Fragment() {
     }
 
     companion object {
-        const val RV_1_NAME = "В фильме снимались"
-        const val RV_2_NAME = "Над фильмом работали"
-        const val RV_3_NAME = "Галерея"
-        const val RV_4_NAME = "Похожие фильмы"
 
         const val ID_STAFF="ID_STAFF"
         const val MOVIE_NAME="MOVIE_NAME"

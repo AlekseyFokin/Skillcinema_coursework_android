@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.movieman
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentMoviemanBinding
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
-import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
@@ -60,7 +58,7 @@ class MoviemanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.moviemanInfo.onEach {//
+        viewModel.moviemanInfo.onEach {//общая информция по кинематографисту
             moviemanName=it?.nameRu?:""
             binding.nameMovieman.text = it?.nameRu
             binding.profOfMovieman.text = it?.profession
@@ -110,7 +108,6 @@ class MoviemanFragment : Fragment() {
     }
 
     private fun onMovieClick(idMovie: Int?) {
-        Log.d("ButtonClick", "$idMovie")
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(HomeFragment.ID_MOVIE, idMovie)
@@ -135,8 +132,6 @@ class MoviemanFragment : Fragment() {
             R.id.action_moviemanFragment_to_tenBestMoviesFragment,
             bundle
         )}
-
-
 
     companion object {
         const val PHOTO_URL = "PHOTO_URL"

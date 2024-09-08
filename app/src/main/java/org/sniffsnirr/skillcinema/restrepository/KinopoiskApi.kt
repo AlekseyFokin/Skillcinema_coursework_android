@@ -106,10 +106,11 @@ interface KinopoiskApi {
 
 
     companion object {
-        private const val api_key ="f7f09f94-0bce-420d-8b60-bfea35d9fff6"
-            //"d0e3296d-48db-4922-be82-04f28e857cec"
+        private const val api_key ="697ee5de-bb24-4cb5-988d-2d8ead05f857"
             //"f7f09f94-0bce-420d-8b60-bfea35d9fff6"
-            // "697ee5de-bb24-4cb5-988d-2d8ead05f857"
+        //"d0e3296d-48db-4922-be82-04f28e857cec"
+        //"f7f09f94-0bce-420d-8b60-bfea35d9fff6"
+        // "697ee5de-bb24-4cb5-988d-2d8ead05f857"
         //"f1a491f0-8e90-44d1-898a-17656c4ea1de"
 
         val TOP_POPULAR_MOVIES = Pair("TOP_POPULAR_MOVIES", "Популярное")

@@ -45,7 +45,7 @@ class FilmographyAdapter(val onMovieClick: (Int) -> Unit): RecyclerView.Adapter<
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie?.kinopoiskId?:0)
+            onMovieClick(movie.kinopoiskId?:0)
         }
     }
     inner class MovieViewHolder(val binding: MovieItemBinding) :

@@ -2,48 +2,41 @@ package org.sniffsnirr.skillcinema.ui.serial
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.RelativeSizeSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentSerialSeasonBinding
 import org.sniffsnirr.skillcinema.entities.serialinfo.Episode
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
-import org.sniffsnirr.skillcinema.ui.movieman.filmography.FilmographyFragment.Companion.SET_OF_PROFESSION_KEY
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
+
+//Фрагмент эпизодов по сезонам для сериалов
+@AndroidEntryPoint
 class SerialSeasonFragment : Fragment() {
 
     private val viewModel: SerialSeasonViewModel by viewModels()
     var _binding: FragmentSerialSeasonBinding? = null
     val binding get() = _binding!!
     private var movieName = ""
-    private val  serialSeasonAdapter= SerialSeasonAdapter()
-    private var listOfEpisodes= mutableListOf<Episode>()
+    private val serialSeasonAdapter = SerialSeasonAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
         movieName = arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME).toString()
-
         viewModel.getAllSerialData(idMovie)
         (activity as MainActivity).showActionBar()
-
     }
 
     override fun onResume() {
@@ -65,7 +58,7 @@ class SerialSeasonFragment : Fragment() {
         binding.episodesRv.setHasFixedSize(true)
         binding.episodesRv.layoutManager =
             LinearLayoutManager(requireContext(), GridLayoutManager.VERTICAL, false)
-        binding.episodesRv.adapter =serialSeasonAdapter
+        binding.episodesRv.adapter = serialSeasonAdapter
 
         viewModel.serialInfo.onEach {
             if (it != null) {
@@ -81,7 +74,8 @@ class SerialSeasonFragment : Fragment() {
                     item.episodes.map { episode -> episodeList.add(episode) }
 
                     chip.setOnClickListener {
-                        binding.summaryAboutSeason.text="${item.number} сезон, ${item.episodes.size} серий"
+                        binding.summaryAboutSeason.text =
+                            "${item.number} сезон, ${item.episodes.size} серий"
                         serialSeasonAdapter.setData(episodeList)
                     }
                     binding.seasonsChipgroup.addView(chip)
@@ -90,8 +84,8 @@ class SerialSeasonFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-        override fun onStop() {
-            super.onStop()
-            (activity as MainActivity).setActionBarTitle("")
-        }
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).setActionBarTitle("")
     }
+}

@@ -14,7 +14,6 @@ class HomePageUsecase @Inject constructor(
     val getMoviePremiers: GetMoviePremiers,
     val getCollectionMovies: GetCollectionMovies,
     val getDynamicCompilation: GetDynamicCompilation
-
 ) {
 
     private suspend fun getCountryAndGenre(): Pair<List<Country>, List<Genre>> {// получение списка стран и жанров

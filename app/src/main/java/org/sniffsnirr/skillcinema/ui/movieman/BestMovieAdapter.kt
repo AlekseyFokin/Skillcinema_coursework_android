@@ -10,9 +10,11 @@ import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class BestMovieAdapter(var movieModel: List<MovieRVModel>,
-                       val onCollectionClick: () -> Unit,
-                        val onMovieClick: (Int?) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class BestMovieAdapter(
+    var movieModel: List<MovieRVModel>,
+    val onCollectionClick: () -> Unit,
+    val onMovieClick: (Int?) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ButtonViewHolder(val binding: ShowMeAllBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -78,11 +80,5 @@ class BestMovieAdapter(var movieModel: List<MovieRVModel>,
         } else {
             (holder as BestMovieAdapter.PosterViewHolder).bind(movieModel[position])
         }
-    }
-
-
-    companion object {
-        const val MOVIE = 0
-        const val BUTTON = 1
     }
 }

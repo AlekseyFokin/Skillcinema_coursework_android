@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilmographyViewModel @Inject constructor(val getMoviemanFilmography: GetMoviemanFilmography) : ViewModel() {
 
-    private val _moviemanName = MutableStateFlow<Pair<String,String>>(Pair("",""))
+    private val _moviemanName = MutableStateFlow(Pair("",""))
     var moviemanName = _moviemanName.asStateFlow()
 
     private val _moviesByProfessionKey = MutableStateFlow<Map<String,List<Film>>>(emptyMap())
