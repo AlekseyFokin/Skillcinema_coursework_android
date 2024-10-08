@@ -80,4 +80,8 @@ dependencies {
 
     implementation(libs.android.flexbox)
 implementation(libs.glide.slider)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.ksp)
 }

@@ -17,8 +17,8 @@ class GalleryAdapter(val widthDisplay: Int, val onPhotoClick: (String?) -> Unit)
         val image = getItem(position)
       if (position % 3 == 0) {// каждая третья картинка на всю ширину экрана
             holder.binding.galleryImage.layoutParams.width =
-                (widthDisplay - 56 * holder.binding.galleryImage.getContext().getResources()
-                    .getDisplayMetrics().density).toInt()
+                (widthDisplay - 56 * holder.binding.galleryImage.context.resources
+                    .displayMetrics.density).toInt()
         }
 
         with(holder.binding) {

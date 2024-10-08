@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.0"
+agp = "8.7.0"
 kotlin = "1.9.23"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -35,6 +35,8 @@ pagingLibVers="3.3.0"
 expandabletextviewVers="0.3.2"
 flexboxlayoutVers="3.0.0"
 sliderglideVers="1.5.2"
+
+roomVers="2.6.1"
 
 
 [libraries]
@@ -77,6 +79,11 @@ expandabletextview={group="com.github.yuzumone",name="ExpandableTextView", versi
 
 android-flexbox={group="com.google.android.flexbox",name="flexbox", version.ref="flexboxlayoutVers"}
 glide-slider={group="com.github.firdausmaulan", name="GlideSlider",version.ref="sliderglideVers"}
+
+androidx-room-runtime={group="androidx.room",name="room-runtime", version.ref="roomVers"}
+androidx-room-ktx={group="androidx.room",name="room-ktx", version.ref="roomVers"}
+androidx-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "roomVers" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
