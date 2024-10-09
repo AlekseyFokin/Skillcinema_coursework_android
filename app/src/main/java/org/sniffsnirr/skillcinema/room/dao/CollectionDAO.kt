@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
-import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
+
 
 @Dao
 interface CollectionDAO {
@@ -17,6 +17,12 @@ interface CollectionDAO {
     @Delete
     suspend fun delete(collection: CollectionDBO)
 
+    @Query ("Select * from collection")
+    suspend fun getAllCollections():List<CollectionDBO>
+
     @Query ("Select * from collection where embedded=0")
-    suspend fun getDeletableCollections()
+    suspend fun getDeletableCollections():List<CollectionDBO>
+
+    @Query ("Select * from collection where embedded=1")
+    suspend fun getEmbeddedCollections():List<CollectionDBO>
 }
