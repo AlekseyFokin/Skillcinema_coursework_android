@@ -22,25 +22,20 @@ object RoomInjectionModule {
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    // Populate the database with initial data
-                    // For example:
-
-                    val userDao = INSTANCE?.userDao()
-                    userDao?.insert(User("John Doe"))
-                    userDao?.insert(User("Jane Smith"))
-                }
-            })
-
-
-
-
-
-                                                ioThread {
-                                                getInstance(context).dataDao()
-                                                .insert(PREPOPULATE_DATA)
+                    db.run {
+                        // Notice non-ui thread is here
+                        beginTransaction()
+                        try {
+                            execSQL("insert into collection (name, embedded) values ('Любимые',1)")
+                            execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',1)")
+                            execSQL("insert into collection (name, embedded) values ('Просмотрено',1)")
+                            setTransactionSuccessful()
+                        } finally {
+                            endTransaction()
+                        }
                     }
                 }
-            }).build ()
+            }).build()
 
     @Provides
     @Singleton

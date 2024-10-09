@@ -18,10 +18,10 @@ interface MovieDAO {
     suspend fun delete(movie: MovieDBO)
 
     @Query("Select * from movie where id_kinopoisk=:kinopoiskId")
-    suspend fun getMoviesDboByKinopoiskId(kinopoiskId: Long): Flow<List<MovieDBO>>?
+    fun getMoviesDboByKinopoiskId(kinopoiskId: Long): Flow<List<MovieDBO>>?
 
     @Query("Select * from movie where id_set=:collectionId")
-    suspend fun getMoviesDboByCollectionId(collectionId: Long): Flow<List<MovieDBO>>?
+    fun getMoviesDboByCollectionId(collectionId: Long): Flow<List<MovieDBO>>?
 
     @Query("Select * from movie where (id_kinopoisk=:kinopoiskId) and (id_set=:collectionId)")
     suspend fun getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId: Long,collectionId:Long): MovieDBO?

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "movie",
-    indices = [Index("id_kinopoisk")],
+    indices = [Index("id_kinopoisk"), Index("id_set")],
     foreignKeys = [
         ForeignKey(
             onDelete = CASCADE,
