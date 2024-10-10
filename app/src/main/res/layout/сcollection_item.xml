@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:background="@drawable/rect_corner_stroke"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.2" />
+
+
+    <ImageView
+        android:id="@+id/collection_label"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#00FFFFFF"
+        android:contentDescription="collection_label"
+        android:src="@drawable/ic_heart"
+        app:tint="@color/color_of_main_label_in_onboarding" />
+
+    <TextView
+        android:id="@+id/collection_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Любимые"
+        android:textColor="@color/color_of_main_label_in_onboarding"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/movie_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rating_label"
+        android:fontFamily="@font/hkgrotesk_medium"
+        android:padding="3dp"
+        android:text="  7  "
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
