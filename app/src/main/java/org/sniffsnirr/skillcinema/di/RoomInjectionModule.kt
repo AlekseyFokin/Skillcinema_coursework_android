@@ -29,6 +29,7 @@ object RoomInjectionModule {
                             execSQL("insert into collection (name, embedded) values ('Любимые',1)")
                             execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',1)")
                             execSQL("insert into collection (name, embedded) values ('Просмотрено',1)")
+                            execSQL("insert into collection (name, embedded) values ('Вам было интересно',1)")
                             setTransactionSuccessful()
                         } finally {
                             endTransaction()
