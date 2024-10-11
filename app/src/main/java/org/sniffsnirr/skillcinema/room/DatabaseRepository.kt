@@ -10,8 +10,7 @@ import javax.inject.Inject
 class DatabaseRepository @Inject constructor(
     private val collectionDAO: CollectionDAO,
     private val movieDao: MovieDAO
-)
-{
+) {
     suspend fun addNewCollection(collection: CollectionDBO) = collectionDAO.insert(collection)
     suspend fun deleteCollection(collection: CollectionDBO) = collectionDAO.delete(collection)
     suspend fun getAllCollections() = collectionDAO.getAllCollections()
@@ -23,11 +22,14 @@ class DatabaseRepository @Inject constructor(
     suspend fun getMovieDboByKinopoiskId(kinopoiskId: Long) =
         movieDao.getMoviesDboByKinopoiskId(kinopoiskId)
 
+    suspend fun getMoviesDboByCollectionIdLimited(collectionId: Long) =
+        movieDao.getMoviesDboByCollectionIdLimited(collectionId)
+
     suspend fun getMovieDboByCollectionId(collectionId: Long) =
         movieDao.getMoviesDboByCollectionId(collectionId)
 
     suspend fun getMovieDboByKinopoiskIdAndCollectionId(
         kinopoiskId: Long,
-        collectionId:Long
+        collectionId: Long
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
 }

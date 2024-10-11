@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.sniffsnirr.skillcinema.room.AppDatabase
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import javax.inject.Singleton
 
 @Module
@@ -26,10 +27,10 @@ object RoomInjectionModule {
                         // Notice non-ui thread is here
                         beginTransaction()
                         try {
-                            execSQL("insert into collection (name, embedded) values ('Любимые',1)")
-                            execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',1)")
-                            execSQL("insert into collection (name, embedded) values ('Просмотрено',1)")
-                            execSQL("insert into collection (name, embedded) values ('Вам было интересно',1)")
+                            execSQL("insert into collection (name, embedded) values ('Любимые',${ProfileFragment.ID_FAVORITE_COLLECTION})")
+                            execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',${ProfileFragment.ID_SCHEDULED_COLLECTION})")
+                            execSQL("insert into collection (name, embedded) values ('Просмотрено',${ProfileFragment.ID_VIEWED_COLLECTION})")
+                            execSQL("insert into collection (name, embedded) values ('Вам было интересно',${ProfileFragment.ID_INTERESTED_COLLECTION})")
                             setTransactionSuccessful()
                         } finally {
                             endTransaction()

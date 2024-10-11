@@ -33,4 +33,12 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object{
+        const val LIMIT_FOR_RV=8
+        const val ID_FAVORITE_COLLECTION=1L
+        const val ID_SCHEDULED_COLLECTION=2L
+        const val ID_VIEWED_COLLECTION=3L
+        const val ID_INTERESTED_COLLECTION=4L
+    }
 }
