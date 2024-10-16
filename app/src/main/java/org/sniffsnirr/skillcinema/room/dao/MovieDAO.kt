@@ -24,13 +24,22 @@ interface MovieDAO {
     @Query("Select * from movie where id_set=:collectionId")
     fun getMoviesDboByCollectionId(collectionId: Long): List<MovieDBO>?
 
-    @Query("Select * from movie where id_set=:collectionId limit ${ProfileFragment.LIMIT_FOR_RV}")
+    @Query("Select count(id) from movie where id_set=:collectionId")
+    fun getCountMoviesDboByCollectionId(collectionId: Long): Int
+
+    @Query("Select * from movie where id_set=:collectionId limit ${ProfileFragment.LIMIT_FOR_RV}")// показ на profileFragment
     suspend fun getMoviesDboByCollectionIdLimited(collectionId: Long): List<MovieDBO>?
 
     @Query("Select * from movie where (id_kinopoisk=:kinopoiskId) and (id_set=:collectionId)")
     suspend fun getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId: Long,collectionId:Long): MovieDBO?
 
+    @Query("Select count(id) from movie where (id_kinopoisk=:kinopoiskId) and (id_set=:collectionId)")// проверка существования фильма в коллекции
+    suspend fun getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId: Long,collectionId:Long): Int
+
     @Query("Select count(id) from movie where (id_set=:collectionId)")
     suspend fun getCountMovieDboByCollectionId(collectionId:Long): Long
+
+    @Query("Insert into movie (id_set,id_kinopoisk) values (:collectionId,:kinopoiskId)")
+    suspend fun addNewMovieToCollection(collectionId:Long, kinopoiskId: Long)
 
 }

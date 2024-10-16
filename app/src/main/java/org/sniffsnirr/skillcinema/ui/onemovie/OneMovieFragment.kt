@@ -49,6 +49,8 @@ class OneMovieFragment : Fragment() {
     var movieName=""
     private lateinit var relatedMovies:List<MovieRVModel>
 
+    private var kinopoiskId=0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
@@ -71,6 +73,9 @@ class OneMovieFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieInfo.collect {
+                    if (it != null) {
+                        kinopoiskId=it.kinopoiskId
+                    }
                     with(binding)
                     {
                         movieName=it?.nameRu?:""
@@ -188,6 +193,14 @@ class OneMovieFragment : Fragment() {
                 )
             }
         }
+
+        binding.addToFavorites.setOnClickListener{
+                if (viewModel.addMovieToFavorite(kinopoiskId))
+                {
+                    val color = resources.getColor(R.color.color_of_progress)
+                    binding.addToFavorites.setColorFilter(color)
+                }
+         }
     }
 
     private fun  getAllActorsOrMoviemans(typrOfMoviemans:Boolean){

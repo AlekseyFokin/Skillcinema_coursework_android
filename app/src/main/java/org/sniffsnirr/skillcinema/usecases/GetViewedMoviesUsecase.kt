@@ -3,7 +3,6 @@ package org.sniffsnirr.skillcinema.usecases
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.room.DatabaseRepository
-import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
 import javax.inject.Inject
@@ -15,10 +14,10 @@ class GetViewedMoviesUsecase @Inject constructor(
     val reduction: Reduction
 ) {
 
-    suspend fun getViewedMoviesDBOFromDb(collectionId: Long) =
+    private suspend fun getViewedMoviesDBOFromDb(collectionId: Long) = //получение списока kinopoisk_id из БД
         databaseRepository.getMoviesDboByCollectionIdLimited(collectionId)
 
-    private suspend fun getMovieRVModel(idMovie: Int): MovieRVModel {// получение данных по конкретному фильму и конвертация  к MovieRVModel
+    private suspend fun loadMovieRVModelFromAPI(idMovie: Int): MovieRVModel {// получение данных по конкретному фильму и конвертация  к MovieRVModel
         val onlyOneMovie = kinopoiskRepository.getOneMovie(idMovie)
         return MovieRVModel(
             onlyOneMovie.kinopoiskId,
@@ -30,12 +29,18 @@ class GetViewedMoviesUsecase @Inject constructor(
         )
     }
 
-    suspend fun getViewedMoviesFromAPI(collectionId: Long): List<MovieRVModel> {
+    suspend fun getViewedMovies(collectionId: Long): List<MovieRVModel> { // получение набора данных для rv
         val viewedMoviesDBO = getViewedMoviesDBOFromDb(collectionId)
-        val relatedMoviesRVModel = mutableListOf<MovieRVModel>()
+        val viewedMoviesRVModel = mutableListOf<MovieRVModel>()
         if (!viewedMoviesDBO.isNullOrEmpty()) {
-            viewedMoviesDBO.map { movie -> relatedMoviesRVModel.add(getMovieRVModel(movie.id_kinopoisk.toInt())) }
+            viewedMoviesDBO.map { movie -> viewedMoviesRVModel.add(loadMovieRVModelFromAPI(movie.id_kinopoisk.toInt())) }
+            viewedMoviesRVModel.add(  //добавляю кнопку
+                MovieRVModel(
+                    isButton = true,
+                    categoryDescription = Triple("VIEWED_MOVIES", null, null)
+                )
+            )
         }
-        return relatedMoviesRVModel
+        return viewedMoviesRVModel
     }
 }

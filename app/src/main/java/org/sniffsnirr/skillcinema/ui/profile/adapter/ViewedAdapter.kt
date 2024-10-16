@@ -7,18 +7,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.ButtonViewHolder
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.PosterViewHolder
+import org.sniffsnirr.skillcinema.entities.staff.Staff
+//import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class ViewedAdapter( var movieModel: List<MovieRVModel>,
-                     val onCollectionClick: (String) -> Unit,
-                     val onMovieClick: (Int?) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ViewedAdapter(
+    //                 val onCollectionClick: (String) -> Unit,
+     //                val onMovieClick: (Int?) -> Unit
+    )
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var movies: List<MovieRVModel>? = emptyList()
+    fun setData(movies: List<MovieRVModel>?) {
+        this.movies = movies
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == MovieAdapter.BUTTON) {
+        if (viewType == BUTTON) {
             val binding =
                 ShowMeAllBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ButtonViewHolder(binding)
@@ -29,14 +35,16 @@ class ViewedAdapter( var movieModel: List<MovieRVModel>,
         }
     }
 
-    override fun getItemCount()=movieModel.size
+    override fun getItemCount()=movies?.size?:0
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == MovieAdapter.BUTTON) {
-            (holder as org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.ButtonViewHolder).bind(movieModel[position])
+        if (!movies.isNullOrEmpty()){
+        if (getItemViewType(position) == BUTTON) {
+            (holder as ButtonViewHolder).bind(movies!![position])
         } else {
-            (holder as org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.PosterViewHolder).bind(movieModel[position])
+            (holder as PosterViewHolder).bind(movies!![position])
         }
+    }
     }
 
 
@@ -44,7 +52,7 @@ class ViewedAdapter( var movieModel: List<MovieRVModel>,
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieModel: MovieRVModel) {
             binding.showMeAllBtn.setOnClickListener {
-                onCollectionClick(movieModel.categoryDescription?.first ?: "")
+//                onCollectionClick(movieModel.categoryDescription?.first ?: "")
             }
         }
     }
@@ -71,7 +79,7 @@ class ViewedAdapter( var movieModel: List<MovieRVModel>,
                     viewed.visibility = View.INVISIBLE
                 }
             }
-            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }
+//            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }
         }
     }
     companion object {

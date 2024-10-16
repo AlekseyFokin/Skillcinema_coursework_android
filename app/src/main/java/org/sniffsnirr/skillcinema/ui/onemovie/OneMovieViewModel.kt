@@ -11,12 +11,15 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.images.Image
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.staff.Staff
+import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
 import org.sniffsnirr.skillcinema.usecases.GetImages
 import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
 import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
 import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
+import org.sniffsnirr.skillcinema.usecases.InsertNewMovieUsecase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +28,8 @@ class OneMovieViewModel @Inject constructor(
     val getActorsAndMoviemen: GetActorsAndMoviemen,
     val getImages: GetImages,
     val getRelatedMoviesInfo: GetRelatedMoviesInfo,
-    val getSerialInfo: GetSerialInfo
+    val getSerialInfo: GetSerialInfo,
+    val insertNewMovieUsecase: InsertNewMovieUsecase
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -105,6 +109,20 @@ class OneMovieViewModel @Inject constructor(
                 onSuccess = { _numberseries.value = it },
                 onFailure = { Log.d("numberseries", it.message ?: "") }
             )
+        }
+    }
+
+    fun addMovieToFavorite(kinopoiskId: Int): Boolean {
+        if (kinopoiskId != 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                insertNewMovieUsecase.addNewMovie(
+                    ProfileFragment.ID_FAVORITE_COLLECTION,
+                    kinopoiskId.toLong()
+                )
+            }
+            return true
+        } else {
+            return false
         }
     }
 }

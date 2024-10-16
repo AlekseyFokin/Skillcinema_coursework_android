@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -53,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         navController!!.setGraph(R.navigation.mobile_navigation)
+
+        navView.setupWithNavController(navController!!)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(

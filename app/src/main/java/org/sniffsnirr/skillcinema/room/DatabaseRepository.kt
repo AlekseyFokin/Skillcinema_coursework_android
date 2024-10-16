@@ -25,6 +25,9 @@ class DatabaseRepository @Inject constructor(
     suspend fun getMoviesDboByCollectionIdLimited(collectionId: Long) =
         movieDao.getMoviesDboByCollectionIdLimited(collectionId)
 
+    suspend fun getCountMovieDboByCollectionId(collectionId: Long) =
+        movieDao.getCountMoviesDboByCollectionId(collectionId)
+
     suspend fun getMovieDboByCollectionId(collectionId: Long) =
         movieDao.getMoviesDboByCollectionId(collectionId)
 
@@ -32,4 +35,6 @@ class DatabaseRepository @Inject constructor(
         kinopoiskId: Long,
         collectionId: Long
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
+
+    suspend fun insertNewMovie(collectionId: Long,kinopoiskId: Long)=movieDao.addNewMovieToCollection(collectionId,kinopoiskId)
 }
