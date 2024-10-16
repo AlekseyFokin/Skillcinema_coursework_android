@@ -15,6 +15,7 @@ import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
+import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollection
 import org.sniffsnirr.skillcinema.usecases.GetImages
 import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
 import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
@@ -29,7 +30,8 @@ class OneMovieViewModel @Inject constructor(
     val getImages: GetImages,
     val getRelatedMoviesInfo: GetRelatedMoviesInfo,
     val getSerialInfo: GetSerialInfo,
-    val insertNewMovieUsecase: InsertNewMovieUsecase
+    val insertNewMovieUsecase: InsertNewMovieUsecase,
+    val getCountMovieInCollection: GetCountMovieInCollection
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -50,6 +52,9 @@ class OneMovieViewModel @Inject constructor(
 
     private val _numberseries = MutableStateFlow(0)
     val numberseries = _numberseries.asStateFlow()
+
+    private val _isFavoriteMovie = MutableStateFlow<Boolean>(false)
+    val isFavoriteMovie = _isFavoriteMovie.asStateFlow()
 
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
@@ -112,17 +117,25 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun addMovieToFavorite(kinopoiskId: Int): Boolean {
+    fun addOrDeleteMovieToFavorite(kinopoiskId: Int): Boolean {
+        var isSaved=false
         if (kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                insertNewMovieUsecase.addNewMovie(
-                    ProfileFragment.ID_FAVORITE_COLLECTION,
-                    kinopoiskId.toLong()
-                )
-            }
-            return true
-        } else {
-            return false
+                if (!getCountMovieInCollection.isAlreadyExist(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_FAVORITE_COLLECTION,
+                    )
+                ) {
+                    insertNewMovieUsecase.addNewMovie(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_FAVORITE_COLLECTION,
+                    )
+                    isSaved=true
+                }
+              }
+            return isSaved
+           } else {
+         return false
         }
     }
 }

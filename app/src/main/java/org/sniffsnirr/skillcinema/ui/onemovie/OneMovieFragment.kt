@@ -195,7 +195,7 @@ class OneMovieFragment : Fragment() {
         }
 
         binding.addToFavorites.setOnClickListener{
-                if (viewModel.addMovieToFavorite(kinopoiskId))
+                if (viewModel.addOrDeleteMovieToFavorite(kinopoiskId))
                 {
                     val color = resources.getColor(R.color.color_of_progress)
                     binding.addToFavorites.setColorFilter(color)

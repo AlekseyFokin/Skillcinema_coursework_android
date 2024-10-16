@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
@@ -40,6 +41,12 @@ interface MovieDAO {
     suspend fun getCountMovieDboByCollectionId(collectionId:Long): Long
 
     @Query("Insert into movie (id_set,id_kinopoisk) values (:collectionId,:kinopoiskId)")
-    suspend fun addNewMovieToCollection(collectionId:Long, kinopoiskId: Long)
+    suspend fun addNewMovieToCollection( kinopoiskId: Long,collectionId:Long)
+
+    @Transaction
+    suspend fun addOnlyNewMovieToCollection(kinopoiskId: Long,collectionId:Long){
+        if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)<1)
+            addNewMovieToCollection(kinopoiskId,collectionId)
+    }
 
 }

@@ -1,6 +1,7 @@
 package org.sniffsnirr.skillcinema.room
 
 
+import android.util.Log
 import org.sniffsnirr.skillcinema.room.dao.CollectionDAO
 import org.sniffsnirr.skillcinema.room.dao.MovieDAO
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
@@ -36,5 +37,12 @@ class DatabaseRepository @Inject constructor(
         collectionId: Long
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
 
-    suspend fun insertNewMovie(collectionId: Long,kinopoiskId: Long)=movieDao.addNewMovieToCollection(collectionId,kinopoiskId)
+    suspend fun insertNewMovie(kinopoiskId: Long,collectionId: Long) {
+        movieDao.addOnlyNewMovieToCollection(kinopoiskId,collectionId)
+        Log.d("Insert","repository-insertNewMovie")
+    }
+
+    suspend fun getCountMovieInCollection(kinopoiskId: Long,collectionId: Long):Int{
+        return movieDao.getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+    }
 }
