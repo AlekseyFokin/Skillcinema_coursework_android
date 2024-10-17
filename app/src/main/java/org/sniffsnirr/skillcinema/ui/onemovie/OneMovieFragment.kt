@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -37,19 +38,17 @@ class OneMovieFragment : Fragment() {
 
     private val viewModel: OneMovieViewModel by viewModels()
 
-    private val actorsAdapter = MoviemenAdapter{idStaff -> onMoviemanClick(idStaff)}
+    private val actorsAdapter = MoviemenAdapter { idStaff -> onMoviemanClick(idStaff) }
 
-    private val moviemenAdapter = MoviemenAdapter{idStaff -> onMoviemanClick(idStaff)}
+    private val moviemenAdapter = MoviemenAdapter { idStaff -> onMoviemanClick(idStaff) }
 
     private val galleryAdapter = GalleryAdapter()
 
-    private val relatedMoviesAdapter = RelatedMoviesAdapter{idMovie->onMovieClick(idMovie)}
+    private val relatedMoviesAdapter = RelatedMoviesAdapter { idMovie -> onMovieClick(idMovie) }
 
-    var idMovie=0
-    var movieName=""
-    private lateinit var relatedMovies:List<MovieRVModel>
-
-    private var kinopoiskId=0
+    var idMovie = 0
+    var movieName = ""
+    private lateinit var relatedMovies: List<MovieRVModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +72,9 @@ class OneMovieFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieInfo.collect {
-                    if (it != null) {
-                        kinopoiskId=it.kinopoiskId
-                    }
                     with(binding)
                     {
-                        movieName=it?.nameRu?:""
+                        movieName = it?.nameRu ?: ""
 
                         countryDurationBond.text = concatCountryDurationBond(
                             it?.countries,
@@ -86,10 +82,10 @@ class OneMovieFragment : Fragment() {
                             it?.ratingAgeLimits
                         )
                         desc.setText(it?.description ?: "")
-                        desc.isExpanded=false
+                        desc.isExpanded = false
                         rateName.text = concatRateNameRu(it?.ratingKinopoisk, it?.nameRu)
                         shortDesc.text = it?.shortDescription
-                        yearGenre.text = concatYearGenre(it?.year, it?.genres,it?.type)
+                        yearGenre.text = concatYearGenre(it?.year, it?.genres, it?.type)
                         Glide
                             .with(mainPoster.context)
                             .load(it?.posterUrl)
@@ -100,14 +96,62 @@ class OneMovieFragment : Fragment() {
                             .load(it?.logoUrl)
                             .into(logo)
 
-                         if(it?.type == "TV_SERIES")
-                         {headerSerial.visibility=View.VISIBLE
-                         viewModel.getNumberEpisodsOfFirstSeason(idMovie)}
-                        else {headerSerial.visibility=View.GONE}
+                        if (it?.type == "TV_SERIES") {
+                            headerSerial.visibility = View.VISIBLE
+                            viewModel.getNumberEpisodsOfFirstSeason(idMovie)
+                        } else {
+                            headerSerial.visibility = View.GONE
+                        }
                     }
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {// сохранено ли кино в коллекцию любимых фильмов - соответсвующая окраска
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isMovieInFavorite.collect {
+                    if (it) {
+                        binding.addToFavorites.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.color_of_progress
+                            )
+                        )
+                    }else{
+                        binding.addToFavorites.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.color_of_miss_button
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {// сохранено ли кино в коллекцию фильмов планируемых к просмотру - соответсвующая окраска
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isMovieInWantToSee.collect {
+                    if (it) {
+                        binding.wantToSee
+                            .setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.color_of_progress
+                            )
+                        )
+                    }else{
+                        binding.wantToSee.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.color_of_miss_button
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
         binding.actorsRv.setHasFixedSize(true)
         binding.actorsRv.layoutManager =
             GridLayoutManager(requireContext(), 4, GridLayoutManager.HORIZONTAL, false)
@@ -142,7 +186,7 @@ class OneMovieFragment : Fragment() {
         viewModel.relatedMovies.onEach {// загрузка похожих фильмов
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
-            relatedMovies=it
+            relatedMovies = it
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewModel.numberseries.onEach {// для сериала коичество серий первого эпизода
@@ -173,9 +217,9 @@ class OneMovieFragment : Fragment() {
             val bundle = Bundle()
             if (movieName != null) {
                 bundle.putCharSequence(MOVIE_NAME, movieName)
-                val arrayListOfRelatedMovies=ArrayList<MovieRVModel>()
-                relatedMovies.map { movie->arrayListOfRelatedMovies.add(movie) }
-                bundle.putParcelableArrayList(RELATED_MOVIES_LIST,arrayListOfRelatedMovies)
+                val arrayListOfRelatedMovies = ArrayList<MovieRVModel>()
+                relatedMovies.map { movie -> arrayListOfRelatedMovies.add(movie) }
+                bundle.putParcelableArrayList(RELATED_MOVIES_LIST, arrayListOfRelatedMovies)
                 findNavController().navigate(
                     R.id.action_oneMovieFragment_to_relatedMoviesFragment,
                     bundle
@@ -186,7 +230,7 @@ class OneMovieFragment : Fragment() {
             val bundle = Bundle()
             if (idMovie != null) {
                 bundle.putInt(ID_MOVIE, idMovie)
-                bundle.putCharSequence(MOVIE_NAME,movieName)
+                bundle.putCharSequence(MOVIE_NAME, movieName)
                 findNavController().navigate(
                     R.id.action_oneMovieFragment_to_serialSeasonFragment,
                     bundle
@@ -194,21 +238,21 @@ class OneMovieFragment : Fragment() {
             }
         }
 
-        binding.addToFavorites.setOnClickListener{
-                if (viewModel.addOrDeleteMovieToFavorite(kinopoiskId))
-                {
-                    val color = resources.getColor(R.color.color_of_progress)
-                    binding.addToFavorites.setColorFilter(color)
-                }
-         }
+        binding.addToFavorites.setOnClickListener { // добавить или исключить кино из коллекции любимых фильмов
+            viewModel.addOrDeleteMovieToFavorite(idMovie)
+        }
+
+        binding.wantToSee.setOnClickListener { // добавить или исключить кино из коллекции фильмов к просмотру
+            viewModel.addOrDeleteMovieToWantToSee(idMovie)
+        }
     }
 
-    private fun  getAllActorsOrMoviemans(typrOfMoviemans:Boolean){
+    private fun getAllActorsOrMoviemans(typrOfMoviemans: Boolean) {
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
-            bundle.putCharSequence(MOVIE_NAME,movieName)
-            bundle.putBoolean(ACTORS_OR_MOVIEMANS,typrOfMoviemans)
+            bundle.putCharSequence(MOVIE_NAME, movieName)
+            bundle.putBoolean(ACTORS_OR_MOVIEMANS, typrOfMoviemans)
             findNavController().navigate(
                 R.id.action_oneMovieFragment_to_allMovieMansFragment,
                 bundle
@@ -257,14 +301,18 @@ class OneMovieFragment : Fragment() {
     private fun concatYearGenre(
         year: Int?,
         genres: List<Genre>?,
-        type:String?
+        type: String?
     ): String {// конкатинация года выпуска и жанров
         val someGenres = genres?.joinToString(
             separator = ",",
             limit = 3,
             truncated = "..."
         )
-        val isSerial=if (type=="TV_SERIES"){"1 сезон"} else{""}
+        val isSerial = if (type == "TV_SERIES") {
+            "1 сезон"
+        } else {
+            ""
+        }
         return "$year, $isSerial, $someGenres"
     }
 
@@ -277,10 +325,9 @@ class OneMovieFragment : Fragment() {
                 bundle
             )
         }
-      }
+    }
 
-    private fun onMovieClick(idMovie:Int?)
-    {
+    private fun onMovieClick(idMovie: Int?) {
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
@@ -293,10 +340,11 @@ class OneMovieFragment : Fragment() {
 
     companion object {
 
-        const val ID_STAFF="ID_STAFF"
-        const val MOVIE_NAME="MOVIE_NAME"
-        const val ACTORS_OR_MOVIEMANS="ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
-        const val RELATED_MOVIES_LIST="RELATED_MOVIES_LIST"
+        const val ID_STAFF = "ID_STAFF"
+        const val MOVIE_NAME = "MOVIE_NAME"
+        const val ACTORS_OR_MOVIEMANS =
+            "ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
+        const val RELATED_MOVIES_LIST = "RELATED_MOVIES_LIST"
 
-            }
+    }
 }

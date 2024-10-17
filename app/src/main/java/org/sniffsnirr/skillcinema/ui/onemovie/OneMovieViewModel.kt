@@ -11,16 +11,16 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.images.Image
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.staff.Staff
-import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
+import org.sniffsnirr.skillcinema.usecases.DeleteMovieFromCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
 import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollection
 import org.sniffsnirr.skillcinema.usecases.GetImages
 import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
 import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
 import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
-import org.sniffsnirr.skillcinema.usecases.InsertNewMovieUsecase
+import org.sniffsnirr.skillcinema.usecases.InsertNewMovieToCollectionUsecase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +30,9 @@ class OneMovieViewModel @Inject constructor(
     val getImages: GetImages,
     val getRelatedMoviesInfo: GetRelatedMoviesInfo,
     val getSerialInfo: GetSerialInfo,
-    val insertNewMovieUsecase: InsertNewMovieUsecase,
-    val getCountMovieInCollection: GetCountMovieInCollection
+    val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
+    val getCountMovieInCollection: GetCountMovieInCollection,
+    val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -53,8 +54,11 @@ class OneMovieViewModel @Inject constructor(
     private val _numberseries = MutableStateFlow(0)
     val numberseries = _numberseries.asStateFlow()
 
-    private val _isFavoriteMovie = MutableStateFlow<Boolean>(false)
-    val isFavoriteMovie = _isFavoriteMovie.asStateFlow()
+    private val _isMovieInFavorite = MutableStateFlow<Boolean>(false)
+    val isMovieInFavorite = _isMovieInFavorite.asStateFlow()
+
+    private val _isMovieInWantToSee = MutableStateFlow<Boolean>(false)
+    val isMovieInWantToSee = _isMovieInWantToSee.asStateFlow()
 
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
@@ -104,7 +108,18 @@ class OneMovieViewModel @Inject constructor(
                 onFailure = { Log.d("relatedMovies", it.message ?: "") }
             )
         }
+        decideMovieInFavorite(idMovie)
     }
+
+    private fun decideMovieInFavorite(idMovie: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isMovieInFavorite.value = getCountMovieInCollection.isAlreadyExist(
+                idMovie.toLong(),
+                ProfileFragment.ID_FAVORITE_COLLECTION
+            )
+        }
+    }
+
 
     fun getNumberEpisodsOfFirstSeason(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -117,25 +132,53 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun addOrDeleteMovieToFavorite(kinopoiskId: Int): Boolean {
-        var isSaved=false
+    fun addOrDeleteMovieToFavorite(kinopoiskId: Int) {
         if (kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (!getCountMovieInCollection.isAlreadyExist(
+                if (getCountMovieInCollection.isAlreadyExist(// если уже есть - исключить из коллекции Любимых фильмов
                         kinopoiskId.toLong(),
                         ProfileFragment.ID_FAVORITE_COLLECTION,
                     )
                 ) {
-                    insertNewMovieUsecase.addNewMovie(
+                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
                         kinopoiskId.toLong(),
                         ProfileFragment.ID_FAVORITE_COLLECTION,
                     )
-                    isSaved=true
+                    _isMovieInFavorite.value = false
+                } else { // иначе добавить
+                    insertNewMovieToCollectionUsecase.addNewMovie(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_FAVORITE_COLLECTION,
+                    )
+                    _isMovieInFavorite.value = true
                 }
-              }
-            return isSaved
-           } else {
-         return false
+            }
+
+        }
+    }
+
+    fun addOrDeleteMovieToWantToSee(kinopoiskId: Int) {
+        if (kinopoiskId != 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                if (getCountMovieInCollection.isAlreadyExist(// если уже есть - исключить из коллекции Любимых фильмов
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
+                    )
+                ) {
+                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
+                    )
+                    _isMovieInWantToSee.value = false
+                } else { // иначе добавить
+                    insertNewMovieToCollectionUsecase.addNewMovie(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
+                    )
+                    _isMovieInWantToSee.value = true
+                }
+            }
+
         }
     }
 }

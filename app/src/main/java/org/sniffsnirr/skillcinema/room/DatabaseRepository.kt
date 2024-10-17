@@ -45,4 +45,8 @@ class DatabaseRepository @Inject constructor(
     suspend fun getCountMovieInCollection(kinopoiskId: Long,collectionId: Long):Int{
         return movieDao.getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
     }
+
+    suspend fun deleteMovieFromCollection(kinopoiskId: Long,collectionId: Long){
+        movieDao.deleteMovieByByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+    }
 }

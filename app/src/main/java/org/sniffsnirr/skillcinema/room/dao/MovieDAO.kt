@@ -32,21 +32,30 @@ interface MovieDAO {
     suspend fun getMoviesDboByCollectionIdLimited(collectionId: Long): List<MovieDBO>?
 
     @Query("Select * from movie where (id_kinopoisk=:kinopoiskId) and (id_set=:collectionId)")
-    suspend fun getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId: Long,collectionId:Long): MovieDBO?
+    suspend fun getMovieDboByKinopoiskIdAndCollectionId(
+        kinopoiskId: Long,
+        collectionId: Long
+    ): MovieDBO?
 
     @Query("Select count(id) from movie where (id_kinopoisk=:kinopoiskId) and (id_set=:collectionId)")// проверка существования фильма в коллекции
-    suspend fun getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId: Long,collectionId:Long): Int
+    suspend fun getCountMovieDboByKinopoiskIdAndCollectionId(
+        kinopoiskId: Long,
+        collectionId: Long
+    ): Int
 
     @Query("Select count(id) from movie where (id_set=:collectionId)")
-    suspend fun getCountMovieDboByCollectionId(collectionId:Long): Long
+    suspend fun getCountMovieDboByCollectionId(collectionId: Long): Long
 
     @Query("Insert into movie (id_set,id_kinopoisk) values (:collectionId,:kinopoiskId)")
-    suspend fun addNewMovieToCollection( kinopoiskId: Long,collectionId:Long)
+    suspend fun addNewMovieToCollection(kinopoiskId: Long, collectionId: Long)
 
     @Transaction
-    suspend fun addOnlyNewMovieToCollection(kinopoiskId: Long,collectionId:Long){
-        if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)<1)
-            addNewMovieToCollection(kinopoiskId,collectionId)
+    suspend fun addOnlyNewMovieToCollection(kinopoiskId: Long, collectionId: Long) {
+        if (getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId) < 1)
+            addNewMovieToCollection(kinopoiskId, collectionId)
     }
+
+    @Query("Delete from movie where ((id_kinopoisk=:kinopoiskId) and (id_set=:collectionId))")
+    suspend fun deleteMovieByByKinopoiskIdAndCollectionId(kinopoiskId: Long, collectionId: Long)
 
 }
