@@ -1,5 +1,8 @@
 package org.sniffsnirr.skillcinema.ui.collections.paging.compilations
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,10 @@ import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import org.sniffsnirr.skillcinema.R
+import java.security.AccessController.getContext
 
 // Адаптер с пагинацией для компиляций
 class PagingCompilationAdapter(
@@ -26,10 +33,30 @@ class PagingCompilationAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = getItem(position)
         with(holder.binding) {
-            Glide
-                .with(poster.context)
-                .load(movie?.imageUrl)
-                .into(poster)
+
+            if (!movie!!.viewed){
+                Glide
+                    .with(poster.context)
+                    .load(movie?.imageUrl)
+                    .into(poster)
+                viewed.visibility = View.INVISIBLE
+            }
+            else{
+                Glide.with(poster.context)
+                    .asBitmap()
+                    .load(movie?.imageUrl)
+                    .into(object : CustomTarget<Bitmap>(){
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            poster.background= BitmapDrawable(poster.context.resources,resource)
+                            //setImageBitmap(resource)
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+                    })
+                poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                viewed.visibility = View.VISIBLE
+            }
+
             movieName.text = movie?.movieName
             genre.text = movie?.movieGenre
             if (movie?.rate?.trim() == "0" || movie?.rate?.trim() == "0.0") {
@@ -37,11 +64,7 @@ class PagingCompilationAdapter(
             } else {
                 raiting.text = movie?.rate
             }
-            if (movie?.viewed == true) {
-                viewed.visibility = View.VISIBLE
-            } else {
-                viewed.visibility = View.INVISIBLE
-            }
+
         }
         holder.binding.root.setOnClickListener {
             movie?.let {

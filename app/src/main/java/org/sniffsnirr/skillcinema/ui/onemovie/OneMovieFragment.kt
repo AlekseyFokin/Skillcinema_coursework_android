@@ -152,6 +152,31 @@ class OneMovieFragment : Fragment() {
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {// сохранено ли кино в коллекцию просмотренных фильмов  - соответсвующая окраска
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isMovieInViewed.collect {
+                    if (it) {
+                        binding.viewed
+                            .setColorFilter(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.color_of_progress
+                                )
+                            )
+                        binding.viewed.setImageResource(R.drawable.ic_viewed)
+                    }else{
+                        binding.viewed.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.color_of_miss_button
+                            )
+                        )
+                        binding.viewed.setImageResource(R.drawable.ic_dont_viewed)
+                    }
+                }
+            }
+        }
+
         binding.actorsRv.setHasFixedSize(true)
         binding.actorsRv.layoutManager =
             GridLayoutManager(requireContext(), 4, GridLayoutManager.HORIZONTAL, false)
@@ -244,6 +269,10 @@ class OneMovieFragment : Fragment() {
 
         binding.wantToSee.setOnClickListener { // добавить или исключить кино из коллекции фильмов к просмотру
             viewModel.addOrDeleteMovieToWantToSee(idMovie)
+        }
+
+        binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
+            viewModel.addOrDeleteMovieToViewed(idMovie)
         }
     }
 

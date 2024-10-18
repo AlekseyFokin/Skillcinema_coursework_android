@@ -73,11 +73,11 @@ class ViewedAdapter(
                 } else {
                     raiting.text = moviePoster.rate
                 }
-                if (moviePoster.viewed) {
-                    viewed.visibility = View.VISIBLE
-                } else {
-                    viewed.visibility = View.INVISIBLE
-                }
+//                if (moviePoster.viewed) {
+//                    viewed.visibility = View.VISIBLE
+//                } else {
+//                    viewed.visibility = View.INVISIBLE
+//                }
             }
 //            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }
         }

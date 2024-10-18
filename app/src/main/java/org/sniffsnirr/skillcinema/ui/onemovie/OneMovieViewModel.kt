@@ -60,6 +60,9 @@ class OneMovieViewModel @Inject constructor(
     private val _isMovieInWantToSee = MutableStateFlow<Boolean>(false)
     val isMovieInWantToSee = _isMovieInWantToSee.asStateFlow()
 
+    private val _isMovieInViewed = MutableStateFlow<Boolean>(false)
+    val isMovieInViewed = _isMovieInViewed.asStateFlow()
+
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
             kotlin.runCatching {
@@ -118,8 +121,26 @@ class OneMovieViewModel @Inject constructor(
                 ProfileFragment.ID_FAVORITE_COLLECTION
             )
         }
+        decideMovieInWantToSee(idMovie)
     }
 
+    private fun decideMovieInWantToSee(idMovie: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isMovieInWantToSee.value = getCountMovieInCollection.isAlreadyExist(
+                idMovie.toLong(),
+                ProfileFragment.ID_WANT_TO_SEE_COLLECTION
+            )
+        }
+        decideMovieInViewed(idMovie)
+    }
+
+    private fun decideMovieInViewed(idMovie: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isMovieInViewed.value = getCountMovieInCollection.isAlreadyExist(
+                idMovie.toLong(),
+                ProfileFragment.ID_VIEWED_COLLECTION            )
+        }
+    }
 
     fun getNumberEpisodsOfFirstSeason(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -132,10 +153,11 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun addOrDeleteMovieToFavorite(kinopoiskId: Int) {
+    fun addOrDeleteMovieToFavorite(kinopoiskId: Int) { // нажатие на кнопку добавления в коллекцию любимых фильмов
         if (kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (getCountMovieInCollection.isAlreadyExist(// если уже есть - исключить из коллекции Любимых фильмов
+                if (getCountMovieInCollection.isAlreadyExist(
+// если уже есть - исключить из коллекции Любимых фильмов
                         kinopoiskId.toLong(),
                         ProfileFragment.ID_FAVORITE_COLLECTION,
                     )
@@ -153,14 +175,14 @@ class OneMovieViewModel @Inject constructor(
                     _isMovieInFavorite.value = true
                 }
             }
-
         }
     }
 
-    fun addOrDeleteMovieToWantToSee(kinopoiskId: Int) {
+    fun addOrDeleteMovieToWantToSee(kinopoiskId: Int) {// нажатие на кнопку добавления в коллекцию фильмов планируемых к просмотру
         if (kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (getCountMovieInCollection.isAlreadyExist(// если уже есть - исключить из коллекции Любимых фильмов
+                if (getCountMovieInCollection.isAlreadyExist(
+// если уже есть - исключить из коллекции Любимых фильмов
                         kinopoiskId.toLong(),
                         ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
                     )
@@ -178,7 +200,33 @@ class OneMovieViewModel @Inject constructor(
                     _isMovieInWantToSee.value = true
                 }
             }
-
         }
     }
+
+
+    fun addOrDeleteMovieToViewed(kinopoiskId: Int) {// нажатие на кнопку добавления в коллекцию просмотренных фильмов
+        if (kinopoiskId != 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                if (getCountMovieInCollection.isAlreadyExist(
+// если уже есть - исключить из коллекции Любимых фильмов
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_VIEWED_COLLECTION,
+                    )
+                ) {
+                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_VIEWED_COLLECTION,
+                    )
+                    _isMovieInViewed.value = false
+                } else { // иначе добавить
+                    insertNewMovieToCollectionUsecase.addNewMovie(
+                        kinopoiskId.toLong(),
+                        ProfileFragment.ID_VIEWED_COLLECTION,
+                    )
+                    _isMovieInViewed.value = true
+                }
+            }
+        }
+    }
+
 }

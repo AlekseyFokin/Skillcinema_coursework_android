@@ -10,7 +10,8 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class GetCollectionMovies @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val reduction: Reduction,
+    val decideMovieRVmodelIsViewedOrNot:DecideMovieRVmodelIsViewedOrNot
 ) {
     suspend fun getCollectionMovies(collectionType: Pair<String, String>): List<MovieRVModel> {
         val movieRVModelList = mutableListOf<MovieRVModel>()
@@ -25,6 +26,7 @@ class GetCollectionMovies @Inject constructor(
                 viewed = false,
                 isButton = false
             )
+            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку

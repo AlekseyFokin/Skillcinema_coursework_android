@@ -11,7 +11,8 @@ import javax.inject.Inject
 class GetViewedMoviesUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val reduction: Reduction,
+    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) {
 
     private suspend fun getViewedMoviesDBOFromDb(collectionId: Long) = //получение списока kinopoisk_id из БД
@@ -19,7 +20,7 @@ class GetViewedMoviesUsecase @Inject constructor(
 
     private suspend fun loadMovieRVModelFromAPI(idMovie: Int): MovieRVModel {// получение данных по конкретному фильму и конвертация  к MovieRVModel
         val onlyOneMovie = kinopoiskRepository.getOneMovie(idMovie)
-        return MovieRVModel(
+        val movieRVModel=MovieRVModel(
             onlyOneMovie.kinopoiskId,
             onlyOneMovie.posterUrlPreview,
             reduction.stringReduction(onlyOneMovie.nameRu, 17),
@@ -27,6 +28,8 @@ class GetViewedMoviesUsecase @Inject constructor(
             "  ${String.format(Locale.US, "%.1f", onlyOneMovie.ratingKinopoisk)}  ",
             false, false, null
         )
+        decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+        return movieRVModel
     }
 
     suspend fun getViewedMovies(collectionId: Long): List<MovieRVModel> { // получение набора данных для rv

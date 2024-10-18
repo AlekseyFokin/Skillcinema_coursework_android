@@ -1,10 +1,16 @@
 package org.sniffsnirr.skillcinema.ui.home.adapter
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -30,21 +36,35 @@ class MovieAdapter(
 
         fun bind(moviePoster: MovieRVModel) {
             binding.apply {
-                Glide
-                    .with(poster.context)
-                    .load(moviePoster.imageUrl)
-                    .into(poster)
+                if (!moviePoster!!.viewed){
+                    Glide
+                        .with(poster.context)
+                        .load(moviePoster?.imageUrl)
+                        .into(poster)
+                    viewed.visibility = View.INVISIBLE
+                }
+                else{
+                    Glide.with(poster.context)
+                        .asBitmap()
+                        .load(moviePoster?.imageUrl)
+                        .into(object : CustomTarget<Bitmap>(){
+                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                poster.background= BitmapDrawable(poster.context.resources,resource)
+                                //setImageBitmap(resource)
+                            }
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
+                    poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                    viewed.visibility = View.VISIBLE
+                }
+
                 movieName.text = moviePoster.movieName
                 genre.text = moviePoster.movieGenre
                 if (moviePoster.rate.trim() == "0" || moviePoster.rate.trim() == "0.0") {
                     raiting.visibility = View.INVISIBLE
                 } else {
                     raiting.text = moviePoster.rate
-                }
-                if (moviePoster.viewed) {
-                    viewed.visibility = View.VISIBLE
-                } else {
-                    viewed.visibility = View.INVISIBLE
                 }
             }
             binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }

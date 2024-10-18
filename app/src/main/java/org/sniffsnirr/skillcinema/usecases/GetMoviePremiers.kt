@@ -13,7 +13,8 @@ import java.util.Locale
 @ActivityRetainedScoped
 class GetMoviePremiers @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val reduction: Reduction,
+    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) {
     private val today = LocalDate.now()
     private val todayPlusTwoWeek = today.plusWeeks(2)
@@ -58,6 +59,7 @@ class GetMoviePremiers @Inject constructor(
                 false,
                 false
             )
+            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку

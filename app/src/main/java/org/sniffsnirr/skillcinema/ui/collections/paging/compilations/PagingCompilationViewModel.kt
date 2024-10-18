@@ -10,13 +10,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.usecases.DecideMovieRVmodelIsViewedOrNot
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import javax.inject.Inject
 
 @HiltViewModel
 class PagingCompilationViewModel @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val reduction: Reduction,
+    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) : ViewModel() {
 
     var collectionType: Triple<String, Int, Int> =
@@ -24,6 +26,6 @@ class PagingCompilationViewModel @Inject constructor(
 
     val pagedMovies: Flow<PagingData<MovieRVModel>> = Pager(
         config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { MoviePagingSource(kinopoiskRepository, reduction, collectionType) }
+        pagingSourceFactory = { MoviePagingSource(kinopoiskRepository, reduction, collectionType, decideMovieRVmodelIsViewedOrNot) }
     ).flow.cachedIn(viewModelScope)
 }

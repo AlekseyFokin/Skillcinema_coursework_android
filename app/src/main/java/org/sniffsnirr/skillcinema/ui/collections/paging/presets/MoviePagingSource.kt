@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.collections.CollectionMovie
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
+import org.sniffsnirr.skillcinema.usecases.DecideMovieRVmodelIsViewedOrNot
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
@@ -14,7 +15,8 @@ import java.util.Locale
 class MoviePagingSource(
     val kinopoiskRepository: KinopoiskRepository,
     val reduction: Reduction,
-    val collectionType: String
+    val collectionType: String,
+    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) :
     PagingSource<Int, MovieRVModel>() {
     override fun getRefreshKey(state: PagingState<Int, MovieRVModel>): Int = FIRST_PAGE
@@ -35,7 +37,7 @@ class MoviePagingSource(
         )
     }
 
-    private fun castToMovieRVModel(movies: List<CollectionMovie>): List<MovieRVModel> { // приведение CollectionMovie к MovieRVModel
+   suspend private fun castToMovieRVModel(movies: List<CollectionMovie>): List<MovieRVModel> { // приведение CollectionMovie к MovieRVModel
         val movieRVModelList = mutableListOf<MovieRVModel>()
         movies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(
@@ -47,6 +49,7 @@ class MoviePagingSource(
                 viewed = false,
                 isButton = false
             )
+            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         return movieRVModelList

@@ -68,7 +68,7 @@
         android:id="@+id/viewed"
         android:layout_width="14dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/viewed"
+        android:src="@drawable/ic_viewed"
         app:layout_constraintEnd_toEndOf="@id/cd"
         app:layout_constraintBottom_toBottomOf="@id/cd"
         android:layout_marginEnd="7dp"
