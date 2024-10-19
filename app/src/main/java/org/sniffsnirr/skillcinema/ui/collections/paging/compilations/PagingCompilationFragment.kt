@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,6 +20,7 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCompilationBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
@@ -51,6 +54,10 @@ class PagingCompilationFragment : Fragment() {
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                     pagedAdapter.refresh()
+                    setFragmentResult(
+                       HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+                    )
                     Log.d("Update", "Update_DONE!!!")
                 }
             }

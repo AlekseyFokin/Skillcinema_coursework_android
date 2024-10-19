@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -48,7 +50,12 @@ class CollectionFragment : Fragment() {
         setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-                    adapter.notifyItemChanged(possiblyEditablePosition)
+                    adapter.updateMovieRVModel(possiblyEditablePosition)
+// передаю сигнал об изменении выше
+                    setFragmentResult(
+                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+                    )
                     Log.d("Update", "Update_DONE!!!")
                 }
             }

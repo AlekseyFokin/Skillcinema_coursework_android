@@ -20,10 +20,10 @@ class CollectionAdapter(
     val onMovieClick: (Int?,Int) -> Unit
 ) : RecyclerView.Adapter<CollectionAdapter.MovieViewHolder>() {
 
-    private var movieModelList=movieModel
+    private var movieModelList=movieModel.toMutableList()
 
     fun setMovieModelList(movieModelList: List<MovieRVModel>){
-        this.movieModelList=movieModelList
+        this.movieModelList=movieModelList.toMutableList()
     }
 
     inner class MovieViewHolder(val binding: MovieItemBinding) :
@@ -74,5 +74,10 @@ class CollectionAdapter(
         holder.binding.root.setOnClickListener {
             onMovieClick(movie.kinopoiskId,position)
         }
+    }
+
+    fun updateMovieRVModel(position:Int){
+        movieModelList[position].viewed=!movieModelList[position].viewed
+        notifyItemChanged(position)
     }
 }

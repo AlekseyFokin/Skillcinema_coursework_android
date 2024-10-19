@@ -5,7 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +20,9 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentHomeBinding
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -113,6 +119,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun onMovieClick(idMovie: Int?) {
         val bundle = Bundle()
         if(idMovie!=null){
@@ -129,6 +136,34 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    override fun onResume(){
+        super.onResume()
+        var needUpdate=false
+
+        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    needUpdate=true
+                    viewModel.loadMoviesCollectionsForHomePage()
+                    Log.d("Final Update", "Update_DONE!!!")
+                }
+            }
+        }
+if (!needUpdate) {
+        setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    viewModel.loadMoviesCollectionsForHomePage()
+                    Log.d("Final Update", "Update_DONE!!!")
+                }
+            }
+        }
+}
+//if (needUpdate){
+//        viewModel.loadMoviesCollectionsForHomePage()
+//        Log.d("Final Update", "Update_DONE!!!")}
+    }
+
     companion object {
         const val COLLECTION_MODEL = "COLLECTION_MODEL"
         const val COLLECTION_NAME = "COLLECTION_NAME"
@@ -136,5 +171,8 @@ class HomeFragment : Fragment() {
         const val COLLECTION_COUNTRY = "COLLECTION_COUNTRY"
         const val COLLECTION_GENRE = "COLLECTION_GENRE"
         const val ID_MOVIE="ID_MOVIE"
+
+        const val RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY = "FINAL_UPDATE_REQUEST_KEY"
+        const val RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY = "FINAL_UPDATE_BUNDLE_KEY"
     }
 }
