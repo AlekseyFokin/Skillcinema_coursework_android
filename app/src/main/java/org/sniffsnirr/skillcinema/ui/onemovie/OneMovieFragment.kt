@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,6 +25,7 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -117,7 +120,7 @@ class OneMovieFragment : Fragment() {
                                 R.color.color_of_progress
                             )
                         )
-                    }else{
+                    } else {
                         binding.addToFavorites.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),
@@ -135,12 +138,12 @@ class OneMovieFragment : Fragment() {
                     if (it) {
                         binding.wantToSee
                             .setColorFilter(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.color_of_progress
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.color_of_progress
+                                )
                             )
-                        )
-                    }else{
+                    } else {
                         binding.wantToSee.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),
@@ -164,7 +167,7 @@ class OneMovieFragment : Fragment() {
                                 )
                             )
                         binding.viewed.setImageResource(R.drawable.ic_viewed)
-                    }else{
+                    } else {
                         binding.viewed.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),
@@ -272,7 +275,12 @@ class OneMovieFragment : Fragment() {
         }
 
         binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
+            setFragmentResult(
+                PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+            )
             viewModel.addOrDeleteMovieToViewed(idMovie)
+
         }
     }
 

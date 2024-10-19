@@ -70,6 +70,10 @@ class PagingCollectionAdapter(
             }
         }
     }
+
+    fun updateItem(position: Int){
+        notifyItemChanged(position)
+    }
 }
 
 class DiffUtilCallback : DiffUtil.ItemCallback<MovieRVModel>() {

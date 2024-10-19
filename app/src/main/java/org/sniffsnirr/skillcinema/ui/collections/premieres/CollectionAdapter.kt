@@ -16,22 +16,29 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 // Адаптер для премьер на будущие 2 недели - их ограниченное количество, поэтому без пагинации
 class CollectionAdapter(
-    var movieModel: List<MovieRVModel>,
-    val onMovieClick: (Int?) -> Unit
+     movieModel: List<MovieRVModel>,
+    val onMovieClick: (Int?,Int) -> Unit
 ) : RecyclerView.Adapter<CollectionAdapter.MovieViewHolder>() {
+
+    private var movieModelList=movieModel
+
+    fun setMovieModelList(movieModelList: List<MovieRVModel>){
+        this.movieModelList=movieModelList
+    }
 
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount() = movieModel.size
+    override fun getItemCount() = movieModelList.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movieModel[position]
+        val movie = movieModelList[position]
         with(holder.binding) {
             if (!movie!!.viewed){
                 Glide
@@ -65,7 +72,7 @@ class CollectionAdapter(
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie.kinopoiskId)
+            onMovieClick(movie.kinopoiskId,position)
         }
     }
 }

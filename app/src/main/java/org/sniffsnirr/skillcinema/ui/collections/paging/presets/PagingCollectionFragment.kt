@@ -2,10 +2,12 @@ package org.sniffsnirr.skillcinema.ui.collections.paging.presets
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -40,6 +42,15 @@ class PagingCollectionFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setActionBarTitle(collectionName)
+        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    pagedAdapter.refresh()
+                    Log.d("Update", "Update_DONE!!!")
+                }
+            }
+        }
+
     }
 
     override fun onCreateView(
@@ -83,5 +94,10 @@ class PagingCollectionFragment : Fragment() {
                 bundle
             )
         }
+    }
+
+    companion object {
+        const val RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY = "RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY"
+        const val RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY = "RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY"
     }
 }
