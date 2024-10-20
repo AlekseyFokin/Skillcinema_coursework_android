@@ -102,7 +102,7 @@ class OneMovieViewModel @Inject constructor(
         getRelatedMovies(idMovie)
     }
 
-    private fun getRelatedMovies(idMovie: Int) {// получение похожих фильмов
+     fun getRelatedMovies(idMovie: Int) {// получение похожих фильмов
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 getRelatedMoviesInfo.getRelatedMoviesRVModel(idMovie)

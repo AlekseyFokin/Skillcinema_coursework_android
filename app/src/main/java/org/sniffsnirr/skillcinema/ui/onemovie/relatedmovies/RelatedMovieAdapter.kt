@@ -10,15 +10,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import okhttp3.internal.toImmutableList
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 // Адаптер для похожих фильмов
 class RelatedMovieAdapter(
-    var movieModel: List<MovieRVModel>,
-    val onMovieClick: (Int?) -> Unit
+
+    val onMovieClick: (Int?,Int) -> Unit
 ) : RecyclerView.Adapter<RelatedMovieAdapter.MovieViewHolder>() {
+
+    private var movieList= emptyList<MovieRVModel>().toMutableList()
+
+    fun setMovieList(movieList: List<MovieRVModel>){
+        this.movieList=movieList.toMutableList()
+    }
 
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -28,10 +35,10 @@ class RelatedMovieAdapter(
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount() = movieModel.size
+    override fun getItemCount() = movieList.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movieModel[position]
+        val movie = movieList[position]
         with(holder.binding) {
             if (!movie!!.viewed){
                 Glide
@@ -64,7 +71,11 @@ class RelatedMovieAdapter(
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie.kinopoiskId)
+            onMovieClick(movie.kinopoiskId, position)
         }
+    }
+    fun updateMovieRVModel(position:Int){
+        movieList[position].viewed=!movieList[position].viewed
+        notifyItemChanged(position)
     }
 }

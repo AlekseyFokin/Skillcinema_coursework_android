@@ -3,6 +3,7 @@ package org.sniffsnirr.skillcinema.ui.onemovie.adapter
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adap
 
     fun setData(relatedMovies: List<MovieRVModel>) {
         this.relatedMovies = relatedMovies
+        Log.d("Обновляю данные relatedMovie","Обновляю данные relatedMovie")
         notifyDataSetChanged()
     }
 

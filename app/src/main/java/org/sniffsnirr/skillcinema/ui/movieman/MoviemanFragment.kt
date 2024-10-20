@@ -2,10 +2,14 @@ package org.sniffsnirr.skillcinema.ui.movieman
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +21,11 @@ import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentMoviemanBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
@@ -34,6 +42,9 @@ class MoviemanFragment : Fragment() {
     private var idMovieman=0
     private lateinit var bestMovies:List<MovieRVModel>
 
+
+    val bestMovieAdapter = BestMovieAdapter({ onCollectionClick() }, { idMovie -> onMovieClick(idMovie) })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idMovieman = arguments?.getInt(OneMovieFragment.ID_STAFF) ?: 0
@@ -44,6 +55,28 @@ class MoviemanFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setActionBarTitle("")
+//обновление сработает и в варианте изменения в onemovieFragment и через промежуточный экран с rv
+        var needUpdate = false
+
+        setFragmentResultListener(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    needUpdate = true
+                    viewModel.getBestMovies(idMovieman)
+                    Log.d("Final Update", "Update_DONE!!!-из oneMovie")
+                }
+            }
+        }
+        if (!needUpdate) {
+            setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                        viewModel.getBestMovies(idMovieman)
+                        Log.d("Final Update", "Update_DONE!!!- из Фильмографии")
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -72,10 +105,12 @@ class MoviemanFragment : Fragment() {
         binding.bestMoviesRv.setHasFixedSize(true)
         binding.bestMoviesRv.layoutManager =
             LinearLayoutManager(requireContext(), GridLayoutManager.HORIZONTAL, false)
+        binding.bestMoviesRv.adapter=bestMovieAdapter
 
         viewModel.bestMovies.onEach {// загрузка лучших рейтинговых фильмов с участием актера
-            binding.bestMoviesRv.adapter =
-                BestMovieAdapter(it, { onCollectionClick() }, { idMovie -> onMovieClick(idMovie) })
+            //binding.bestMoviesRv.adapter =
+           //     BestMovieAdapter(it, { onCollectionClick() }, { idMovie -> onMovieClick(idMovie) })
+            bestMovieAdapter.setMovieList(it)
             bestMovies=it
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -99,7 +134,6 @@ class MoviemanFragment : Fragment() {
         binding.allMoviesFilmography.setOnClickListener {//открытие фрагмента с фильмографии
             val bundle = Bundle()
             bundle.putInt(MOVIEMAN_ID,idMovieman )
-
             findNavController().navigate(
                 R.id.action_moviemanFragment_to_filmographyFragment,
                 bundle
@@ -107,7 +141,7 @@ class MoviemanFragment : Fragment() {
         }
     }
 
-    private fun onMovieClick(idMovie: Int?) {
+    private fun onMovieClick(idMovie: Int? ) {
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(HomeFragment.ID_MOVIE, idMovie)

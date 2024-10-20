@@ -9,7 +9,8 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class GetRelatedMoviesInfo @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction
+    val reduction: Reduction,
+    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) {
     private suspend fun getRelatedMoviesIdList(idMovie: Int): List<Int> {// получений списка id похожих фильмов
         val idMovieList = mutableListOf<Int>()
@@ -20,7 +21,7 @@ class GetRelatedMoviesInfo @Inject constructor(
 
     private suspend fun getMovieRVModel(idMovie: Int): MovieRVModel {// получение данных по конкретному фильму и конвертация  к MovieRVModel
         val onlyOneMovie = kinopoiskRepository.getOneMovie(idMovie)
-        return MovieRVModel(
+        val movieRVModel= MovieRVModel(
             onlyOneMovie.kinopoiskId,
             onlyOneMovie.posterUrlPreview,
             reduction.stringReduction(onlyOneMovie.nameRu, 17),
@@ -28,6 +29,8 @@ class GetRelatedMoviesInfo @Inject constructor(
             "  ${String.format(Locale.US, "%.1f", onlyOneMovie.ratingKinopoisk)}  ",
             false, false, null
         )
+        decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+        return movieRVModel
     }
 
     suspend fun getRelatedMoviesRVModel(idMovie: Int): List<MovieRVModel> {// запрос фильмов по полученному списку id и получение списка MovieRVModel

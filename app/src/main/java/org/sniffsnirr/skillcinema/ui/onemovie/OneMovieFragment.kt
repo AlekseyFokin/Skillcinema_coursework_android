@@ -2,6 +2,7 @@ package org.sniffsnirr.skillcinema.ui.onemovie
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -26,6 +28,8 @@ import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -211,6 +215,7 @@ class OneMovieFragment : Fragment() {
         binding.relatedMoviesRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.relatedMoviesRv.adapter = relatedMoviesAdapter
+
         viewModel.relatedMovies.onEach {// загрузка похожих фильмов
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
@@ -275,12 +280,11 @@ class OneMovieFragment : Fragment() {
         }
 
         binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
-            setFragmentResult(
+            setFragmentResult(//сигнал на предыдущий фрагмент - нужно обновить rv
                 PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                 bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
             )
             viewModel.addOrDeleteMovieToViewed(idMovie)
-
         }
     }
 
@@ -372,6 +376,18 @@ class OneMovieFragment : Fragment() {
                 R.id.action_oneMovieFragment_self,
                 bundle
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+        //           viewModel.getRelatedMovies(idMovie)
+                    Log.d("Какойто Update","Какойто Update")
+                }
+            }
         }
     }
 

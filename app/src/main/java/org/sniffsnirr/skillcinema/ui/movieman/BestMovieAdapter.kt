@@ -17,10 +17,17 @@ import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 class BestMovieAdapter(
-    var movieModel: List<MovieRVModel>,
+
     val onCollectionClick: () -> Unit,
     val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+   private var movieList= emptyList <MovieRVModel>().toMutableList()
+
+    fun setMovieList(movieList: List<MovieRVModel>){
+        this.movieList=movieList.toMutableList()
+        notifyDataSetChanged()
+    }
 
     inner class ButtonViewHolder(val binding: ShowMeAllBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -72,7 +79,7 @@ class BestMovieAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (movieModel[position].isButton) {
+        return if (movieList[position].isButton) {
             MovieAdapter.BUTTON
         } else {
             MovieAdapter.MOVIE
@@ -91,14 +98,15 @@ class BestMovieAdapter(
         }
     }
 
-    override fun getItemCount() = movieModel.size
+    override fun getItemCount() = movieList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (getItemViewType(position) == MovieAdapter.BUTTON) {
-            (holder as BestMovieAdapter.ButtonViewHolder).bind(movieModel[position])
+            (holder as BestMovieAdapter.ButtonViewHolder).bind(movieList[position])
         } else {
-            (holder as BestMovieAdapter.PosterViewHolder).bind(movieModel[position])
+            (holder as BestMovieAdapter.PosterViewHolder).bind(movieList[position])
         }
     }
+
 }

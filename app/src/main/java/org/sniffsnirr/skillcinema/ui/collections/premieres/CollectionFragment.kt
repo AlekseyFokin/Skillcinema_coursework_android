@@ -72,6 +72,9 @@ class CollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.movieCollectionRv.adapter = adapter
+        binding.movieCollectionRv.setHasFixedSize(true)
+
         viewModel.premierMovies.onEach {
             if (!it.isNullOrEmpty()) {
                 val premierMoviesWithoutHeader = it.filter { it.isButton == false }
@@ -79,8 +82,6 @@ class CollectionFragment : Fragment() {
 //                    onMovieClick(idMovie)
 //                }
                 adapter.setMovieModelList(premierMoviesWithoutHeader)
-                binding.movieCollectionRv.adapter = adapter
-                binding.movieCollectionRv.setHasFixedSize(true)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }

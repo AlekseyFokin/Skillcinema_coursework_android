@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -20,6 +24,9 @@ import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentFilmographyBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.movieman.BestMovieAdapter
 import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment
@@ -34,7 +41,8 @@ class FilmographyFragment : Fragment() {
     val binding get() = _binding!!
     private var staffId = 0
     private var movieManSex = "MALE"
-    private val  filmographyAdapter=FilmographyAdapter{idMovie-> onMovieClick(idMovie)}
+    private val  filmographyAdapter=FilmographyAdapter{idMovie, position-> onMovieClick(idMovie, position)}
+    var possiblyEditablePosition=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,19 @@ class FilmographyFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).setActionBarTitle(FRAGMENT_NAME)
+
+        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    filmographyAdapter.updateMovieRVModel(possiblyEditablePosition)
+                    setFragmentResult(
+                       HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+                    )//передаю сигнал об изменении выше
+                    Log.d("Update", "Update_DONE!!!")
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -109,7 +130,7 @@ class FilmographyFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun onMovieClick(idMovie: Int?) {
+    private fun onMovieClick(idMovie: Int?,position:Int) {
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(HomeFragment.ID_MOVIE, idMovie)
@@ -118,6 +139,7 @@ class FilmographyFragment : Fragment() {
                 bundle
             )
         }
+        possiblyEditablePosition=position
     }
 
     override fun onStop() {

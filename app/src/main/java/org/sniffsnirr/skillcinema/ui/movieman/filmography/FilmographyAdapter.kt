@@ -15,12 +15,12 @@ import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class FilmographyAdapter(val onMovieClick: (Int) -> Unit): RecyclerView.Adapter<FilmographyAdapter.MovieViewHolder>() {
+class FilmographyAdapter(val onMovieClick: (Int,Int) -> Unit): RecyclerView.Adapter<FilmographyAdapter.MovieViewHolder>() {
 
-    private var movieList: List<MovieRVModel> = emptyList()
+    private var movieList = emptyList<MovieRVModel>().toMutableList()
 
     fun setData(movieList: List<MovieRVModel>) {
-        this.movieList = movieList
+        this.movieList = movieList.toMutableList()
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -64,9 +64,15 @@ class FilmographyAdapter(val onMovieClick: (Int) -> Unit): RecyclerView.Adapter<
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie.kinopoiskId?:0)
+            onMovieClick(movie.kinopoiskId?:0,position)
         }
     }
+
+    fun updateMovieRVModel(position:Int){
+        movieList[position].viewed=!movieList[position].viewed
+        notifyItemChanged(position)
+    }
+
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 }
