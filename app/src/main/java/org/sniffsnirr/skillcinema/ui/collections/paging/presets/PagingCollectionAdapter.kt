@@ -12,6 +12,7 @@ import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import org.sniffsnirr.skillcinema.R
@@ -38,6 +39,8 @@ class PagingCollectionAdapter(
                 Glide
                     .with(poster.context)
                     .load(movie?.imageUrl)
+                    .diskCacheStrategy( DiskCacheStrategy.NONE )
+                    .skipMemoryCache( true )
                     .into(poster)
                 viewed.visibility = View.INVISIBLE
             }
@@ -45,6 +48,8 @@ class PagingCollectionAdapter(
                 Glide.with(poster.context)
                     .asBitmap()
                     .load(movie?.imageUrl)
+                    .diskCacheStrategy( DiskCacheStrategy.NONE )
+                    .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             poster.background= BitmapDrawable(poster.context.resources,resource)

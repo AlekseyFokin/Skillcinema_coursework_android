@@ -58,15 +58,23 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {// прогрессбар загрузки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect {
+                    if (it) {binding.loadingProgressbar.visibility=View.VISIBLE}
+                    else {binding.loadingProgressbar.visibility=View.GONE}
+                }
+            }
+        }
     }
 
     private fun onCollectionClick(collectionModel: MainModel) { //открытие соответсвующего фрагмента и передача в него параметров запроса
         when (collectionModel.categoryDescription.first) {
             KinopoiskApi.PREMIERES.first -> { // клик по коллекции премьер на 2 недели вперед. их количество ограничено и этот список уже есть, поэтому направляю во фрагмент и список и название
                 val bundle = Bundle()
-                val arraylist = ArrayList<MovieRVModel>()
-                arraylist.addAll(collectionModel.MovieRVModelList)
-                bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
+              //  val arraylist = ArrayList<MovieRVModel>()
+              //  arraylist.addAll(collectionModel.MovieRVModelList)
+              //  bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
                 findNavController().navigate(
                     R.id.action_navigation_home_to_collectionFragment,

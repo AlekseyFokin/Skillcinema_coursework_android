@@ -99,21 +99,8 @@ class OneMovieViewModel @Inject constructor(
                 onFailure = { Log.d("Gallery", it.message ?: "") }
             )
         }
-        getRelatedMovies(idMovie)
-    }
-
-     fun getRelatedMovies(idMovie: Int) {// получение похожих фильмов
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                getRelatedMoviesInfo.getRelatedMoviesRVModel(idMovie)
-            }.fold(
-                onSuccess = { _relatedMovies.value = it },
-                onFailure = { Log.d("relatedMovies", it.message ?: "") }
-            )
-        }
         decideMovieInFavorite(idMovie)
     }
-
     private fun decideMovieInFavorite(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _isMovieInFavorite.value = getCountMovieInCollection.isAlreadyExist(
@@ -139,6 +126,19 @@ class OneMovieViewModel @Inject constructor(
             _isMovieInViewed.value = getCountMovieInCollection.isAlreadyExist(
                 idMovie.toLong(),
                 ProfileFragment.ID_VIEWED_COLLECTION            )
+        }
+      //  getRelatedMovies(idMovie)
+    }
+
+    fun getRelatedMovies(idMovie: Int) {// получение похожих фильмов
+        Log.d("Update","Запрос на получение данных для RV на OneMovieFragment")
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                getRelatedMoviesInfo.getRelatedMoviesRVModel(idMovie)
+            }.fold(
+                onSuccess = { _relatedMovies.value = it },
+                onFailure = { Log.d("relatedMovies", it.message ?: "") }
+            )
         }
     }
 

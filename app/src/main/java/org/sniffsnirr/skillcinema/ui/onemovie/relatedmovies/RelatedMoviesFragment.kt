@@ -12,15 +12,17 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentRelatedMoviesBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
-
+@AndroidEntryPoint
 class RelatedMoviesFragment : Fragment() {
 
     private var _binding: FragmentRelatedMoviesBinding? = null
@@ -52,7 +54,12 @@ class RelatedMoviesFragment : Fragment() {
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                     relatedMovieAdapter.updateMovieRVModel(possiblyEditablePosition)
-                    Log.d("Update", "Update_DONE!!!")
+                    Log.d("Update", "Update в RelatedMoviesFragmrnt_DONE на позиции $possiblyEditablePosition")
+                    Log.d("Update", "Update отправляю выше")
+//                    setFragmentResult(//сигнал на предыдущий фрагмент - нужно обновить rv
+//                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+//                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+//                    )
                 }
             }
         }

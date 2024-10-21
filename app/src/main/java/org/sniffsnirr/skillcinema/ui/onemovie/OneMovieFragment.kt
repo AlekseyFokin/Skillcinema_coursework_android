@@ -31,6 +31,7 @@ import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollection
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
@@ -76,6 +77,8 @@ class OneMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //viewModel.setIdMovie(idMovie)
+        viewModel.getRelatedMovies(idMovie)
         viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieInfo.collect {
@@ -217,6 +220,7 @@ class OneMovieFragment : Fragment() {
         binding.relatedMoviesRv.adapter = relatedMoviesAdapter
 
         viewModel.relatedMovies.onEach {// загрузка похожих фильмов
+            Log.d("Update","Обновляю данные для RV на OneMovieFragment")
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
             relatedMovies = it
@@ -284,6 +288,7 @@ class OneMovieFragment : Fragment() {
                 PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                 bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
             )
+
             viewModel.addOrDeleteMovieToViewed(idMovie)
         }
     }
@@ -381,14 +386,29 @@ class OneMovieFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
-            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-        //           viewModel.getRelatedMovies(idMovie)
-                    Log.d("Какойто Update","Какойто Update")
-                }
-            }
-        }
+            //viewModel.setIdMovie(idMovie)
+//        var needUpdate = false
+//
+//        setFragmentResultListener(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
+//            if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+//                if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+//                    needUpdate = true
+//                    Log.d("Update", "Обновляю RV на OneMovieFragment из RelatedMovieFragments")
+//                    viewModel.getRelatedMovies(idMovie)
+//                }
+//            }
+//        }
+//        if (!needUpdate) {
+//            setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+//                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+//                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+//                        Log.d("Update!@#$", "Обновляю RV на OneMovieFragment из OneMovieFragment")
+//                        viewModel.getRelatedMovies(idMovie)
+//                    }
+//                }
+//            }
+//        }
+
     }
 
     companion object {
@@ -398,6 +418,9 @@ class OneMovieFragment : Fragment() {
         const val ACTORS_OR_MOVIEMANS =
             "ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
         const val RELATED_MOVIES_LIST = "RELATED_MOVIES_LIST"
+
+     //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY"
+     //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY"
 
     }
 }

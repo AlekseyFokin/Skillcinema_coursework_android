@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
@@ -65,6 +66,8 @@ class ViewedAdapter(
                 Glide
                     .with(poster.context)
                     .load(moviePoster.imageUrl)
+                    .diskCacheStrategy( DiskCacheStrategy.NONE )
+                    .skipMemoryCache( true )
                     .into(poster)
                 movieName.text = moviePoster.movieName
                 genre.text = moviePoster.movieGenre
