@@ -6,28 +6,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import org.sniffsnirr.skillcinema.databinding.ClearHistoryBinding
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
+import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
+import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion
 //import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 class ViewedAdapter(
-    //                 val onCollectionClick: (String) -> Unit,
-     //                val onMovieClick: (Int?) -> Unit
+            val onButtonClearAllClick: () -> Unit,
+            val onMovieClick: (Int?,Int) -> Unit
     )
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var movies: List<MovieRVModel>? = emptyList()
+    private var movies = emptyList<MovieRVModel>().toMutableList()
     fun setData(movies: List<MovieRVModel>?) {
-        this.movies = movies
+        this.movies = movies?.toMutableList()?:emptyList<MovieRVModel>().toMutableList()
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == BUTTON) {
             val binding =
-                ShowMeAllBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ClearHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ButtonViewHolder(binding)
         } else {
             val binding =
@@ -48,12 +51,17 @@ class ViewedAdapter(
     }
     }
 
+    fun deleteFromRV(position:Int){
+        movies?.drop(position)
+        notifyItemRemoved(position)
+    }
 
-    inner class ButtonViewHolder(val binding: ShowMeAllBinding) :
+
+    inner class ButtonViewHolder(val binding: ClearHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieModel: MovieRVModel) {
             binding.showMeAllBtn.setOnClickListener {
-//                onCollectionClick(movieModel.categoryDescription?.first ?: "")
+                onButtonClearAllClick()
             }
         }
     }
@@ -82,7 +90,15 @@ class ViewedAdapter(
 //                    viewed.visibility = View.INVISIBLE
 //                }
             }
-//            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId) }
+            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId, getBindingAdapterPosition()) }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (movies[position].isButton) {
+            BUTTON
+        } else {
+            MOVIE
         }
     }
     companion object {

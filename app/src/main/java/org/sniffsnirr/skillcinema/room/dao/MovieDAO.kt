@@ -56,6 +56,9 @@ interface MovieDAO {
     }
 
     @Query("Delete from movie where ((id_kinopoisk=:kinopoiskId) and (id_set=:collectionId))")
-    suspend fun deleteMovieByByKinopoiskIdAndCollectionId(kinopoiskId: Long, collectionId: Long)
+    suspend fun deleteMovieByKinopoiskIdAndCollectionId(kinopoiskId: Long, collectionId: Long)
+
+    @Query("Delete from movie where (id_set=:collectionId)")
+    suspend fun deleteAllMoviesByCollectionId(collectionId: Long)
 
 }

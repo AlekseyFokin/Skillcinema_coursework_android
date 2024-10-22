@@ -32,4 +32,5 @@
     <string name="viewed_label">метка что просмотрено</string>
     <string name="label_on_button">изображение на кнопке- стрелка</string>
     <string name="gallery_item">элемент галереи</string>
+    <string name="clear_history_label_btn">Очистить историю</string>
 </resources>

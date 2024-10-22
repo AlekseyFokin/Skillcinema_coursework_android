@@ -131,6 +131,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val FIRST_START =
             booleanPreferencesKey("first_start")// ячейка для хранения метки о первой загрузке приложения в DataStore
+
+        val REQUIRE_REFRESH_HOME_FRAGMENT =
+            booleanPreferencesKey("refresh_home_fragment")// ячейка для хранения метки о том что надо перезагрузить homefragment
     }
 
 }

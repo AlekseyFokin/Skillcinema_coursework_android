@@ -49,7 +49,14 @@
         android:id="@+id/navigation_profile"
         android:name="org.sniffsnirr.skillcinema.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        </fragment>
     <fragment
         android:id="@+id/loadingFragment"
         android:name="org.sniffsnirr.skillcinema.ui.loading.LoadingFragment"

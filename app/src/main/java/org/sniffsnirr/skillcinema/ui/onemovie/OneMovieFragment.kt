@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.onemovie
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
@@ -56,7 +60,12 @@ class OneMovieFragment : Fragment() {
 
     var idMovie = 0
     var movieName = ""
+    var imdbUrl=""
     private lateinit var relatedMovies: List<MovieRVModel>
+
+    private lateinit var animationScaleBtn: Animation;
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +86,8 @@ class OneMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        animationScaleBtn= AnimationUtils.loadAnimation(requireContext(), R.anim.btn_anim)
+
         //viewModel.setIdMovie(idMovie)
         viewModel.getRelatedMovies(idMovie)
         viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
@@ -113,6 +124,7 @@ class OneMovieFragment : Fragment() {
                             headerSerial.visibility = View.GONE
                         }
                     }
+                    imdbUrl=it?.imdbId?:""
                 }
             }
         }
@@ -276,20 +288,36 @@ class OneMovieFragment : Fragment() {
         }
 
         binding.addToFavorites.setOnClickListener { // добавить или исключить кино из коллекции любимых фильмов
+            binding.addToFavorites.startAnimation(animationScaleBtn)
             viewModel.addOrDeleteMovieToFavorite(idMovie)
         }
 
         binding.wantToSee.setOnClickListener { // добавить или исключить кино из коллекции фильмов к просмотру
+            binding.wantToSee.startAnimation(animationScaleBtn)
             viewModel.addOrDeleteMovieToWantToSee(idMovie)
         }
 
         binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
+            binding.viewed.startAnimation(animationScaleBtn)
             setFragmentResult(//сигнал на предыдущий фрагмент - нужно обновить rv
                 PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                 bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
             )
-
             viewModel.addOrDeleteMovieToViewed(idMovie)
+        }
+
+        binding.share.setOnClickListener {
+            binding.share.startAnimation(animationScaleBtn)
+            if (!imdbUrl.isNullOrEmpty()) {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "$IMDB_PATH$imdbUrl/")
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
+            else {Toast.makeText(requireContext(),"Фильма нет на www.imdb.com", Toast.LENGTH_LONG).show()}
         }
     }
 
@@ -418,6 +446,7 @@ class OneMovieFragment : Fragment() {
         const val ACTORS_OR_MOVIEMANS =
             "ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
         const val RELATED_MOVIES_LIST = "RELATED_MOVIES_LIST"
+        const val IMDB_PATH="https://www.imdb.com/title/"
 
      //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY"
      //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY"

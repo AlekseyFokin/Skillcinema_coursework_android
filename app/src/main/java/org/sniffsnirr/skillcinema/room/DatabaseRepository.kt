@@ -61,7 +61,11 @@ class DatabaseRepository @Inject constructor(
     }
 
     suspend fun deleteMovieFromCollection(kinopoiskId: Long,collectionId: Long){
-        movieDao.deleteMovieByByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+        movieDao.deleteMovieByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+    }
+
+    suspend fun clearCollection(collectionId: Long){
+        movieDao.deleteAllMoviesByCollectionId(collectionId)
     }
 
 // fun MovieRVModel.isViewed():Unit {
