@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar:Toolbar
 
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
         name = "skillcinema_settings",
         corruptionHandler = null,
         scope = CoroutineScope(Dispatchers.IO)

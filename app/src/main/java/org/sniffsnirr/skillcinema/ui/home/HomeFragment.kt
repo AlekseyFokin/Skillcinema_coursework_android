@@ -26,6 +26,7 @@ import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollection
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -167,6 +168,17 @@ if (!needUpdate) {
             }
         }
 }
+
+        if (!needUpdate) {
+            setFragmentResultListener(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY) { REQUEST_KEY, bundle ->
+                if (bundle.getBoolean(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY) != null) {
+                    if (bundle.getBoolean(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY)) {
+                        viewModel.loadMoviesCollectionsForHomePage()
+                        Log.d("Final Update", "Update_DONE!!!")
+                    }
+                }
+            }
+        }
 //if (needUpdate){
 //        viewModel.loadMoviesCollectionsForHomePage()
 //        Log.d("Final Update", "Update_DONE!!!")}

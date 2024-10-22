@@ -29,6 +29,12 @@ class ProfileViewModel @Inject constructor(
     private val _countViewedMovies = MutableStateFlow<Int>(0)
     val countViewedMovies = _countViewedMovies.asStateFlow()
 
+    private val _interestedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
+    val interestedMovies = _interestedMovies.asStateFlow()
+
+    private val _countInterestedMovies = MutableStateFlow<Int>(0)
+    val countInterestedMovies = _countInterestedMovies.asStateFlow()
+
     fun loadViewedMovies() {
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов
             kotlin.runCatching {
@@ -48,13 +54,39 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    fun loadInterestedMovies() {
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов
+            kotlin.runCatching {
+                getViewedMoviesUsecase.getViewedMovies(ProfileFragment.ID_INTERESTED_COLLECTION)
+            }.fold(
+                onSuccess = { _viewedMovies.value = it },
+                onFailure = { Log.d("ViewedList", it.message ?: "") }
+            )
+        }
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки размера коллекции просмотренных фильмов
+            kotlin.runCatching {
+                getCountDbCollectionUsecase.getCountCollection(ProfileFragment.ID_INTERESTED_COLLECTION)
+            }.fold(
+                onSuccess = { _countViewedMovies.value = it },
+                onFailure = { Log.d("ViewedList", it.message ?: "") }
+            )
+        }
+    }
+
     fun clearViewedCollection() {
         viewModelScope.launch(Dispatchers.IO) {
             deleteAllMoviesFromCollectionUsecase.deleteAllMovieFromCollection(ProfileFragment.ID_VIEWED_COLLECTION)
             loadViewedMovies()
         }
-
     }
+
+    fun clearInterstedCollection() {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteAllMoviesFromCollectionUsecase.deleteAllMovieFromCollection(ProfileFragment.ID_INTERESTED_COLLECTION)
+            loadViewedMovies()
+        }
+    }
+
 
 
 }

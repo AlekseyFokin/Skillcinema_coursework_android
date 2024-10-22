@@ -35,6 +35,7 @@ import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
+import org.sniffsnirr.skillcinema.ui.profile.adapter.InterestedAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.ViewedAdapter
 
 @AndroidEntryPoint
@@ -46,13 +47,9 @@ class ProfileFragment : Fragment() {
 
     private val viewedAdapter = ViewedAdapter({ onClearAllViewedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
 
-    var possiblyEditablePosition=0
+    private val interestedAdapter = InterestedAdapter({ onClearAllViewedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
-        name = "skillcinema_settings",
-        corruptionHandler = null,
-        scope = CoroutineScope(Dispatchers.IO)
-    )
+    var possiblyEditablePosition=0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +59,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
         viewModel.loadViewedMovies()
+        viewModel.loadInterestedMovies()
         return binding.root
     }
 
@@ -88,6 +86,25 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.interestedRv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.interestedRv.setHasFixedSize(true)
+        binding.interestedRv.adapter = interestedAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка попавших в интересные
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.interestedMovies.collect {
+                    interestedAdapter.setData(it)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка количества попавших в интересные
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.countInterestedMovies.collect {
+                    binding.allInterestedButton.text=it.toString()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -114,13 +131,7 @@ class ProfileFragment : Fragment() {
                     if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                         Log.d("Update!@#$", "Обновляю RV на ProfileFragment из OneMovieFragment")
                         viewedAdapter.deleteFromRV(possiblyEditablePosition)
-                            //других фрагментов
-                        viewLifecycleOwner.lifecycleScope.launch {
-
-                        dataStore.edit { prefs ->// сохранение метки о первой загрузке
-                            prefs[REQUIRE_REFRESH_HOME_FRAGMENT] = false
-                        }
-                    }}
+                   }
                 }
             }
     }
@@ -131,6 +142,11 @@ class ProfileFragment : Fragment() {
             PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
             bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
         )
+
+        setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
+           RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
+            bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
+        )
     }
 
     companion object {
@@ -139,5 +155,8 @@ class ProfileFragment : Fragment() {
         const val ID_WANT_TO_SEE_COLLECTION = 2L
         const val ID_VIEWED_COLLECTION = 3L
         const val ID_INTERESTED_COLLECTION = 4L
+
+        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY="PRIFILE_FRAGMENT"
+        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY="PRIFILE_FRAGMENT"
     }
 }
