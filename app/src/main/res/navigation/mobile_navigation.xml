@@ -56,7 +56,13 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
-        </fragment>
+        <action
+            android:id="@+id/action_navigation_profile_to_oneProfileCollectionFragment"
+            app:destination="@id/oneProfileCollectionFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
     <fragment
         android:id="@+id/loadingFragment"
         android:name="org.sniffsnirr.skillcinema.ui.loading.LoadingFragment"
@@ -302,4 +308,8 @@
         android:name="org.sniffsnirr.skillcinema.ui.serial.SerialSeasonFragment"
         android:label="fragment_serial_season"
         tools:layout="@layout/fragment_serial_season" />
+    <fragment
+        android:id="@+id/oneProfileCollectionFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.profile.profileonecollection.OneProfileCollectionFragment"
+        android:label="OneProfileCollectionFragment" />
 </navigation>

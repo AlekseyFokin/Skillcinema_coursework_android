@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -30,11 +31,14 @@ import org.sniffsnirr.skillcinema.MainActivity.Companion.FIRST_START
 import org.sniffsnirr.skillcinema.MainActivity.Companion.REQUIRE_REFRESH_HOME_FRAGMENT
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentProfileBinding
+import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
+import org.sniffsnirr.skillcinema.ui.profile.adapter.CollectionAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.InterestedAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.ViewedAdapter
 
@@ -49,6 +53,8 @@ class ProfileFragment : Fragment() {
 
     private val interestedAdapter = InterestedAdapter({ onClearAllInterestedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
 
+    private val collectionAdapter = CollectionAdapter({collection-> onDeleteCollectionClick(collection) },{collection->onOpenCollectionClick(collection)})
+
     var possiblyEditablePosition=0
 
     override fun onCreateView(
@@ -60,6 +66,7 @@ class ProfileFragment : Fragment() {
         val root: View = binding.root
         viewModel.loadViewedMovies()
         viewModel.loadInterestedMovies()
+        viewModel.loadCollections()
         return binding.root
     }
 
@@ -78,7 +85,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {// загрузка просмотренных
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка количества просмотренных
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.countViewedMovies.collect {
                     binding.allViewedMoviesButton.text=it.toString()
@@ -105,6 +112,18 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
+        val collectionGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        binding.collectionsRv.layoutManager=collectionGridLayout
+        binding.collectionsRv.setHasFixedSize(true)
+        binding.collectionsRv.adapter = collectionAdapter
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка RV коллекций
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.collectionsForRV.collect {
+                    collectionAdapter.setData(it)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -122,6 +141,22 @@ class ProfileFragment : Fragment() {
             )
         }
         possiblyEditablePosition=position
+    }
+
+   private fun onDeleteCollectionClick(collection:CollectionCountMovies){
+       viewModel.deleteCollection(collection)
+   }
+
+    private fun onOpenCollectionClick(collection:CollectionCountMovies){
+        if (collection!=null) {
+            val bundle = Bundle()
+            bundle.putInt(ID_COLLECTION, collection.id.toInt())
+            bundle.putCharSequence(NAME_COLLECTION, collection.name)
+            findNavController().navigate(
+                R.id.action_navigation_profile_to_oneProfileCollectionFragment,
+                bundle
+            )
+        }
     }
 
      override fun onResume() {
@@ -161,5 +196,8 @@ class ProfileFragment : Fragment() {
 
         const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY="PRIFILE_FRAGMENT"
         const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY="PRIFILE_FRAGMENT"
+
+        const val ID_COLLECTION="ID_COLLECTION"
+        const val NAME_COLLECTION="NAME_COLLECTION"
     }
 }

@@ -139,6 +139,8 @@ class MoviemanFragment : Fragment() {
                 bundle
             )
         }
+
+
     }
 
     private fun onMovieClick(idMovie: Int? ) {

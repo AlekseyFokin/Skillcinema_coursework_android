@@ -51,25 +51,29 @@ class DatabaseRepository @Inject constructor(
         collectionId: Long
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
 
-    suspend fun insertNewMovie(kinopoiskId: Long,collectionId: Long) {
-        movieDao.addOnlyNewMovieToCollection(kinopoiskId,collectionId)
-        Log.d("Insert","repository-insertNewMovie")
+    suspend fun insertNewMovie(kinopoiskId: Long, collectionId: Long) {
+        movieDao.addOnlyNewMovieToCollection(kinopoiskId, collectionId)
+        Log.d("Insert", "repository-insertNewMovie")
     }
 
-    suspend fun getCountMovieInCollection(kinopoiskId: Long,collectionId: Long):Int{
-        return movieDao.getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+    suspend fun getCountMovieInCollection(kinopoiskId: Long, collectionId: Long): Int {
+        return movieDao.getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
     }
 
-    suspend fun deleteMovieFromCollection(kinopoiskId: Long,collectionId: Long){
-        movieDao.deleteMovieByKinopoiskIdAndCollectionId(kinopoiskId,collectionId)
+    suspend fun deleteMovieFromCollection(kinopoiskId: Long, collectionId: Long) {
+        movieDao.deleteMovieByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
     }
 
-    suspend fun clearCollection(collectionId: Long){
+    suspend fun clearCollection(collectionId: Long) {
         movieDao.deleteAllMoviesByCollectionId(collectionId)
     }
 
-    suspend fun getCollectionAndCountMovies()=
-       collectionDAO.getCollectionCountMovies()
+    suspend fun getCollectionAndCountMovies() =
+        collectionDAO.getCollectionCountMovies()
+
+    suspend fun deleteCollectionById(collection:CollectionDBO) {
+        collectionDAO.deleteOnlyDeletableCollection(collection)
+    }
 
 
 // fun MovieRVModel.isViewed():Unit {
