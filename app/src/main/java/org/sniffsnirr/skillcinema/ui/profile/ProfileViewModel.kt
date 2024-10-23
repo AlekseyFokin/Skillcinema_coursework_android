@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
+import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.usecases.DeleteAllMoviesFromCollectionUsecase
+import org.sniffsnirr.skillcinema.usecases.GetCollectionAndCountMoviesUsecase
 import org.sniffsnirr.skillcinema.usecases.GetCountDbCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetViewedMoviesUsecase
 import javax.inject.Inject
@@ -21,7 +23,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     val getViewedMoviesUsecase: GetViewedMoviesUsecase,
     val getCountDbCollectionUsecase: GetCountDbCollectionUsecase,
-    val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase
+    val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase,
+    val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase
 ) : ViewModel() {
     private val _viewedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
     val viewedMovies = _viewedMovies.asStateFlow()
@@ -34,6 +37,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _countInterestedMovies = MutableStateFlow<Int>(0)
     val countInterestedMovies = _countInterestedMovies.asStateFlow()
+
+    private val _collectionsForRV = MutableStateFlow<List<CollectionCountMovies>?>(emptyList())
+    val collectionsForRV = _collectionsForRV.asStateFlow()
 
     fun loadViewedMovies() {
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов

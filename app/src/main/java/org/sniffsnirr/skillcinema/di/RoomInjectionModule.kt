@@ -27,10 +27,10 @@ object RoomInjectionModule {
                         // Notice non-ui thread is here
                         beginTransaction()
                         try {
-                            execSQL("insert into collection (name, embedded) values ('Любимые',${ProfileFragment.ID_FAVORITE_COLLECTION})")
-                            execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',${ProfileFragment.ID_WANT_TO_SEE_COLLECTION})")
-                            execSQL("insert into collection (name, embedded) values ('Просмотрено',${ProfileFragment.ID_VIEWED_COLLECTION})")
-                            execSQL("insert into collection (name, embedded) values ('Вам было интересно',${ProfileFragment.ID_INTERESTED_COLLECTION})")
+                            execSQL("insert into collection (name, embedded) values ('Любимые',1)")
+                            execSQL("insert into collection (name, embedded) values ('Хочу посмотреть',1)")
+                            execSQL("insert into collection (name, embedded) values ('Просмотрено',1)")
+                            execSQL("insert into collection (name, embedded) values ('Вам было интересно',1)")
                             setTransactionSuccessful()
                         } finally {
                             endTransaction()

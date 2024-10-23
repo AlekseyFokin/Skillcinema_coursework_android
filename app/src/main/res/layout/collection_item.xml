@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="180dp"
+    android:layout_width="180dp"
     android:background="@drawable/rect_corner_stroke"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1.2" />
+    <LinearLayout
+        android:id="@+id/open_collection_btn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        >
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.3" />
 
     <ImageView
         android:id="@+id/collection_label"
@@ -27,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/hkgrotesk_regular"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/hkgrotesk_regular"
         android:text="Любимые"
         android:textColor="@color/color_of_main_label_in_onboarding"
         android:textSize="16sp" />
@@ -50,5 +61,21 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/close_btn"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_close_collection2"
+                android:background="@color/cardview_light_background"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

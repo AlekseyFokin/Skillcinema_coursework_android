@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
 
     private val viewedAdapter = ViewedAdapter({ onClearAllViewedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
 
-    private val interestedAdapter = InterestedAdapter({ onClearAllViewedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
+    private val interestedAdapter = InterestedAdapter({ onClearAllInterestedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
 
     var possiblyEditablePosition=0
 
@@ -142,11 +142,14 @@ class ProfileFragment : Fragment() {
             PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
             bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
         )
-
         setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
            RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
             bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
         )
+    }
+
+    fun onClearAllInterestedClick(){
+        viewModel.clearInterstedCollection()
     }
 
     companion object {

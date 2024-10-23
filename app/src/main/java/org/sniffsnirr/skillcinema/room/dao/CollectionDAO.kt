@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 
 
@@ -25,4 +26,7 @@ interface CollectionDAO {
 
     @Query ("Select * from collection where embedded=1")
     suspend fun getEmbeddedCollections():List<CollectionDBO>
+
+    @Query ("select collection.id, collection.name, collection.embedded, count(movie.id) from collection left join movie on collection.id=movie.id_set group by (collection.id) ")
+    suspend fun getCollectionCountMovies():List<CollectionCountMovies>
 }

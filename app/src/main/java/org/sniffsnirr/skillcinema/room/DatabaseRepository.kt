@@ -68,6 +68,10 @@ class DatabaseRepository @Inject constructor(
         movieDao.deleteAllMoviesByCollectionId(collectionId)
     }
 
+    suspend fun getCollectionAndCountMovies()=
+       collectionDAO.getCollectionCountMovies()
+
+
 // fun MovieRVModel.isViewed():Unit {
 //        if (this.kinopoiskId != null) {
 //            scope.launch(Dispatchers.IO)
