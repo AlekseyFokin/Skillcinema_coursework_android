@@ -14,8 +14,8 @@ class GetMoviesFromDBByCollectionUsecase @Inject constructor(
     val reduction: Reduction,
     val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
 ) {
-    private suspend fun getViewedMoviesDBOFromDb(collectionId: Long) = //получение списока kinopoisk_id из БД
-        databaseRepository.getMoviesDboByCollectionIdLimited(collectionId)
+    private suspend fun getMoviesDBOFromDb(collectionId: Long) = //получение списока kinopoisk_id из БД
+        databaseRepository.getMovieDboByCollectionId(collectionId)
 
     private suspend fun loadMovieRVModelFromAPI(idMovie: Int): MovieRVModel {// получение данных по конкретному фильму и конвертация  к MovieRVModel
         val onlyOneMovie = kinopoiskRepository.getOneMovie(idMovie)
@@ -32,7 +32,7 @@ class GetMoviesFromDBByCollectionUsecase @Inject constructor(
     }
 
     suspend fun getMoviesByCollection(collectionId: Long): List<MovieRVModel> { // получение набора данных для rv
-        val viewedMoviesDBO = getViewedMoviesDBOFromDb(collectionId)
+        val viewedMoviesDBO = getMoviesDBOFromDb(collectionId)
         val viewedMoviesRVModel = mutableListOf<MovieRVModel>()
         if (!viewedMoviesDBO.isNullOrEmpty()) {
             viewedMoviesDBO.map { movie -> viewedMoviesRVModel.add(loadMovieRVModelFromAPI(movie.id_kinopoisk.toInt())) }

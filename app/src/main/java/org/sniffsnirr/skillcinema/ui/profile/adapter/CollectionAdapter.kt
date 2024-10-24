@@ -1,6 +1,7 @@
 package org.sniffsnirr.skillcinema.ui.profile.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.R
@@ -42,6 +43,8 @@ class CollectionAdapter(
             }
             binding.collectionName.text = collectionModel.name
             binding.movieNumber.text=collectionModel.countMovies.toString()
+            if (collectionModel.embedded==1){binding.closeBtn.visibility=View.GONE} else{binding.closeBtn.visibility=View.VISIBLE}
+
         }
     }
 

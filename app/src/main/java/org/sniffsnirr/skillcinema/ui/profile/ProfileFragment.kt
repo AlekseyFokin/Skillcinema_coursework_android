@@ -64,7 +64,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-                viewModel.loadViewedMovies()
+        viewModel.loadViewedMovies()
         viewModel.loadInterestedMovies()
         viewModel.loadCollections()
         return binding.root
@@ -168,6 +168,11 @@ class ProfileFragment : Fragment() {
                     if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                         Log.d("Update!@#$", "Обновляю RV на ProfileFragment из OneMovieFragment")
                         viewedAdapter.deleteFromRV(possiblyEditablePosition)
+                        //проброс изменения viewed
+                        setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
+                            RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
+                            bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
+                        )
                    }
                 }
             }

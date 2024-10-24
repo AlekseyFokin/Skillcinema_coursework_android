@@ -311,5 +311,12 @@
     <fragment
         android:id="@+id/oneProfileCollectionFragment"
         android:name="org.sniffsnirr.skillcinema.ui.profile.profileonecollection.OneProfileCollectionFragment"
-        android:label="OneProfileCollectionFragment" />
+        android:label="OneProfileCollectionFragment" >
+        <action
+            android:id="@+id/action_oneProfileCollectionFragment_to_oneMovieFragment"
+            app:destination="@id/oneMovieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
 </navigation>

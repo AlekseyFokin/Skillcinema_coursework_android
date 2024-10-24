@@ -61,7 +61,7 @@
             android:id="@+id/collection_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewed_rv">
@@ -122,6 +122,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_new_collection_btn" />
 
@@ -129,7 +130,7 @@
             android:id="@+id/interested_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/collections_rv">

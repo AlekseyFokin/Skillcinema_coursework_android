@@ -77,26 +77,26 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun loadInterestedMovies() {
-        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции интересных фильмов
             kotlin.runCatching {
                 getViewedMoviesUsecase.getViewedMovies(ProfileFragment.ID_INTERESTED_COLLECTION)
             }.fold(
-                onSuccess = { _viewedMovies.value = it },
+                onSuccess = { _interestedMovies.value = it },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }
-        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки размера коллекции просмотренных фильмов
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки размера коллекции интересных фильмов
             kotlin.runCatching {
                 getCountDbCollectionUsecase.getCountCollection(ProfileFragment.ID_INTERESTED_COLLECTION)
             }.fold(
-                onSuccess = { _countViewedMovies.value = it },
+                onSuccess = { _countInterestedMovies.value = it },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }
     }
 
     fun loadCollections() {
-        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов
+        viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекций
             kotlin.runCatching {
                 getCollectionAndCountMoviesUsecase.getCollectionAndCountMovies()
             }.fold(

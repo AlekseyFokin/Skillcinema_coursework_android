@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
@@ -63,6 +64,20 @@ class OneProfileCollectionFragment : Fragment() {
                 }
             }
         }
+        setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                        Log.d("Update!@#$", "Обновляю RV на OneMovieFragment из OneMovieFragment")
+                        adapter.updateMovieRVModel(possiblyEditablePosition)
+                        // передаю сигнал об изменении выше
+                        setFragmentResult(
+                            HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                            bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+                        )
+
+                    }
+                }
+            }
     }
 
     override fun onCreateView(
@@ -100,7 +115,7 @@ class OneProfileCollectionFragment : Fragment() {
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
             findNavController().navigate(
-                R.id.action_collectionFragment_to_oneMovieFragment,
+                R.id.action_oneProfileCollectionFragment_to_oneMovieFragment,
                 bundle
             )
         }
