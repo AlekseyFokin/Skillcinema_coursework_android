@@ -1,44 +1,34 @@
 package org.sniffsnirr.skillcinema.ui.profile
 
-import android.content.Context
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.EditText
+import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.os.bundleOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.MainActivity.Companion.FIRST_START
-import org.sniffsnirr.skillcinema.MainActivity.Companion.REQUIRE_REFRESH_HOME_FRAGMENT
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentProfileBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
-import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
-import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.CollectionAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.InterestedAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.ViewedAdapter
@@ -126,6 +116,8 @@ class ProfileFragment : Fragment() {
         }
         binding.allInterestedButton.setOnClickListener { onOpenCollectionClick(viewModel.interestedCollection.value) }
         binding.allViewedMoviesButton.setOnClickListener { onOpenCollectionClick(viewModel.viewedCollection.value) }
+
+        binding.addNewCollectionBtn.setOnClickListener{showCustomDialog()}
     }
 
     override fun onDestroyView() {
@@ -192,6 +184,21 @@ class ProfileFragment : Fragment() {
 
     fun onClearAllInterestedClick(){
         viewModel.clearInterstedCollection()
+    }
+
+
+
+    fun showCustomDialog(){
+        val dialog= Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_create_collection)
+
+        val editText = dialog.findViewById<EditText>(R.id.new_collection_name)
+        val positiveButton=dialog.findViewById<AppCompatButton>(R.id.go_btn)
+        val negativeButton=dialog.findViewById<ImageButton>(R.id.close_btn)
+
+        positiveButton.setOnClickListener { dialog.dismiss() }
+        negativeButton.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     companion object {

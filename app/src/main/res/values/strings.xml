@@ -33,4 +33,5 @@
     <string name="label_on_button">изображение на кнопке- стрелка</string>
     <string name="gallery_item">элемент галереи</string>
     <string name="clear_history_label_btn">Очистить историю</string>
+    <string name="thinck_up_name_for_new_collection">Придумайте название для вашей новой коллекции</string>
 </resources>

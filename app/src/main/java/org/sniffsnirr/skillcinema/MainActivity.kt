@@ -23,6 +23,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.databinding.ActivityMainBinding
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
+    name = "skillcinema_settings",
+    corruptionHandler = null,
+    scope = CoroutineScope(Dispatchers.IO)
+)
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -31,11 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar:Toolbar
 
 
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
-        name = "skillcinema_settings",
-        corruptionHandler = null,
-        scope = CoroutineScope(Dispatchers.IO)
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     navController!!.graph = graph
                 }
+
         }
     }
 
