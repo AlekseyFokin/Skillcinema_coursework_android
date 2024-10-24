@@ -13,6 +13,7 @@ import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
+import org.sniffsnirr.skillcinema.usecases.AddMovieToInterestedCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.DeleteMovieFromCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
 import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollection
@@ -32,7 +33,8 @@ class OneMovieViewModel @Inject constructor(
     val getSerialInfo: GetSerialInfo,
     val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
     val getCountMovieInCollection: GetCountMovieInCollection,
-    val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase
+    val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase,
+    val addMovieToInterestedCollectionUsecase: AddMovieToInterestedCollectionUsecase
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -71,6 +73,8 @@ class OneMovieViewModel @Inject constructor(
                 onSuccess = { _movieInfo.value = it },
                 onFailure = { Log.d("MovieInfo", it.message ?: "") }
             )
+            //добавляю текущий фильм в коллекцию фильмов, которыми интересовался
+            addMovieToInterestedCollectionUsecase.addMovieToInterested(idMovie.toLong(),ProfileFragment.ID_INTERESTED_COLLECTION)
         }
         getActorsAndMoviemen(idMovie)
     }

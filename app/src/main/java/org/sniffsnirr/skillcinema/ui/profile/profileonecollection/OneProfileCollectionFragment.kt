@@ -43,7 +43,7 @@ class OneProfileCollectionFragment : Fragment() {
         (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(ProfileFragment.NAME_COLLECTION).toString()
         collectionId = arguments?.getInt(ProfileFragment.ID_COLLECTION)?:0
-         viewModel.
+         viewModel.loadMoviesInCollection(collectionId.toLong())
     }
 
     override fun onResume() {
@@ -78,7 +78,7 @@ class OneProfileCollectionFragment : Fragment() {
         binding.movieCollectionRv.adapter = adapter
         binding.movieCollectionRv.setHasFixedSize(true)
 
-        viewModel.premierMovies.onEach {
+        viewModel.moviesInCollection.onEach {
             if (!it.isNullOrEmpty()) {
                 adapter.setMovieModelList(it)
             }

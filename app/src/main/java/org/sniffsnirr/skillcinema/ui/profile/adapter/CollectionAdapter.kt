@@ -13,7 +13,7 @@ import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.ID_WANT_T
 
 class CollectionAdapter(
     val onDeleteCollectionClick: (CollectionCountMovies) -> Unit,
-    val onOpenCollectionClick: (CollectionCountMovies) -> Unit
+    val onOpenCollectionClick: (CollectionDBO) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var collections = emptyList<CollectionCountMovies>().toMutableList()
@@ -31,7 +31,8 @@ class CollectionAdapter(
                 onDeleteCollectionClick(collectionModel)
             }
             binding.openCollectionBtn.setOnClickListener {
-                onOpenCollectionClick(collectionModel)
+                val collectionDbo=CollectionDBO(collectionModel.id,collectionModel.name,collectionModel.embedded)
+                onOpenCollectionClick(collectionDbo)
             }
 
             when (collectionModel.id) {

@@ -22,7 +22,7 @@ interface MovieDAO {
     @Query("Select * from movie where id_kinopoisk=:kinopoiskId")
     fun getMoviesDboByKinopoiskId(kinopoiskId: Long): List<MovieDBO>?
 
-    @Query("Select * from movie where id_set=:collectionId")
+    @Query("Select * from movie where id_set=:collectionId order by id desc")
     fun getMoviesDboByCollectionId(collectionId: Long): List<MovieDBO>?
 
     @Query("Select count(id) from movie where id_set=:collectionId")
@@ -61,4 +61,22 @@ interface MovieDAO {
     @Query("Delete from movie where (id_set=:collectionId)")
     suspend fun deleteAllMoviesByCollectionId(collectionId: Long)
 
+    @Transaction
+    suspend fun insertMovieToInterested(kinopoiskId:Long,idInterestedCollection:Long)
+    {//проверка дублей
+        if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,idInterestedCollection)<1)
+        {
+            //проверка лимита
+          val moviesInCollection=getMoviesDboByCollectionId(idInterestedCollection)
+            if (moviesInCollection?.size==ProfileFragment.LIMIT_FOR_INTERESTED_COLLECTION)
+            {// если лимит превышен - удаление первого
+                delete(moviesInCollection.last())
+            }
+            // вставка нового фильма
+            addNewMovieToCollection(kinopoiskId,idInterestedCollection)
+        }
+
+
+
+    }
 }

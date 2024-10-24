@@ -32,6 +32,7 @@ import org.sniffsnirr.skillcinema.MainActivity.Companion.REQUIRE_REFRESH_HOME_FR
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentProfileBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
+import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
@@ -63,8 +64,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        viewModel.loadViewedMovies()
+                viewModel.loadViewedMovies()
         viewModel.loadInterestedMovies()
         viewModel.loadCollections()
         return binding.root
@@ -124,6 +124,8 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+        binding.allInterestedButton.setOnClickListener { onOpenCollectionClick(viewModel.interestedCollection.value) }
+        binding.allViewedMoviesButton.setOnClickListener { onOpenCollectionClick(viewModel.viewedCollection.value) }
     }
 
     override fun onDestroyView() {
@@ -147,7 +149,7 @@ class ProfileFragment : Fragment() {
        viewModel.deleteCollection(collection)
    }
 
-    private fun onOpenCollectionClick(collection:CollectionCountMovies){
+    private fun onOpenCollectionClick(collection: CollectionDBO?){
         if (collection!=null) {
             val bundle = Bundle()
             bundle.putInt(ID_COLLECTION, collection.id.toInt())
@@ -199,5 +201,7 @@ class ProfileFragment : Fragment() {
 
         const val ID_COLLECTION="ID_COLLECTION"
         const val NAME_COLLECTION="NAME_COLLECTION"
+
+        const val LIMIT_FOR_INTERESTED_COLLECTION=20
     }
 }

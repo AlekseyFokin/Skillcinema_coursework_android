@@ -18,6 +18,7 @@ import org.sniffsnirr.skillcinema.usecases.DeleteAllMoviesFromCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.DeleteCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetCollectionAndCountMoviesUsecase
 import org.sniffsnirr.skillcinema.usecases.GetCountDbCollectionUsecase
+import org.sniffsnirr.skillcinema.usecases.GetOneCollectionFromDBUsecase
 import org.sniffsnirr.skillcinema.usecases.GetViewedMoviesUsecase
 import javax.inject.Inject
 
@@ -27,7 +28,8 @@ class ProfileViewModel @Inject constructor(
     val getCountDbCollectionUsecase: GetCountDbCollectionUsecase,
     val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase,
     val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
-    val deleteCollectionUsecase: DeleteCollectionUsecase
+    val deleteCollectionUsecase: DeleteCollectionUsecase,
+    val getOneCollectionFromDBUsecase: GetOneCollectionFromDBUsecase
 ) : ViewModel() {
     private val _viewedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
     val viewedMovies = _viewedMovies.asStateFlow()
@@ -43,6 +45,17 @@ class ProfileViewModel @Inject constructor(
 
     private val _collectionsForRV = MutableStateFlow<List<CollectionCountMovies>?>(emptyList())
     val collectionsForRV = _collectionsForRV.asStateFlow()
+
+    private val _viewedCollection = MutableStateFlow<CollectionDBO?>(null)
+    val viewedCollection = _viewedCollection.asStateFlow()
+
+    private val _interestedCollection = MutableStateFlow<CollectionDBO?>(null)
+    val interestedCollection = _interestedCollection.asStateFlow()
+
+    init{
+        getViewedCollectionInfo()
+        getInterestedCollectionInfo()
+    }
 
     fun loadViewedMovies() {
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки коллекции просмотренных фильмов
@@ -107,13 +120,33 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun deleteCollection(collection:CollectionCountMovies) {
+    fun deleteCollection(collection: CollectionCountMovies) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteCollectionUsecase.deleteCollection(collection)
             loadCollections()
         }
     }
 
+    fun getViewedCollectionInfo() {
+        viewModelScope.launch(Dispatchers.IO) {// загрузка самой viewed коллекции
+            kotlin.runCatching {
+                getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_VIEWED_COLLECTION)
+            }.fold(
+                onSuccess = { _viewedCollection.value = it },
+                onFailure = { Log.d("ViewedList", it.message ?: "") }
+            )
+        }
+    }
 
+    fun getInterestedCollectionInfo() {
+        viewModelScope.launch(Dispatchers.IO) {// загрузка самой interested коллекции
+            kotlin.runCatching {
+                getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_INTERESTED_COLLECTION)
+            }.fold(
+                onSuccess = { _interestedCollection.value = it },
+                onFailure = { Log.d("ViewedList", it.message ?: "") }
+            )
+        }
+    }
 
 }

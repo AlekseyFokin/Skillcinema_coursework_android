@@ -75,6 +75,14 @@ class DatabaseRepository @Inject constructor(
         collectionDAO.deleteOnlyDeletableCollection(collection)
     }
 
+    suspend fun addMovieToInterestedCollection(kinopoiskId:Long,idInterestedCollection:Long){
+        movieDao.insertMovieToInterested(kinopoiskId,idInterestedCollection)
+    }
+    suspend fun getCollectionById(collectionId:Long):CollectionDBO{
+        return collectionDAO.getCollectionById(collectionId)
+    }
+
+
 
 // fun MovieRVModel.isViewed():Unit {
 //        if (this.kinopoiskId != null) {

@@ -40,4 +40,6 @@ interface CollectionDAO {
             delete(collection)
         }
     }
+    @Query("select * from collection where id=:collectionId")
+    suspend fun getCollectionById(collectionId:Long):CollectionDBO
 }
