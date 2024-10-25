@@ -48,6 +48,10 @@ class ProfileFragment : Fragment() {
 
     var possiblyEditablePosition=0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -186,17 +190,18 @@ class ProfileFragment : Fragment() {
         viewModel.clearInterstedCollection()
     }
 
-
-
-    fun showCustomDialog(){
+    fun showCustomDialog(){//диалог создания новой коллекции
         val dialog= Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_create_collection)
-
         val editText = dialog.findViewById<EditText>(R.id.new_collection_name)
         val positiveButton=dialog.findViewById<AppCompatButton>(R.id.go_btn)
         val negativeButton=dialog.findViewById<ImageButton>(R.id.close_btn)
 
-        positiveButton.setOnClickListener { dialog.dismiss() }
+        positiveButton.setOnClickListener {
+            if (!editText.text.isNullOrEmpty()){
+                viewModel.createCollection(editText.text.toString())
+            }
+            dialog.dismiss() }
         negativeButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }

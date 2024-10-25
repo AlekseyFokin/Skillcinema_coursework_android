@@ -14,6 +14,7 @@ import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.usecases.CreateCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.DeleteAllMoviesFromCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.DeleteCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetCollectionAndCountMoviesUsecase
@@ -29,7 +30,8 @@ class ProfileViewModel @Inject constructor(
     val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase,
     val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
     val deleteCollectionUsecase: DeleteCollectionUsecase,
-    val getOneCollectionFromDBUsecase: GetOneCollectionFromDBUsecase
+    val getOneCollectionFromDBUsecase: GetOneCollectionFromDBUsecase,
+    val createCollectionUsecase: CreateCollectionUsecase
 ) : ViewModel() {
     private val _viewedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
     val viewedMovies = _viewedMovies.asStateFlow()
@@ -146,6 +148,13 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = { _interestedCollection.value = it },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
+        }
+    }
+
+    fun createCollection(nameCollection: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            createCollectionUsecase.insertCollection(nameCollection)
+            loadCollections()
         }
     }
 

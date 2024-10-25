@@ -82,6 +82,10 @@ class DatabaseRepository @Inject constructor(
         return collectionDAO.getCollectionById(collectionId)
     }
 
+    suspend fun insertCollection(collectionName:String){
+        collectionDAO.insertCollection(collectionName)
+    }
+
 
 
 // fun MovieRVModel.isViewed():Unit {

@@ -42,4 +42,7 @@ interface CollectionDAO {
     }
     @Query("select * from collection where id=:collectionId")
     suspend fun getCollectionById(collectionId:Long):CollectionDBO
+
+    @Query("insert into collection (name,embedded) values(:collectionName,0)")
+    suspend fun insertCollection(collectionName:String)
 }
