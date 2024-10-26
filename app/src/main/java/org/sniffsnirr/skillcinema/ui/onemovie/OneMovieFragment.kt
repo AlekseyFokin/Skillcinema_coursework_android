@@ -41,6 +41,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
+import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -58,13 +59,16 @@ class OneMovieFragment : Fragment() {
 
     private val relatedMoviesAdapter = RelatedMoviesAdapter { idMovie -> onMovieClick(idMovie) }
 
+    private val reduction = Reduction()
+
     var idMovie = 0
     var movieName = ""
-    var imdbUrl=""
+    var imdbUrl = ""
     private lateinit var relatedMovies: List<MovieRVModel>
 
     private lateinit var animationScaleBtn: Animation;
 
+    private lateinit var movieRVModel: MovieRVModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +90,7 @@ class OneMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        animationScaleBtn= AnimationUtils.loadAnimation(requireContext(), R.anim.btn_anim)
+        animationScaleBtn = AnimationUtils.loadAnimation(requireContext(), R.anim.btn_anim)
 
         //viewModel.setIdMovie(idMovie)
         viewModel.getRelatedMovies(idMovie)
@@ -124,7 +128,18 @@ class OneMovieFragment : Fragment() {
                             headerSerial.visibility = View.GONE
                         }
                     }
-                    imdbUrl=it?.imdbId?:""
+                    imdbUrl = it?.imdbId ?: ""
+
+                    movieRVModel = MovieRVModel(
+                        it?.kinopoiskId,
+                        it?.posterUrl ?: "",
+                        reduction.stringReduction(it?.nameRu, 17),
+                        reduction.arrayReduction(it?.genres?.map { it.genre }
+                            ?: emptyList<String>(), 20, 2),
+                        "0",
+                        false,
+                        false
+                    )
                 }
             }
         }
@@ -232,7 +247,7 @@ class OneMovieFragment : Fragment() {
         binding.relatedMoviesRv.adapter = relatedMoviesAdapter
 
         viewModel.relatedMovies.onEach {// загрузка похожих фильмов
-            Log.d("Update","Обновляю данные для RV на OneMovieFragment")
+            Log.d("Update", "Обновляю данные для RV на OneMovieFragment")
             relatedMoviesAdapter.setData(it.take(20))
             binding.numberOfRelatedMovies.text = "${it.size} >"
             relatedMovies = it
@@ -251,7 +266,7 @@ class OneMovieFragment : Fragment() {
             getAllActorsOrMoviemans(false)// кинематографисты
         }
 
-        binding.numberOfGallery.setOnClickListener {
+        binding.numberOfGallery.setOnClickListener {//перехода на галерею
             val bundle = Bundle()
             if (idMovie != null) {
                 bundle.putInt(ID_MOVIE, idMovie)
@@ -262,7 +277,7 @@ class OneMovieFragment : Fragment() {
             }
         }
 
-        binding.numberOfRelatedMovies.setOnClickListener {
+        binding.numberOfRelatedMovies.setOnClickListener {// переход на похожие фильмы
             val bundle = Bundle()
             if (movieName != null) {
                 bundle.putCharSequence(MOVIE_NAME, movieName)
@@ -275,7 +290,7 @@ class OneMovieFragment : Fragment() {
                 )
             }
         }
-        binding.allSeasonsSeries.setOnClickListener {
+        binding.allSeasonsSeries.setOnClickListener {// переход на все сезоны сереала
             val bundle = Bundle()
             if (idMovie != null) {
                 bundle.putInt(ID_MOVIE, idMovie)
@@ -306,7 +321,7 @@ class OneMovieFragment : Fragment() {
             viewModel.addOrDeleteMovieToViewed(idMovie)
         }
 
-        binding.share.setOnClickListener {
+        binding.share.setOnClickListener {// поделиться
             binding.share.startAnimation(animationScaleBtn)
             if (!imdbUrl.isNullOrEmpty()) {
                 val sendIntent: Intent = Intent().apply {
@@ -316,12 +331,23 @@ class OneMovieFragment : Fragment() {
                 }
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
+            } else {
+                Toast.makeText(requireContext(), "Фильма нет на www.imdb.com", Toast.LENGTH_LONG)
+                    .show()
             }
-            else {Toast.makeText(requireContext(),"Фильма нет на www.imdb.com", Toast.LENGTH_LONG).show()}
+        }
+
+        binding.someMore.setOnClickListener {// добавление фильма в коллекции
+            val bundle = Bundle()
+            bundle.putParcelable(MOVIE, movieRVModel)
+            findNavController().navigate(
+                R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
+                bundle
+            )
         }
     }
 
-    private fun getAllActorsOrMoviemans(typrOfMoviemans: Boolean) {
+    private fun getAllActorsOrMoviemans(typrOfMoviemans: Boolean) {//фрагмент со всеми фильмами кинематографиста
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
@@ -414,7 +440,7 @@ class OneMovieFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-            //viewModel.setIdMovie(idMovie)
+        //viewModel.setIdMovie(idMovie)
 //        var needUpdate = false
 //
 //        setFragmentResultListener(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
@@ -446,10 +472,11 @@ class OneMovieFragment : Fragment() {
         const val ACTORS_OR_MOVIEMANS =
             "ACTORS_OR_MOVIEMANS"  // true -актеры, false - кинематографисты
         const val RELATED_MOVIES_LIST = "RELATED_MOVIES_LIST"
-        const val IMDB_PATH="https://www.imdb.com/title/"
+        const val IMDB_PATH = "https://www.imdb.com/title/"
+        const val MOVIE = "MOVIE_RV_MODEL"
 
-     //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY"
-     //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY"
+        //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY"
+        //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY"
 
     }
 }

@@ -202,6 +202,12 @@
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_oneMovieFragment_to_dialogMovieToCollectionFragment"
+            app:destination="@id/dialogMovieToCollectionFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/moviemanFragment"
@@ -319,4 +325,8 @@
             app:exitAnim="@anim/slide_out"
             app:popExitAnim="@anim/slide_out" />
     </fragment>
+    <fragment
+        android:id="@+id/dialogMovieToCollectionFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.DialogMovieToCollectionFragment"
+        android:label="DialogMovieToCollectionFragment" />
 </navigation>

@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
@@ -93,11 +96,15 @@ class OneProfileCollectionFragment : Fragment() {
         binding.movieCollectionRv.adapter = adapter
         binding.movieCollectionRv.setHasFixedSize(true)
 
-        viewModel.moviesInCollection.onEach {
-            if (!it.isNullOrEmpty()) {
-                adapter.setMovieModelList(it)
+        viewLifecycleOwner.lifecycleScope.launch {// загрузка RV коллекций
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moviesInCollection.collect {
+                    if (!it.isNullOrEmpty()) {
+                        adapter.setMovieModelList(it)
+                    }
+                }
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
 
     override fun onDestroy() {
