@@ -19,6 +19,7 @@ class GetCollectionAndCountMoviesWithMarkUsecase @Inject constructor(
             collection->
             ListCollectionCountMoviesWithMarks.add(Pair(collection,getCountMovieInCollection.isAlreadyExist(movieId,collection.id)))
        }
+        ListCollectionCountMoviesWithMarks.add(Pair(ListCollectionCountMovies.last(),false))
         return ListCollectionCountMoviesWithMarks
     }
 

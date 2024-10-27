@@ -1,162 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#99000000"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="492dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-android:background="@drawable/rect_top_corner_without_stroke"
-    >
-
-    <ImageButton
-        android:id="@+id/close_btn"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:background="@color/cardview_light_background"
-        android:scaleX="1.3"
-        android:scaleY="1.3"
-        android:src="@drawable/ic_close_collection2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/movie_card"
-        android:layout_width="96dp"
-        android:layout_height="136dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintTop_toBottomOf="@id/close_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="492dp"
+    android:background="#FF000000"
         >
-
-        <ImageView
-            android:id="@+id/poster"
-            android:layout_width="96dp"
-            android:layout_height="136dp"
-            android:background="@drawable/rounded_image"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/poster"
-            />
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/raiting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
-        android:background="@drawable/rating_label"
-        android:fontFamily="@font/hkgrotesk_medium"
-        android:text="  7.8  "
-        android:textColor="#ffffff"
-        android:textSize="6sp"
-        app:layout_constraintEnd_toEndOf="@id/movie_card"
-        app:layout_constraintTop_toTopOf="@id/movie_card"
-        android:elevation="2dp"
-        />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/movie_card"
-        app:layout_constraintStart_toEndOf="@id/movie_card"
-        app:layout_constraintTop_toTopOf="@id/movie_card">
-
-        <TextView
-            android:id="@+id/movie_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_semibold"
-            android:text="Название"
-            android:textColor="@color/color_of_main_label_in_onboarding"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/genre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Жанр"
-            android:textColor="@color/color_of_genre"
-            android:textSize="14sp" />
-    </LinearLayout>
 
     <View
-        android:id="@+id/grey_line_1"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/color_of_genre"
-        app:layout_constraintTop_toBottomOf="@id/movie_card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <LinearLayout
-        android:id="@+id/header_for_rv"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toBottomOf="@id/grey_line_1"
+        android:layout_height="match_parent"
+        android:background="@drawable/rect_top_corner_without_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
+        android:elevation="-2dp"/>
 
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_movie_to_collection"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="40dp"
+        <ImageButton
+            android:id="@+id/close_btn"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="26dp"
+            android:background="@color/cardview_light_background"
             android:scaleX="1.3"
             android:scaleY="1.3"
-            />
+            android:src="@drawable/ic_close_collection2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/movie_card"
+            android:layout_width="96dp"
+            android:layout_height="136dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="26dp"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/close_btn">
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="96dp"
+                android:layout_height="136dp"
+                android:background="@drawable/rounded_image"
+                android:contentDescription="@string/poster"
+                android:scaleType="fitXY" />
+        </androidx.cardview.widget.CardView>
+
         <TextView
+            android:id="@+id/raiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Добавить в колекцию"
-            android:fontFamily="@font/hkgrotesk_regular"
-            android:textColor="@color/color_of_main_label_in_onboarding"
-            android:textSize="18sp" />
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/rating_label"
+            android:elevation="2dp"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="  7.8  "
+            android:textColor="#ffffff"
+            android:textSize="6sp"
+            app:layout_constraintEnd_toEndOf="@id/movie_card"
+            app:layout_constraintTop_toTopOf="@id/movie_card" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/movie_card"
+            app:layout_constraintStart_toEndOf="@id/movie_card"
+            app:layout_constraintTop_toTopOf="@id/movie_card">
+
+            <TextView
+                android:id="@+id/movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Название"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hkgrotesk_regular"
+                android:text="Жанр"
+                android:textColor="@color/color_of_genre"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/grey_line_1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/color_of_empty_poster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/movie_card" />
+
+        <LinearLayout
+            android:id="@+id/header_for_rv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/grey_line_1"
+
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="40dp"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                android:src="@drawable/ic_add_movie_to_collection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hkgrotesk_regular"
+                android:text="Добавить в колекцию"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="18sp" />
             />
-   </LinearLayout>
-    <View
-        android:id="@+id/grey_line_2"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_of_genre"
-        app:layout_constraintTop_toBottomOf="@id/header_for_rv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/collection_rv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        <View
+            android:id="@+id/grey_line_2"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_of_empty_poster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_for_rv" />
 
-        android:orientation="vertical"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grey_line_2" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collection_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginEnd="42dp"
+            android:orientation="vertical"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/grey_line_2" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

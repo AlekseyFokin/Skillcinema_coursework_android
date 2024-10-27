@@ -109,6 +109,7 @@ class ProfileFragment : Fragment() {
 
         val collectionGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.collectionsRv.layoutManager=collectionGridLayout
+        binding.collectionsRv.layoutManager=collectionGridLayout
         binding.collectionsRv.setHasFixedSize(true)
         binding.collectionsRv.adapter = collectionAdapter
         viewLifecycleOwner.lifecycleScope.launch {// загрузка RV коллекций

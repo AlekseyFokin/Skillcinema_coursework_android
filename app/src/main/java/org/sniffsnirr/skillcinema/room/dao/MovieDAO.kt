@@ -66,10 +66,10 @@ interface MovieDAO {
     {//проверка дублей
         if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,idInterestedCollection)<1)
         {
-            //проверка лимита
+            //проверка лимита  если лимит превышен - удаление первого
           val moviesInCollection=getMoviesDboByCollectionId(idInterestedCollection)
             if (moviesInCollection?.size==ProfileFragment.LIMIT_FOR_INTERESTED_COLLECTION)
-            {// если лимит превышен - удаление первого
+            {
                 delete(moviesInCollection.last())
             }
             // вставка нового фильма

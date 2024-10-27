@@ -1,10 +1,8 @@
 package org.sniffsnirr.skillcinema.ui.onemovie
 
 import android.content.Intent
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +11,9 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -32,15 +31,13 @@ import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
-import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
+import org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.BottomSheetDialogFragmentAddMovieToCollection
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
@@ -340,10 +337,13 @@ class OneMovieFragment : Fragment() {
         binding.someMore.setOnClickListener {// добавление фильма в коллекции
             val bundle = Bundle()
             bundle.putParcelable(MOVIE, movieRVModel)
-            findNavController().navigate(
-                R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
-                bundle
-            )
+          //  findNavController().navigate(
+          //      R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
+          //      bundle
+          //  )
+            val bottomSheetDialogFragmentAddMovieToCollection=BottomSheetDialogFragmentAddMovieToCollection()
+            bottomSheetDialogFragmentAddMovieToCollection.setArguments(bundle)
+            bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager,"dialog")
         }
     }
 
