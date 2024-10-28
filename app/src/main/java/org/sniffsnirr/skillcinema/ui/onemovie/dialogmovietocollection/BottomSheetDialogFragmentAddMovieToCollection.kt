@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Build
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +43,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             { ListCollectionWithMark -> putCurrentListCollectionWithMark(ListCollectionWithMark) });
 
     var movieRVModel: MovieRVModel? = null
-    lateinit var currentListCollectionWithMark: List<Pair<CollectionCountMovies, Boolean>>
+    lateinit var currentListCollectionWithMark:MutableList<Pair<CollectionCountMovies, Boolean>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +95,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
                 viewModel.collectionsForRV.collect {
                     if (!it.isNullOrEmpty()) {
                         adapter.setContent(it)
-                        currentListCollectionWithMark = it
+                        currentListCollectionWithMark = it.toMutableList()
                     }
                 }
             }
@@ -105,22 +106,29 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
         }
 
         binding.headerForRv.setOnClickListener {//сохранить все указанное присутствие фильма в коллекциях
-            currentListCollectionWithMark.map { pair ->
-                if (pair.second) {
-                    viewModel.addNewMovieToCollection(
-                        (movieRVModel?.kinopoiskId ?: 0).toLong(),
-                        pair.first.id
-                    )
-                } else {//иначе удалить
-                    viewModel.deleteMovieFromCollection((movieRVModel?.kinopoiskId ?: 0).toLong(),
-                    pair.first.id)
-                }
-            }
+            saveMovieToAllCheckedCollection()
             dismiss()
         }
     }
 
+    fun saveMovieToAllCheckedCollection(){
+        currentListCollectionWithMark.removeAt(currentListCollectionWithMark.lastIndex)
+        currentListCollectionWithMark.map { pair ->
+            if (pair.second) {
+                viewModel.addNewMovieToCollection(
+                    (movieRVModel?.kinopoiskId ?: 0).toLong(),
+                    pair.first.id
+                )
+            } else {//иначе удалить
+                viewModel.deleteMovieFromCollection((movieRVModel?.kinopoiskId ?: 0).toLong(),
+                    pair.first.id)
+            }
+        }
+    }
+
     fun onPlusCollectionClick() {
+//сохраняю а то галочки потеряются
+        saveMovieToAllCheckedCollection()
         showCustomDialog()
     }
 
@@ -144,6 +152,9 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
     }
 
     fun putCurrentListCollectionWithMark(listCollectionWithMark: List<Pair<CollectionCountMovies, Boolean>>) {
-        currentListCollectionWithMark = listCollectionWithMark
+        currentListCollectionWithMark = listCollectionWithMark.toMutableList()
+        currentListCollectionWithMark.map { item->
+            Log.d("состояние списка коллекций","${item.first.name} --- ${item.second}")
+        }
     }
 }
