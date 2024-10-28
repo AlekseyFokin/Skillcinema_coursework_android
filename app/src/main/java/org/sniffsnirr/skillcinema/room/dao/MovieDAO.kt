@@ -64,10 +64,12 @@ interface MovieDAO {
     @Transaction
     suspend fun insertMovieToInterested(kinopoiskId:Long,idInterestedCollection:Long)
     {//проверка дублей
+
         if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,idInterestedCollection)<1)
         {
             //проверка лимита  если лимит превышен - удаление первого
           val moviesInCollection=getMoviesDboByCollectionId(idInterestedCollection)
+
             if (moviesInCollection?.size==ProfileFragment.LIMIT_FOR_INTERESTED_COLLECTION)
             {
                 delete(moviesInCollection.last())

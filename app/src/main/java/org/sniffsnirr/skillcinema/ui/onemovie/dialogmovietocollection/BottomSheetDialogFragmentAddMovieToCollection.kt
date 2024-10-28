@@ -14,11 +14,15 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAddMovieToCollectionBinding
@@ -33,7 +37,10 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
     var _binding: FragmentAddMovieToCollectionBinding? = null
     val binding get() = _binding!!
     val collectionListForAddMovie = mutableListOf<Int>()
-    val adapter = DialogMovieToCollectionAdapter { onPlusCollectionClick() }
+    val adapter =
+        DialogMovieToCollectionAdapter({ onPlusCollectionClick() },
+            { ListCollectionWithMark -> putCurrentListCollectionWithMark(ListCollectionWithMark) });
+
     var movieRVModel: MovieRVModel? = null
     lateinit var currentListCollectionWithMark: List<Pair<CollectionCountMovies, Boolean>>
 
@@ -75,6 +82,11 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
         binding.collectionRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.collectionRv.adapter = adapter
+        //установка декоратора
+        val dividerItemDecorator= DividerItemDecoration(requireContext(),RecyclerView.VERTICAL)
+        dividerItemDecorator.setDrawable(resources.getDrawable(R.drawable.line_for_rv))
+        binding.collectionRv.addItemDecoration(dividerItemDecorator)
+
         binding.collectionRv.setHasFixedSize(true)
 
         viewLifecycleOwner.lifecycleScope.launch {// загрузка RV коллекций
@@ -92,15 +104,19 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             dismiss()
         }
 
-        binding.headerForRv.setOnClickListener {
+        binding.headerForRv.setOnClickListener {//сохранить все указанное присутствие фильма в коллекциях
             currentListCollectionWithMark.map { pair ->
                 if (pair.second) {
                     viewModel.addNewMovieToCollection(
                         (movieRVModel?.kinopoiskId ?: 0).toLong(),
                         pair.first.id
                     )
+                } else {//иначе удалить
+                    viewModel.deleteMovieFromCollection((movieRVModel?.kinopoiskId ?: 0).toLong(),
+                    pair.first.id)
                 }
             }
+            dismiss()
         }
     }
 
@@ -118,11 +134,16 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
         positiveButton.setOnClickListener {
             if (!editText.text.isNullOrEmpty()) {
                 viewModel.createCollection(editText.text.toString())
-                adapter.notifyItemInserted((viewModel.collectionsForRV.value?.size ?: 1) - 1)
+                //adapter.notifyItemInserted((viewModel.collectionsForRV.value?.size ?: 1) - 1)
+                //  adapter.setContent(currentListCollectionWithMark)
             }
             dialog.dismiss()
         }
         negativeButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
+    }
+
+    fun putCurrentListCollectionWithMark(listCollectionWithMark: List<Pair<CollectionCountMovies, Boolean>>) {
+        currentListCollectionWithMark = listCollectionWithMark
     }
 }

@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
-            android:layout_marginEnd="42dp"
+
             android:orientation="vertical"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"

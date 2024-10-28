@@ -28,12 +28,14 @@ import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion.MOVIE
 import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.PosterViewHolder
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,
+    val setCurrentListCollectionWithMark:(List<Pair<CollectionCountMovies, Boolean>>)->Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var contentList= mutableListOf<Pair<CollectionCountMovies,Boolean>>()
 
     fun setContent(newContent:List<Pair<CollectionCountMovies,Boolean>>){
         this.contentList=newContent.toMutableList()
+        notifyDataSetChanged()
     }
 
     inner class ButtonViewHolder(val binding: CollectionDialogItemButtonBinding) :
@@ -62,6 +64,7 @@ class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,): R
             binding.checkbox.setOnClickListener {//щелчек по чекбоксу коллекции
                 contentList[position] = Pair(collection.first,!collection.second)
                 notifyItemChanged(position)
+                setCurrentListCollectionWithMark(contentList)
             }
         }
     }

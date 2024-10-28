@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -287,7 +288,7 @@ class OneMovieFragment : Fragment() {
                 )
             }
         }
-        binding.allSeasonsSeries.setOnClickListener {// переход на все сезоны сереала
+        binding.allSeasonsSeries.setOnClickListener {// переход на все сезоны сериала
             val bundle = Bundle()
             if (idMovie != null) {
                 bundle.putInt(ID_MOVIE, idMovie)
@@ -343,6 +344,13 @@ class OneMovieFragment : Fragment() {
           //  )
             val bottomSheetDialogFragmentAddMovieToCollection=BottomSheetDialogFragmentAddMovieToCollection()
             bottomSheetDialogFragmentAddMovieToCollection.setArguments(bundle)
+            bottomSheetDialogFragmentAddMovieToCollection.lifecycle.addObserver(//в случае изменеия
+                LifecycleEventObserver { source, event ->
+                if (event==Lifecycle.Event.ON_STOP){
+                    viewModel.decideMovieInWantToSee(idMovie)
+                }
+            })
+
             bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager,"dialog")
         }
     }
@@ -440,6 +448,8 @@ class OneMovieFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+            //   Log.d("Return From BottomSheet","Сработало!!!")
         //viewModel.setIdMovie(idMovie)
 //        var needUpdate = false
 //

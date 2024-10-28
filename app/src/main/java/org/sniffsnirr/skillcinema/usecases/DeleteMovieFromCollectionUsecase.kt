@@ -10,6 +10,5 @@ class DeleteMovieFromCollectionUsecase @Inject constructor(val databaseRepositor
 
     suspend fun deleteMovieFromCollection(kinopoiskId: Long,collectionId: Long,){
         databaseRepository.deleteMovieFromCollection(kinopoiskId,collectionId)
-        Log.d("Insert","InsertNewMovieUsecase-addNewMovie")
     }
 }

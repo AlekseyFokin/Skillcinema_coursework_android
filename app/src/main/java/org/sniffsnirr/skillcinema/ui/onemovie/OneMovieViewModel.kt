@@ -115,7 +115,7 @@ class OneMovieViewModel @Inject constructor(
         decideMovieInWantToSee(idMovie)
     }
 
-    private fun decideMovieInWantToSee(idMovie: Int) {
+    fun decideMovieInWantToSee(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _isMovieInWantToSee.value = getCountMovieInCollection.isAlreadyExist(
                 idMovie.toLong(),

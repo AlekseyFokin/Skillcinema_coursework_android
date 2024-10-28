@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.usecases.CreateCollectionUsecase
+import org.sniffsnirr.skillcinema.usecases.DeleteMovieFromCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.GetCollectionAndCountMoviesWithMarkUsecase
 import org.sniffsnirr.skillcinema.usecases.InsertNewMovieToCollectionUsecase
 import javax.inject.Inject
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class BottomSheetDialogFragmentAddMovieToCollectionViewModel @Inject constructor(
     val getCollectionAndCountMoviesWithMarkUsecase: GetCollectionAndCountMoviesWithMarkUsecase,
     val createCollectionUsecase: CreateCollectionUsecase,
-    val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase
+    val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
+    val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase
 ) :
     ViewModel() {
 var    movieId: Long=0
@@ -52,6 +54,13 @@ var    movieId: Long=0
         viewModelScope.launch(Dispatchers.IO) {
         insertNewMovieToCollectionUsecase.addNewMovie(idMovie,idCollection)
         loadCollections(movieId)
+        }
+    }
+
+    fun deleteMovieFromCollection(idMovie:Long,idCollection:Long){
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteMovieFromCollectionUsecase.deleteMovieFromCollection(idMovie,idCollection)
+            loadCollections(movieId)
         }
     }
 }
