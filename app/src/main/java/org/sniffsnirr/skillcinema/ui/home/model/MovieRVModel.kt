@@ -9,7 +9,7 @@ import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollection
 @Parcelize
 data class MovieRVModel(
     val kinopoiskId: Int? = null,
-    val imageUrl: String = "",
+    var imageUrl: String = "",
     val movieName: String = "",
     val movieGenre: String = "",
     val rate: String = "",

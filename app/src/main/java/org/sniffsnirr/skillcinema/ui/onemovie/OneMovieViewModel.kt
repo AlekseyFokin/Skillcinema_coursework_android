@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.onemovie
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,7 @@ import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
 import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
 import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
 import org.sniffsnirr.skillcinema.usecases.InsertNewMovieToCollectionUsecase
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -157,24 +159,24 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun addOrDeleteMovieToFavorite(kinopoiskId: Int) { // нажатие на кнопку добавления в коллекцию любимых фильмов
-        if (kinopoiskId != 0) {
+    fun addOrDeleteMovieToFavorite(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) { // нажатие на кнопку добавления в коллекцию любимых фильмов
+        if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 if (getCountMovieInCollection.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
-                        kinopoiskId.toLong(),
+                        movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_FAVORITE_COLLECTION,
                     )
                 ) {
-                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
-                        kinopoiskId.toLong(),
-                        ProfileFragment.ID_FAVORITE_COLLECTION,
-                    )
+                     // удаляю из БД
+                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(movieRVModel,ProfileFragment.ID_FAVORITE_COLLECTION,dir)
                     _isMovieInFavorite.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
-                        kinopoiskId.toLong(),
+                        movieRVModel,
                         ProfileFragment.ID_FAVORITE_COLLECTION,
+                        dir,
+                        bitmap
                     )
                     _isMovieInFavorite.value = true
                 }
@@ -182,24 +184,26 @@ class OneMovieViewModel @Inject constructor(
         }
     }
 
-    fun addOrDeleteMovieToWantToSee(kinopoiskId: Int) {// нажатие на кнопку добавления в коллекцию фильмов планируемых к просмотру
-        if (kinopoiskId != 0) {
+    fun addOrDeleteMovieToWantToSee(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) {// нажатие на кнопку добавления в коллекцию фильмов планируемых к просмотру
+        if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 if (getCountMovieInCollection.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
-                        kinopoiskId.toLong(),
+                        movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
                     )
                 ) {
                     deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
-                        kinopoiskId.toLong(),
-                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
+                        movieRVModel,
+                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,dir
                     )
                     _isMovieInWantToSee.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
-                        kinopoiskId.toLong(),
+                        movieRVModel,
                         ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
+                        dir,
+                        bitmap
                     )
                     _isMovieInWantToSee.value = true
                 }
@@ -208,24 +212,26 @@ class OneMovieViewModel @Inject constructor(
     }
 
 
-    fun addOrDeleteMovieToViewed(kinopoiskId: Int) {// нажатие на кнопку добавления в коллекцию просмотренных фильмов
-        if (kinopoiskId != 0) {
+    fun addOrDeleteMovieToViewed(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) {// нажатие на кнопку добавления в коллекцию просмотренных фильмов
+        if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
                 if (getCountMovieInCollection.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
-                        kinopoiskId.toLong(),
+                        movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_VIEWED_COLLECTION,
                     )
                 ) {
                     deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
-                        kinopoiskId.toLong(),
-                        ProfileFragment.ID_VIEWED_COLLECTION,
+                        movieRVModel,
+                        ProfileFragment.ID_VIEWED_COLLECTION,dir
                     )
                     _isMovieInViewed.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
-                        kinopoiskId.toLong(),
+                        movieRVModel,
                         ProfileFragment.ID_VIEWED_COLLECTION,
+                        dir,
+                        bitmap
                     )
                     _isMovieInViewed.value = true
                 }

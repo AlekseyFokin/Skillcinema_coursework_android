@@ -51,8 +51,8 @@ class DatabaseRepository @Inject constructor(
         collectionId: Long
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
 
-    suspend fun insertNewMovie(kinopoiskId: Long, collectionId: Long) {
-        movieDao.addOnlyNewMovieToCollection(kinopoiskId, collectionId)
+    suspend fun insertNewMovie(movieRvModel:MovieRVModel, collectionId: Long) {
+        movieDao.addOnlyNewMovieToCollection(movieRvModel, collectionId)
         Log.d("Insert", "repository-insertNewMovie")
     }
 
@@ -75,8 +75,8 @@ class DatabaseRepository @Inject constructor(
         collectionDAO.deleteOnlyDeletableCollection(collection)
     }
 
-    suspend fun addMovieToInterestedCollection(kinopoiskId:Long,idInterestedCollection:Long){
-        movieDao.insertMovieToInterested(kinopoiskId,idInterestedCollection)
+    suspend fun addMovieToInterestedCollection(movieRvModel: MovieRVModel,idInterestedCollection:Long){
+        movieDao.insertMovieToInterested(movieRvModel,idInterestedCollection)
     }
     suspend fun getCollectionById(collectionId:Long):CollectionDBO{
         return collectionDAO.getCollectionById(collectionId)

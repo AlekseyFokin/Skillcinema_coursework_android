@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.onemovie
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,9 +24,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
@@ -302,12 +306,22 @@ class OneMovieFragment : Fragment() {
 
         binding.addToFavorites.setOnClickListener { // добавить или исключить кино из коллекции любимых фильмов
             binding.addToFavorites.startAnimation(animationScaleBtn)
-            viewModel.addOrDeleteMovieToFavorite(idMovie)
+            CoroutineScope(Dispatchers.IO).launch {
+                val bitmap = Glide.with(requireContext())
+                    .asBitmap()
+                    .load(movieRVModel?.imageUrl)
+                    .submit().get()
+            viewModel.addOrDeleteMovieToFavorite(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
         }
 
         binding.wantToSee.setOnClickListener { // добавить или исключить кино из коллекции фильмов к просмотру
             binding.wantToSee.startAnimation(animationScaleBtn)
-            viewModel.addOrDeleteMovieToWantToSee(idMovie)
+            CoroutineScope(Dispatchers.IO).launch {
+                val bitmap = Glide.with(requireContext())
+                    .asBitmap()
+                    .load(movieRVModel?.imageUrl)
+                    .submit().get()
+            viewModel.addOrDeleteMovieToWantToSee(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
         }
 
         binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
@@ -316,7 +330,12 @@ class OneMovieFragment : Fragment() {
                 PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                 bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
             )
-            viewModel.addOrDeleteMovieToViewed(idMovie)
+            CoroutineScope(Dispatchers.IO).launch {
+                val bitmap = Glide.with(requireContext())
+                    .asBitmap()
+                    .load(movieRVModel?.imageUrl)
+                    .submit().get()
+            viewModel.addOrDeleteMovieToViewed(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
         }
 
         binding.share.setOnClickListener {// поделиться

@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.sniffsnirr.skillcinema.room.dbo.MovieDBO
+import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 
 @Dao
@@ -46,13 +47,13 @@ interface MovieDAO {
     @Query("Select count(id) from movie where (id_set=:collectionId)")
     suspend fun getCountMovieDboByCollectionId(collectionId: Long): Long
 
-    @Query("Insert into movie (id_set,id_kinopoisk) values (:collectionId,:kinopoiskId)")
-    suspend fun addNewMovieToCollection(kinopoiskId: Long, collectionId: Long)
+    @Query("Insert into movie (id_set,id_kinopoisk,poster,name,genre,rate) values (:collectionId,:kinopoiskId,:poster,:name,:genre,:rate)")
+    suspend fun addNewMovieToCollection(kinopoiskId: Long, collectionId: Long, poster:String,name:String,genre:String,rate:String)
 
     @Transaction
-    suspend fun addOnlyNewMovieToCollection(kinopoiskId: Long, collectionId: Long) {
-        if (getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId) < 1)
-            addNewMovieToCollection(kinopoiskId, collectionId)
+    suspend fun addOnlyNewMovieToCollection(movieRvModel: MovieRVModel, collectionId: Long) {
+        if (getCountMovieDboByKinopoiskIdAndCollectionId(movieRvModel.kinopoiskId!!.toLong(), collectionId) < 1)
+            addNewMovieToCollection(movieRvModel.kinopoiskId!!.toLong(), collectionId,movieRvModel.imageUrl,movieRvModel.movieName,movieRvModel.movieGenre,movieRvModel.rate)
     }
 
     @Query("Delete from movie where ((id_kinopoisk=:kinopoiskId) and (id_set=:collectionId))")
@@ -62,10 +63,10 @@ interface MovieDAO {
     suspend fun deleteAllMoviesByCollectionId(collectionId: Long)
 
     @Transaction
-    suspend fun insertMovieToInterested(kinopoiskId:Long,idInterestedCollection:Long)
+    suspend fun insertMovieToInterested(movieRvModel: MovieRVModel,idInterestedCollection:Long)
     {//проверка дублей
 
-        if(getCountMovieDboByKinopoiskIdAndCollectionId(kinopoiskId,idInterestedCollection)<1)
+        if(getCountMovieDboByKinopoiskIdAndCollectionId(movieRvModel.kinopoiskId!!.toLong(),idInterestedCollection)<1)
         {
             //проверка лимита  если лимит превышен - удаление первого
           val moviesInCollection=getMoviesDboByCollectionId(idInterestedCollection)
@@ -75,7 +76,7 @@ interface MovieDAO {
                 delete(moviesInCollection.last())
             }
             // вставка нового фильма
-            addNewMovieToCollection(kinopoiskId,idInterestedCollection)
+            addNewMovieToCollection(movieRvModel.kinopoiskId!!.toLong(), idInterestedCollection,movieRvModel.imageUrl,movieRvModel.movieName,movieRvModel.movieGenre,movieRvModel.rate)
         }
 
 

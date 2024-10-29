@@ -87,35 +87,6 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             .into(binding.poster)
 
 
-
-        binding.save.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                bitmap = Glide.with(binding.poster.context)
-                    .asBitmap()
-                    .load(movieRVModel?.imageUrl)
-                    .submit().get()
-                viewModel.savePoster(bitmap,requireContext())
-            }
-
-        }
-
-        binding.open.setOnClickListener{
-            val dir=requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE).absolutePath
-           // val file = File(dir, "${movieRVModel?.kinopoiskId.toString()}.jpg")
-           // if (file.exists()) {
-           //     val fInputOut: InputStream = FileInputStream(file)
-
-                Glide
-                    .with(binding.poster.context)
-                   // .load(fInputOut)
-                    .load(File("$dir/${movieRVModel?.kinopoiskId.toString()}.jpg"))
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.poster)
-
-        }
-
-
         binding.genre.text = movieRVModel?.movieGenre ?: ""
         binding.movieName.text = movieRVModel?.movieName ?: ""
         binding.raiting.text = movieRVModel?.rate
@@ -152,16 +123,28 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
     }
 
     fun saveMovieToAllCheckedCollection(){
-        currentListCollectionWithMark.removeAt(currentListCollectionWithMark.lastIndex)
-        currentListCollectionWithMark.map { pair ->
-            if (pair.second) {
-                viewModel.addNewMovieToCollection(
-                    (movieRVModel?.kinopoiskId ?: 0).toLong(),
-                    pair.first.id
-                )
-            } else {//иначе удалить
-                viewModel.deleteMovieFromCollection((movieRVModel?.kinopoiskId ?: 0).toLong(),
-                    pair.first.id)
+        currentListCollectionWithMark.removeAt(currentListCollectionWithMark.lastIndex)//убираю последний элемент - так как он кнопка
+
+        val dir=requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE)// получаю директорию приложения
+
+        CoroutineScope(Dispatchers.IO).launch {
+            bitmap = Glide.with(binding.poster.context)
+                .asBitmap()
+                .load(movieRVModel?.imageUrl)
+                .submit().get()
+
+            currentListCollectionWithMark.map { pair ->// проход по всем коллекциям - если галка то добавляю коллекцию, если нет - то удаляю
+                if (pair.second) {
+                    viewModel.addNewMovieToCollection(
+                        movieRVModel!!,
+                        pair.first.id,
+                        dir,
+                        bitmap
+                        )
+                } else {//иначе удалить
+                    viewModel.deleteMovieFromCollection(movieRVModel!!,
+                        pair.first.id,dir)
+                }
             }
         }
     }

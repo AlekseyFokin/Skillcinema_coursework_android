@@ -35,7 +35,11 @@ class GetMoviesFromDBByCollectionUsecase @Inject constructor(
         val viewedMoviesDBO = getMoviesDBOFromDb(collectionId)
         val viewedMoviesRVModel = mutableListOf<MovieRVModel>()
         if (!viewedMoviesDBO.isNullOrEmpty()) {
-            viewedMoviesDBO.map { movie -> viewedMoviesRVModel.add(loadMovieRVModelFromAPI(movie.id_kinopoisk.toInt())) }
+         //   viewedMoviesDBO.map { movie -> viewedMoviesRVModel.add(loadMovieRVModelFromAPI(movie.id_kinopoisk.toInt())) }
+            viewedMoviesDBO.map { movie ->
+               val movieRVModel=MovieRVModel(movie.id_kinopoisk.toInt(),movie.poster,movie.name,movie.genre,movie.rate,false,false,null)
+               decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+               viewedMoviesRVModel.add( movieRVModel) }
           }
         return viewedMoviesRVModel
     }
