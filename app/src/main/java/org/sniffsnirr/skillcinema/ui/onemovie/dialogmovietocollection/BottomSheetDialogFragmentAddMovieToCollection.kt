@@ -1,17 +1,18 @@
 package org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection
 
 import android.app.Dialog
+import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,14 +23,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAddMovieToCollectionBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
+
 
 @AndroidEntryPoint
 class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment() {
@@ -44,6 +52,8 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
     var movieRVModel: MovieRVModel? = null
     lateinit var currentListCollectionWithMark:MutableList<Pair<CollectionCountMovies, Boolean>>
+
+    lateinit var bitmap:Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +85,36 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(binding.poster)
+
+
+
+        binding.save.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                bitmap = Glide.with(binding.poster.context)
+                    .asBitmap()
+                    .load(movieRVModel?.imageUrl)
+                    .submit().get()
+                viewModel.savePoster(bitmap,requireContext())
+            }
+
+        }
+
+        binding.open.setOnClickListener{
+            val dir=requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE).absolutePath
+           // val file = File(dir, "${movieRVModel?.kinopoiskId.toString()}.jpg")
+           // if (file.exists()) {
+           //     val fInputOut: InputStream = FileInputStream(file)
+
+                Glide
+                    .with(binding.poster.context)
+                   // .load(fInputOut)
+                    .load(File("$dir/${movieRVModel?.kinopoiskId.toString()}.jpg"))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(binding.poster)
+
+        }
+
 
         binding.genre.text = movieRVModel?.movieGenre ?: ""
         binding.movieName.text = movieRVModel?.movieName ?: ""
