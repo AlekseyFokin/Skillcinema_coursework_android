@@ -79,7 +79,14 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Glide
+        CoroutineScope(Dispatchers.IO).launch {
+            bitmap = Glide.with(binding.poster.context)
+                .asBitmap()
+                .load(movieRVModel?.imageUrl)
+                .submit().get()}
+
+
+            Glide
             .with(binding.poster.context)
             .load(movieRVModel?.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -126,13 +133,6 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
         currentListCollectionWithMark.removeAt(currentListCollectionWithMark.lastIndex)//убираю последний элемент - так как он кнопка
 
         val dir=requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE)// получаю директорию приложения
-
-        CoroutineScope(Dispatchers.IO).launch {
-            bitmap = Glide.with(binding.poster.context)
-                .asBitmap()
-                .load(movieRVModel?.imageUrl)
-                .submit().get()
-
             currentListCollectionWithMark.map { pair ->// проход по всем коллекциям - если галка то добавляю коллекцию, если нет - то удаляю
                 if (pair.second) {
                     viewModel.addNewMovieToCollection(
@@ -143,10 +143,9 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
                         )
                 } else {//иначе удалить
                     viewModel.deleteMovieFromCollection(movieRVModel!!,
-                        pair.first.id,dir)
+                        pair.first.id)
                 }
             }
-        }
     }
 
     fun onPlusCollectionClick() {

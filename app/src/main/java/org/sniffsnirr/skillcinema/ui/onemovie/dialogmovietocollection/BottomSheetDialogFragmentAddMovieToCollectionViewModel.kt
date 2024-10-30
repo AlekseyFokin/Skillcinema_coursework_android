@@ -62,16 +62,18 @@ var    movieId: Long=0
 
     fun addNewMovieToCollection(movieRVModel: MovieRVModel,idCollection:Long,dir:File,bitmap:Bitmap){
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d("сохранение в коллекцию", "Сохраняю  movieRVModel=${movieRVModel.kinopoiskId} в коллекцию ${idCollection}" )
             insertNewMovieToCollectionUsecase.addNewMovie(movieRVModel,idCollection,dir,bitmap)
         //перезагрузить коллекции
         loadCollections(movieId)
         }
     }
 
-    fun deleteMovieFromCollection(movieRVModel: MovieRVModel,idCollection:Long,dir:File){
+    fun deleteMovieFromCollection(movieRVModel: MovieRVModel,idCollection:Long){
         viewModelScope.launch(Dispatchers.IO) {
             // удаляю из БД
-            deleteMovieFromCollectionUsecase.deleteMovieFromCollection(movieRVModel,idCollection,dir)
+            Log.d("Удаляю из коллекции", "Удаляю  movieRVModel=${movieRVModel.kinopoiskId} из коллекции ${idCollection}" )
+            deleteMovieFromCollectionUsecase.deleteMovieFromCollection(movieRVModel,idCollection)
             //перезагрузить коллекции
             loadCollections(movieId)
         }

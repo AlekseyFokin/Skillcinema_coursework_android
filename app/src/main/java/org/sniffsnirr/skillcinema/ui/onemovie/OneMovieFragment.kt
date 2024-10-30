@@ -43,6 +43,7 @@ import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.BottomSheetDialogFragmentAddMovieToCollection
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import org.sniffsnirr.skillcinema.usecases.Reduction
 import java.util.Locale
 
@@ -94,8 +95,8 @@ class OneMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         animationScaleBtn = AnimationUtils.loadAnimation(requireContext(), R.anim.btn_anim)
 
-        //viewModel.setIdMovie(idMovie)
         viewModel.getRelatedMovies(idMovie)
+
         viewLifecycleOwner.lifecycleScope.launch {// загрузка инфо о фильме
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.movieInfo.collect {
@@ -134,7 +135,7 @@ class OneMovieFragment : Fragment() {
 
                     movieRVModel = MovieRVModel(
                         it?.kinopoiskId,
-                        it?.posterUrl ?: "",
+                        it?.posterUrl?: "",
                         reduction.stringReduction(it?.nameRu, 17),
                         reduction.arrayReduction(it?.genres?.map { it.genre }
                             ?: emptyList<String>(), 20, 2),
@@ -142,9 +143,14 @@ class OneMovieFragment : Fragment() {
                         false,
                         false
                     )
+
+
                 }
             }
         }
+
+        //получил инфо о фильме - сразу добавляю его в фильмы которыми интересуюсь
+
 
         viewLifecycleOwner.lifecycleScope.launch {// сохранено ли кино в коллекцию любимых фильмов - соответсвующая окраска
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -311,7 +317,12 @@ class OneMovieFragment : Fragment() {
                     .asBitmap()
                     .load(movieRVModel?.imageUrl)
                     .submit().get()
-            viewModel.addOrDeleteMovieToFavorite(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
+                viewModel.addOrDeleteMovieToFavorite(
+                    movieRVModel,
+                    requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
+                    bitmap
+                )
+            }
         }
 
         binding.wantToSee.setOnClickListener { // добавить или исключить кино из коллекции фильмов к просмотру
@@ -321,7 +332,12 @@ class OneMovieFragment : Fragment() {
                     .asBitmap()
                     .load(movieRVModel?.imageUrl)
                     .submit().get()
-            viewModel.addOrDeleteMovieToWantToSee(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
+                viewModel.addOrDeleteMovieToWantToSee(
+                    movieRVModel,
+                    requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
+                    bitmap
+                )
+            }
         }
 
         binding.viewed.setOnClickListener { // добавить или исключить кино из коллекции просмотренных фильмов
@@ -335,7 +351,12 @@ class OneMovieFragment : Fragment() {
                     .asBitmap()
                     .load(movieRVModel?.imageUrl)
                     .submit().get()
-            viewModel.addOrDeleteMovieToViewed(movieRVModel,requireContext().getDir(POSTERS_DIR,Context.MODE_PRIVATE),bitmap)}
+                viewModel.addOrDeleteMovieToViewed(
+                    movieRVModel,
+                    requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
+                    bitmap
+                )
+            }
         }
 
         binding.share.setOnClickListener {// поделиться
@@ -357,20 +378,21 @@ class OneMovieFragment : Fragment() {
         binding.someMore.setOnClickListener {// добавление фильма в коллекции
             val bundle = Bundle()
             bundle.putParcelable(MOVIE, movieRVModel)
-          //  findNavController().navigate(
-          //      R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
-          //      bundle
-          //  )
-            val bottomSheetDialogFragmentAddMovieToCollection=BottomSheetDialogFragmentAddMovieToCollection()
+            //  findNavController().navigate(
+            //      R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
+            //      bundle
+            //  )
+            val bottomSheetDialogFragmentAddMovieToCollection =
+                BottomSheetDialogFragmentAddMovieToCollection()
             bottomSheetDialogFragmentAddMovieToCollection.setArguments(bundle)
             bottomSheetDialogFragmentAddMovieToCollection.lifecycle.addObserver(//в случае изменеия
                 LifecycleEventObserver { source, event ->
-                if (event==Lifecycle.Event.ON_STOP){
-                    viewModel.decideMovieInWantToSee(idMovie)
-                }
-            })
+                    if (event == Lifecycle.Event.ON_STOP) {
+                        viewModel.decideMovieInWantToSee(idMovie)
+                    }
+                })
 
-            bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager,"dialog")
+            bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager, "dialog")
         }
     }
 
@@ -383,6 +405,23 @@ class OneMovieFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_oneMovieFragment_to_allMovieMansFragment,
                 bundle
+            )
+        }
+    }
+
+    private fun addCurrentMovieToInterestedCollection(){
+        Log.d("Есть ли постер","${movieRVModel.imageUrl}")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val bitmap = Glide.with(requireContext())
+                .asBitmap()
+                .load(movieRVModel.imageUrl)
+                .submit().get()
+            viewModel.addMovieToInterestedCollection(
+                movieRVModel,
+                ProfileFragment.ID_INTERESTED_COLLECTION,
+                requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
+                bitmap
             )
         }
     }
@@ -468,7 +507,7 @@ class OneMovieFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-            //   Log.d("Return From BottomSheet","Сработало!!!")
+        //   Log.d("Return From BottomSheet","Сработало!!!")
         //viewModel.setIdMovie(idMovie)
 //        var needUpdate = false
 //
@@ -492,6 +531,11 @@ class OneMovieFragment : Fragment() {
 //            }
 //        }
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        addCurrentMovieToInterestedCollection()//добавление в коллекцию фильмов, которыми интересовался
     }
 
     companion object {

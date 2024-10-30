@@ -106,7 +106,7 @@ interface KinopoiskApi {
 
 
     companion object {
-        private const val api_key ="f7f09f94-0bce-420d-8b60-bfea35d9fff6"
+        private const val api_key ="f1a491f0-8e90-44d1-898a-17656c4ea1de"
 
         //"d0e3296d-48db-4922-be82-04f28e857cec"
         //"f7f09f94-0bce-420d-8b60-bfea35d9fff6"

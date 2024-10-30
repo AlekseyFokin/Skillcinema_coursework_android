@@ -64,7 +64,9 @@ class ProfileViewModel @Inject constructor(
             kotlin.runCatching {
                 getViewedMoviesUsecase.getViewedMovies(ProfileFragment.ID_VIEWED_COLLECTION)
             }.fold(
-                onSuccess = { _viewedMovies.value = it },
+                onSuccess = {val movies=it.toMutableList()
+                                 movies.add(MovieRVModel(isButton = true))// кнопка - удалить все
+                             _viewedMovies.value = movies },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }
@@ -83,7 +85,9 @@ class ProfileViewModel @Inject constructor(
             kotlin.runCatching {
                 getViewedMoviesUsecase.getViewedMovies(ProfileFragment.ID_INTERESTED_COLLECTION)
             }.fold(
-                onSuccess = { _interestedMovies.value = it },
+                onSuccess = {  val movies=it.toMutableList()
+                                   movies.add(MovieRVModel(isButton = true)) // кнопка - удалить все
+                              _interestedMovies.value = movies.toList() },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }

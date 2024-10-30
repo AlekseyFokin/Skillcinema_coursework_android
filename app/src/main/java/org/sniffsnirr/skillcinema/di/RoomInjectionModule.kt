@@ -41,7 +41,9 @@ object RoomInjectionModule {
                         }
                     }
                 }
-            }).build()
+            })
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     @Singleton

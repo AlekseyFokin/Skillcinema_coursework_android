@@ -6,9 +6,18 @@ import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import javax.inject.Inject
 
 @ActivityRetainedScoped
-class DeleteAllMoviesFromCollectionUsecase @Inject constructor(val databaseRepository: DatabaseRepository){
-    suspend fun deleteAllMovieFromCollection(collectionId: Long,){
-        databaseRepository.clearCollection(collectionId)
-        Log.d("Insert","InsertNewMovieUsecase-addNewMovie")
+class DeleteAllMoviesFromCollectionUsecase @Inject constructor(
+    val getMoviesFromDBByCollectionUsecase: GetMoviesFromDBByCollectionUsecase,
+    val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase
+) {
+    suspend fun deleteAllMovieFromCollection(collectionId: Long) {
+        val allMoviesFromCollectionForDelete =
+            getMoviesFromDBByCollectionUsecase.getMoviesByCollection(collectionId)
+        allMoviesFromCollectionForDelete.map { movieRVModel ->
+            deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
+                movieRVModel,
+                collectionId
+            )
+        }
     }
 }

@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.room.dao
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -52,8 +53,9 @@ interface MovieDAO {
 
     @Transaction
     suspend fun addOnlyNewMovieToCollection(movieRvModel: MovieRVModel, collectionId: Long) {
+        Log.d("Insert","Дошел до dao")
         if (getCountMovieDboByKinopoiskIdAndCollectionId(movieRvModel.kinopoiskId!!.toLong(), collectionId) < 1)
-            addNewMovieToCollection(movieRvModel.kinopoiskId!!.toLong(), collectionId,movieRvModel.imageUrl,movieRvModel.movieName,movieRvModel.movieGenre,movieRvModel.rate)
+        {  addNewMovieToCollection(movieRvModel.kinopoiskId!!.toLong(), collectionId,movieRvModel.imageUrl,movieRvModel.movieName,movieRvModel.movieGenre,movieRvModel.rate)}
     }
 
     @Query("Delete from movie where ((id_kinopoisk=:kinopoiskId) and (id_set=:collectionId))")

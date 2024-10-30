@@ -44,8 +44,7 @@ class AddMovieToInterestedCollectionUsecase @Inject constructor(
                 )
                 deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
                     movieRVModelForDelete,
-                    idInterestedCollection,
-                    dir
+                    idInterestedCollection
                 )
             }
           //  databaseRepository.addMovieToInterestedCollection(kinopoiskId, idInterestedCollection)

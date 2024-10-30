@@ -52,8 +52,9 @@ class DatabaseRepository @Inject constructor(
     ) = movieDao.getMovieDboByKinopoiskIdAndCollectionId(kinopoiskId, collectionId)
 
     suspend fun insertNewMovie(movieRvModel:MovieRVModel, collectionId: Long) {
-        movieDao.addOnlyNewMovieToCollection(movieRvModel, collectionId)
         Log.d("Insert", "repository-insertNewMovie")
+        movieDao.addOnlyNewMovieToCollection(movieRvModel, collectionId)
+
     }
 
     suspend fun getCountMovieInCollection(kinopoiskId: Long, collectionId: Long): Int {

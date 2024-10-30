@@ -75,8 +75,6 @@ class OneMovieViewModel @Inject constructor(
                 onSuccess = { _movieInfo.value = it },
                 onFailure = { Log.d("MovieInfo", it.message ?: "") }
             )
-            //добавляю текущий фильм в коллекцию фильмов, которыми интересовался
-            addMovieToInterestedCollectionUsecase.addMovieToInterested(idMovie.toLong(),ProfileFragment.ID_INTERESTED_COLLECTION)
         }
         getActorsAndMoviemen(idMovie)
     }
@@ -169,7 +167,7 @@ class OneMovieViewModel @Inject constructor(
                     )
                 ) {
                      // удаляю из БД
-                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(movieRVModel,ProfileFragment.ID_FAVORITE_COLLECTION,dir)
+                    deleteMovieFromCollectionUsecase.deleteMovieFromCollection(movieRVModel,ProfileFragment.ID_FAVORITE_COLLECTION)
                     _isMovieInFavorite.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
@@ -195,8 +193,7 @@ class OneMovieViewModel @Inject constructor(
                 ) {
                     deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
                         movieRVModel,
-                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION,dir
-                    )
+                        ProfileFragment.ID_WANT_TO_SEE_COLLECTION)
                     _isMovieInWantToSee.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
@@ -223,8 +220,7 @@ class OneMovieViewModel @Inject constructor(
                 ) {
                     deleteMovieFromCollectionUsecase.deleteMovieFromCollection(
                         movieRVModel,
-                        ProfileFragment.ID_VIEWED_COLLECTION,dir
-                    )
+                        ProfileFragment.ID_VIEWED_COLLECTION)
                     _isMovieInViewed.value = false
                 } else { // иначе добавить
                     insertNewMovieToCollectionUsecase.addNewMovie(
@@ -236,6 +232,18 @@ class OneMovieViewModel @Inject constructor(
                     _isMovieInViewed.value = true
                 }
             }
+        }
+    }
+
+    fun addMovieToInterestedCollection(movieRVModel:MovieRVModel,idCollection:Long,dir:File,bitmap:Bitmap){
+        //добавляю текущий фильм в коллекцию фильмов, которыми интересовался
+        viewModelScope.launch(Dispatchers.IO) {
+            addMovieToInterestedCollectionUsecase.addMovieToInterested(
+                movieRVModel,
+                idCollection,
+                dir,
+                bitmap
+            )//ProfileFragment.ID_INTERESTED_COLLECTION)
         }
     }
 
