@@ -20,14 +20,14 @@ class InsertNewMovieToCollectionUsecase @Inject constructor(val databaseReposito
                 collectionId
             )
         ) {
-            Log.d("Insert", "Зашел сюда")
+            Log.d("Insert", "Зашел сюда!!")
             val uuid = UUID.randomUUID() //генератор имени файла
             val file = File(dir, "${uuid}.jpg")
             //movieRVModel.imageUrl="${uuid}.jpg"
             movieRVModel.imageUrl = file.absolutePath
             //сохранить в директорию файл постер
             //val file = File(dir, "${uuid}.jpg")
-            Log.d("Insert", "Дошел до сохранения в в файл")
+            Log.d("Insert", "Дошел до сохранения в файл movieRVModel=${movieRVModel}")
             try {
                 val fOut: OutputStream = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
@@ -37,7 +37,7 @@ class InsertNewMovieToCollectionUsecase @Inject constructor(val databaseReposito
             }
 
             //сохраняю в БД
-            Log.d("Insert", "Дошел до сохранения в бд")
+            Log.d("Insert", "Дошел до сохранения в бд movieRVModel=${movieRVModel}")
             databaseRepository.insertNewMovie(movieRVModel, collectionId)
             Log.d("Insert", "InsertNewMovieUsecase-addNewMovie")
         }

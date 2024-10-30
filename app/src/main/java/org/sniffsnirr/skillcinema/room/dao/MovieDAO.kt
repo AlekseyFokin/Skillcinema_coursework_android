@@ -52,10 +52,12 @@ interface MovieDAO {
     suspend fun addNewMovieToCollection(kinopoiskId: Long, collectionId: Long, poster:String,name:String,genre:String,rate:String)
 
     @Transaction
-    suspend fun addOnlyNewMovieToCollection(movieRvModel: MovieRVModel, collectionId: Long) {
-        Log.d("Insert","Дошел до dao")
-        if (getCountMovieDboByKinopoiskIdAndCollectionId(movieRvModel.kinopoiskId!!.toLong(), collectionId) < 1)
-        {  addNewMovieToCollection(movieRvModel.kinopoiskId!!.toLong(), collectionId,movieRvModel.imageUrl,movieRvModel.movieName,movieRvModel.movieGenre,movieRvModel.rate)}
+    suspend fun addOnlyNewMovieToCollection(movieRVModel: MovieRVModel, collectionId: Long) {
+        Log.d("Insert","Дошел до dao movieRVModel=${movieRVModel}")
+        if (getCountMovieDboByKinopoiskIdAndCollectionId(movieRVModel.kinopoiskId!!.toLong(), collectionId) < 1)
+        {
+            addNewMovieToCollection(movieRVModel.kinopoiskId!!.toLong(), collectionId, movieRVModel.imageUrl ,movieRVModel.movieName,movieRVModel.movieGenre,movieRVModel.rate)
+         }
     }
 
     @Query("Delete from movie where ((id_kinopoisk=:kinopoiskId) and (id_set=:collectionId))")

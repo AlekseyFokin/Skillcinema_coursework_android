@@ -55,6 +55,8 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
     lateinit var bitmap:Bitmap
 
+    var mastDismiss=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -114,6 +116,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
                     if (!it.isNullOrEmpty()) {
                         adapter.setContent(it)
                         currentListCollectionWithMark = it.toMutableList()
+                        if(mastDismiss){dismiss()}
                     }
                 }
             }
@@ -125,7 +128,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
         binding.headerForRv.setOnClickListener {//сохранить все указанное присутствие фильма в коллекциях
             saveMovieToAllCheckedCollection()
-            dismiss()
+            mastDismiss=true
         }
     }
 
@@ -146,6 +149,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
                         pair.first.id)
                 }
             }
+//если dismiss вызывать тут то отменяется сохранение в бд и в файле , поэтому доп переменная - mastDismiss
     }
 
     fun onPlusCollectionClick() {

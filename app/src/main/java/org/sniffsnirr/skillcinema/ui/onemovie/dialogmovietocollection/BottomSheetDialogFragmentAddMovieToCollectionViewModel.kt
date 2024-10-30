@@ -62,7 +62,7 @@ var    movieId: Long=0
 
     fun addNewMovieToCollection(movieRVModel: MovieRVModel,idCollection:Long,dir:File,bitmap:Bitmap){
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("сохранение в коллекцию", "Сохраняю  movieRVModel=${movieRVModel.kinopoiskId} в коллекцию ${idCollection}" )
+            Log.d("сохранение в коллекцию", "Сохраняю  movieRVModel=${movieRVModel} в коллекцию ${idCollection}" )
             insertNewMovieToCollectionUsecase.addNewMovie(movieRVModel,idCollection,dir,bitmap)
         //перезагрузить коллекции
         loadCollections(movieId)
