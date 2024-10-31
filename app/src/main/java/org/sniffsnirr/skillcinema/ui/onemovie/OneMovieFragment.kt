@@ -139,7 +139,7 @@ class OneMovieFragment : Fragment() {
                         reduction.stringReduction(it?.nameRu, 17),
                         reduction.arrayReduction(it?.genres?.map { it.genre }
                             ?: emptyList<String>(), 20, 2),
-                        "0",
+                        (it?.ratingKinopoisk?:0).toString(),
                         false,
                         false
                     )

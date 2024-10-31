@@ -51,11 +51,11 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             { ListCollectionWithMark -> putCurrentListCollectionWithMark(ListCollectionWithMark) });
 
     var movieRVModel: MovieRVModel? = null
-    lateinit var currentListCollectionWithMark:MutableList<Pair<CollectionCountMovies, Boolean>>
+    lateinit var currentListCollectionWithMark: MutableList<Pair<CollectionCountMovies, Boolean>>
 
-    lateinit var bitmap:Bitmap
+    lateinit var bitmap: Bitmap
 
-    var mastDismiss=false
+    var mastDismiss = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,10 +85,11 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             bitmap = Glide.with(binding.poster.context)
                 .asBitmap()
                 .load(movieRVModel?.imageUrl)
-                .submit().get()}
+                .submit().get()
+        }
 
 
-            Glide
+        Glide
             .with(binding.poster.context)
             .load(movieRVModel?.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -104,7 +105,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.collectionRv.adapter = adapter
         //установка декоратора
-        val dividerItemDecorator= DividerItemDecoration(requireContext(),RecyclerView.VERTICAL)
+        val dividerItemDecorator = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecorator.setDrawable(resources.getDrawable(R.drawable.line_for_rv))
         binding.collectionRv.addItemDecoration(dividerItemDecorator)
 
@@ -116,7 +117,9 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
                     if (!it.isNullOrEmpty()) {
                         adapter.setContent(it)
                         currentListCollectionWithMark = it.toMutableList()
-                        if(mastDismiss){dismiss()}
+                        if (mastDismiss) {
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -128,27 +131,32 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
         binding.headerForRv.setOnClickListener {//сохранить все указанное присутствие фильма в коллекциях
             saveMovieToAllCheckedCollection()
-            mastDismiss=true
+            mastDismiss = true
         }
     }
 
-    fun saveMovieToAllCheckedCollection(){
+    fun saveMovieToAllCheckedCollection() {
         currentListCollectionWithMark.removeAt(currentListCollectionWithMark.lastIndex)//убираю последний элемент - так как он кнопка
 
-        val dir=requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE)// получаю директорию приложения
-            currentListCollectionWithMark.map { pair ->// проход по всем коллекциям - если галка то добавляю коллекцию, если нет - то удаляю
-                if (pair.second) {
-                    viewModel.addNewMovieToCollection(
-                        movieRVModel!!,
-                        pair.first.id,
-                        dir,
-                        bitmap
-                        )
-                } else {//иначе удалить
-                    viewModel.deleteMovieFromCollection(movieRVModel!!,
-                        pair.first.id)
-                }
+        val dir = requireContext().getDir(
+            POSTERS_DIR,
+            Context.MODE_PRIVATE
+        )// получаю директорию приложения
+        currentListCollectionWithMark.map { pair ->// проход по всем коллекциям - если галка то добавляю коллекцию, если нет - то удаляю
+            if (pair.second) {
+                viewModel.addNewMovieToCollection(
+                    movieRVModel!!,
+                    pair.first.id,
+                    dir,
+                    bitmap
+                )
+            } else {//иначе удалить
+                viewModel.deleteMovieFromCollection(
+                    movieRVModel!!,
+                    pair.first.id
+                )
             }
+        }
 //если dismiss вызывать тут то отменяется сохранение в бд и в файле , поэтому доп переменная - mastDismiss
     }
 
@@ -179,8 +187,8 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
     fun putCurrentListCollectionWithMark(listCollectionWithMark: List<Pair<CollectionCountMovies, Boolean>>) {
         currentListCollectionWithMark = listCollectionWithMark.toMutableList()
-        currentListCollectionWithMark.map { item->
-            Log.d("состояние списка коллекций","${item.first.name} --- ${item.second}")
+        currentListCollectionWithMark.map { item ->
+            Log.d("состояние списка коллекций", "${item.first.name} --- ${item.second}")
         }
     }
 }
