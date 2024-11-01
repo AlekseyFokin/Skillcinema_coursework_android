@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.entities.movieman
 
+// модель данных для получения информации по кинематографисту или актеру,в том читсле и список фильмов связаных с ним
 data class MoviemanInfo(
     val age: Int,
     val birthday: String,

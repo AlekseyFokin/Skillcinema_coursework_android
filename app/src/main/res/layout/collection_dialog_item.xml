@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/item_rv"
-android:layout_width="match_parent"
-android:layout_height="30dp"
-android:orientation="horizontal"
+    android:id="@+id/item_rv"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal">
 
-    >
+    <ImageView
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="28dp"
+        android:contentDescription="@string/checkbox_pic"
+        android:src="@drawable/ic_checkbox_unfill" />
 
-<ImageView
-    android:id="@+id/checkbox"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_checkbox_unfill"
-    android:layout_marginStart="64dp"
-    android:layout_marginEnd="28dp"
+    <TextView
+        android:id="@+id/collection_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:text="Добавить в колекцию"
+        android:textColor="@color/color_of_main_label_in_onboarding"
+        android:textSize="18sp" />
 
-    />
-<TextView
-    android:id="@+id/collection_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Добавить в колекцию"
-    android:fontFamily="@font/hkgrotesk_regular"
-    android:textColor="@color/color_of_main_label_in_onboarding"
-    android:textSize="18sp" />
-/>
-    <View android:layout_height="0dp"
+    <View
         android:layout_width="0dp"
-        android:layout_weight="1.1"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1.1" />
+
     <TextView
         android:id="@+id/collection_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
-        android:text="5"
         android:fontFamily="@font/hkgrotesk_regular"
+        android:text="5"
         android:textColor="@color/color_of_main_label_in_onboarding"
-        android:textSize="18sp"
-        />
-    />
+        android:textSize="18sp" />
+
 </LinearLayout>

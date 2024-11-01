@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.entities.movieman
 
+// модель данных для фильмов, которые можно отсортировать по рейтингу, связаных с кинематографистом
 data class Film(
     val description: String,
     val filmId: Int,

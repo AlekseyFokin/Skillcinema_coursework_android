@@ -1,13 +1,12 @@
 package org.sniffsnirr.skillcinema.usecases
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import javax.inject.Inject
 
+//Usecase определения находится ли фильм в списке просмотренных
 @ActivityRetainedScoped
 class DecideMovieRVmodelIsViewedOrNot @Inject constructor(val databaseRepository: DatabaseRepository) {
     suspend fun setMovieRVmodelViewed(movieRVModel: MovieRVModel) {

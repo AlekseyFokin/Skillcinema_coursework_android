@@ -5,6 +5,7 @@ import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import javax.inject.Inject
 
+//Usecase - получение одной коллекции из бд
 @ActivityRetainedScoped
 class GetOneCollectionFromDBUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository) {

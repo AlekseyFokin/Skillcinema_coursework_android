@@ -8,17 +8,20 @@ import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import java.io.File
 import javax.inject.Inject
 
+//Usecase добавления в коллекцию фильмов которые просматривал пользователь.
+// На коллекцию установлен лимит, при превышении которого старые записи удаляются и вставляются новые,
+// есть проверка нв дубли
 @ActivityRetainedScoped
 class AddMovieToInterestedCollectionUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
     val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase,
-    val insertNewMovieToCollectionUsecase:InsertNewMovieToCollectionUsecase
+    val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase
 ) {
     suspend fun addMovieToInterested(
         movieRVModel: MovieRVModel,
         idInterestedCollection: Long,
         dir: File,
-        bitmap:Bitmap
+        bitmap: Bitmap
     ) {
         //проверка дублей
 
@@ -47,8 +50,12 @@ class AddMovieToInterestedCollectionUsecase @Inject constructor(
                     idInterestedCollection
                 )
             }
-          //  databaseRepository.addMovieToInterestedCollection(kinopoiskId, idInterestedCollection)
-            insertNewMovieToCollectionUsecase.addNewMovie(movieRVModel,idInterestedCollection,dir,bitmap)
+            insertNewMovieToCollectionUsecase.addNewMovie(
+                movieRVModel,
+                idInterestedCollection,
+                dir,
+                bitmap
+            )
         }
     }
 }

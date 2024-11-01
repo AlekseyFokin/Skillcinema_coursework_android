@@ -34,4 +34,24 @@
     <string name="gallery_item">элемент галереи</string>
     <string name="clear_history_label_btn">Очистить историю</string>
     <string name="thinck_up_name_for_new_collection">Придумайте название для вашей новой коллекции</string>
+    <string name="checkbox_pic">checkbox_pic</string>
+    <string name="create_my_collection">Создать свою коллекцию</string>
+    <string name="create_collection_btn_pic">create_collection_btn_pic</string>
+    <string name="close_btn_pic">close_btn_pic</string>
+    <string name="ok">Готово</string>
+    <string name="add_new_collection">Добавить в колекцию</string>
+    <string name="filmography">Фильмография</string>
+    <string name="the_best">Лучшее</string>
+    <string name="all_btn"><![CDATA[Все >]]></string>
+    <string name="go_to_list_btn"><![CDATA[К списку >]]></string>
+    <string name="movieman_photo">movieman_photo</string>
+    <string name="all_btn_1"><![CDATA[Все>]]></string>
+    <string name="viewed_movie_button">viewed_movie_button</string>
+    <string name="add_new_collection_1">add new collection</string>
+    <string name="create_my_collection_1">Создать свою коллекцию</string>
+    <string name="collections_from_db">Коллекции</string>
+    <string name="collection_of_interested_movies">Вам было интересно</string>
+    <string name="viewed_collection">Просмотрено</string>
+    <string name="show_all">Все</string>
+    <string name="show_me_all">Показать все</string>
 </resources>

@@ -1,13 +1,12 @@
 package org.sniffsnirr.skillcinema.usecases
 
-import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import javax.inject.Inject
 
+// Usecase удаления всех фильмов из коллекции
 @ActivityRetainedScoped
 class DeleteAllMoviesFromCollectionUsecase @Inject constructor(
-    val getMoviesFromDBByCollectionUsecase: GetMoviesFromDBByCollectionUsecase,
+    private val getMoviesFromDBByCollectionUsecase: GetMoviesFromDBByCollectionUsecase,
     val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase
 ) {
     suspend fun deleteAllMovieFromCollection(collectionId: Long) {

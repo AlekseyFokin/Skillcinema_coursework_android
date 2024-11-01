@@ -14,7 +14,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,9 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
-    private lateinit var toolbar:Toolbar
-
-
+    private lateinit var toolbar: Toolbar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,26 +56,25 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController!!)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile
-            )
-        )
-
-       //setupActionBarWithNavController(navController!!,appBarConfiguration)
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile
+//            )
+//        )
+        //setupActionBarWithNavController(navController!!,appBarConfiguration)
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
-         toolbar.setNavigationIcon(R.drawable.action_bar_icon)
+        toolbar.setNavigationIcon(R.drawable.action_bar_icon)
 
         lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
 
         toolbar.setNavigationOnClickListener { navController!!.popBackStack() }
     }
 
-    private suspend fun isFirstStart() {
+    private fun isFirstStart() {
         val graph = navController!!.navInflater.inflate(R.navigation.mobile_navigation)
         var isFirstStart = true // по умолчанию - первая загрузка
         lifecycleScope.launch {
@@ -97,36 +93,32 @@ class MainActivity : AppCompatActivity() {
                     }
                     navController!!.graph = graph
                 }
-
         }
     }
 
     fun hideButtomBar() {
         binding.navView.visibility =
             View.GONE// скрываю ButtomBar
-            }
+    }
 
     fun showButtomBar() {
         binding.navView.visibility =
             View.VISIBLE// показываю ButtomBar
-            }
+    }
 
     fun hideActionBar() {//скрываю ToolBar
-        //   getSupportActionBar()?.hide()
-        binding.myToolbar.visibility=View.INVISIBLE
+        binding.myToolbar.visibility = View.INVISIBLE
     }
 
     fun showActionBar() {//показываю ToolBar
-       //     getSupportActionBar()?.show()
-        binding.myToolbar.visibility=View.VISIBLE
+        binding.myToolbar.visibility = View.VISIBLE
     }
 
-    fun setActionBarTitle(title:String){
-           getSupportActionBar()?.title=title
+    fun setActionBarTitle(title: String) {
+        getSupportActionBar()?.title = title
     }
 
     override fun onSupportNavigateUp(): Boolean {
-       // val navController = navController(R.id.navController)
         return navController!!.navigateUp() || super.onSupportNavigateUp()
     }
 
@@ -135,8 +127,8 @@ class MainActivity : AppCompatActivity() {
         val FIRST_START =
             booleanPreferencesKey("first_start")// ячейка для хранения метки о первой загрузке приложения в DataStore
 
-        val REQUIRE_REFRESH_HOME_FRAGMENT =
-            booleanPreferencesKey("refresh_home_fragment")// ячейка для хранения метки о том что надо перезагрузить homefragment
+//        val REQUIRE_REFRESH_HOME_FRAGMENT =
+//            booleanPreferencesKey("refresh_home_fragment")// ячейка для хранения метки о том что надо перезагрузить homefragment
     }
 
 }

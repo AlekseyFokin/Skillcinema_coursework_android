@@ -21,12 +21,12 @@ import androidx.room.PrimaryKey
 )
 class MovieDBO(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo(name = "id_set") val id_set: Long,
-    @ColumnInfo(name = "id_kinopoisk") val id_kinopoisk: Long,
-    @ColumnInfo(name = "poster") val poster: String,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "genre") val genre: String,
-    @ColumnInfo(name = "rate") val rate: String,
+    @ColumnInfo(name = "id_set") val id_set: Long,// связь с таблицей коллекций
+    @ColumnInfo(name = "id_kinopoisk") val id_kinopoisk: Long, // id_kinopoisk
+    @ColumnInfo(name = "poster") val poster: String, // путь к файлу с постером во внутренней памяти
+    @ColumnInfo(name = "name") val name: String,// название фильма
+    @ColumnInfo(name = "genre") val genre: String,// жанр
+    @ColumnInfo(name = "rate") val rate: String,// рейтинг фильма
 
 )
 

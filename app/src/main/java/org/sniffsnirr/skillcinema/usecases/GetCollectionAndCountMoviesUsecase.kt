@@ -6,6 +6,8 @@ import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import javax.inject.Inject
 
+//Usecase - загрузка коллекций для profilefragment центрального rv без
+//коллекции просмотренных  фильмов  и фильмов к которым проявлен интерес
 @ActivityRetainedScoped
 class GetCollectionAndCountMoviesUsecase @Inject constructor(val databaseRepository: DatabaseRepository) {
     suspend fun getCollectionAndCountMovies(): List<CollectionCountMovies> {

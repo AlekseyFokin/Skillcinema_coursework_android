@@ -1,8 +1,6 @@
 package org.sniffsnirr.skillcinema.room.dbo
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-
+// модель данных к запросу коллекции и количества фильмов в ней
 data class CollectionCountMovies(
     val id: Long,
     val name: String,

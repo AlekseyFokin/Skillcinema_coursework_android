@@ -104,7 +104,7 @@
                     android:layout_height="34dp"
                     android:layout_gravity="center"
                     android:background="#00FFFFFF"
-                    android:contentDescription="viewed_movie_button"
+                    android:contentDescription="@string/viewed_movie_button"
                     android:scaleX="1.2"
                     android:scaleY="1.2"
                     android:src="@drawable/ic_dont_viewed"
@@ -211,8 +211,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:text="Все>"
                 android:fontFamily="@font/hkgrotesk_medium"
+                android:text="@string/all_btn_1"
                 android:textColor="@color/color_of_progress"
                 android:textSize="14sp" />
 

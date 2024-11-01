@@ -3,6 +3,8 @@ package org.sniffsnirr.skillcinema.usecases
 import android.graphics.Bitmap
 import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.io.File
@@ -11,35 +13,41 @@ import java.io.OutputStream
 import java.util.UUID
 import javax.inject.Inject
 
+//Usecase - добавление фильма в коллекцию с предварительной проверкой на дублирование и сохранением файла в директорию для постеров
 @ActivityRetainedScoped
-class InsertNewMovieToCollectionUsecase @Inject constructor(val databaseRepository: DatabaseRepository,
-    val getCountMovieInCollection:GetCountMovieInCollection) {
-    suspend fun addNewMovie(movieRVModel: MovieRVModel, collectionId: Long, dir: File, bitmap: Bitmap) {
+class InsertNewMovieToCollectionUsecase @Inject constructor(
+    val databaseRepository: DatabaseRepository,
+    private val getCountMovieInCollection: GetCountMovieInCollection
+) {
+    suspend fun addNewMovie(
+        movieRVModel: MovieRVModel,
+        collectionId: Long,
+        dir: File,
+        bitmap: Bitmap
+    ) {
         if (!getCountMovieInCollection.isAlreadyExist(
                 movieRVModel.kinopoiskId!!.toLong(),
                 collectionId
             )
         ) {
-            Log.d("Insert", "Зашел сюда!!")
             val uuid = UUID.randomUUID() //генератор имени файла
             val file = File(dir, "${uuid}.jpg")
-            //movieRVModel.imageUrl="${uuid}.jpg"
             movieRVModel.imageUrl = file.absolutePath
             //сохранить в директорию файл постер
-            //val file = File(dir, "${uuid}.jpg")
-            Log.d("Insert", "Дошел до сохранения в файл movieRVModel=${movieRVModel}")
             try {
-                val fOut: OutputStream = FileOutputStream(file)
+                val fOut: OutputStream =
+                    withContext(Dispatchers.IO) {
+                        FileOutputStream(file)
+                    }
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                fOut.close()
+                withContext(Dispatchers.IO) {
+                    fOut.close()
+                }
             } catch (e: Exception) {
                 Log.d("SaveFileError", "${e.printStackTrace()}")
             }
-
             //сохраняю в БД
-            Log.d("Insert", "Дошел до сохранения в бд movieRVModel=${movieRVModel}")
             databaseRepository.insertNewMovie(movieRVModel, collectionId)
-            Log.d("Insert", "InsertNewMovieUsecase-addNewMovie")
         }
     }
 }

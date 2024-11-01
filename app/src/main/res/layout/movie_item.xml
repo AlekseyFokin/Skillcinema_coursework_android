@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
     android:layout_marginEnd="8dp">
 
     <LinearLayout
@@ -13,7 +12,6 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="96dp"
@@ -25,9 +23,8 @@
                 android:layout_width="96dp"
                 android:layout_height="136dp"
                 android:background="@drawable/rounded_image"
-                android:scaleType="fitXY"
                 android:contentDescription="@string/poster"
-                />
+                android:scaleType="fitXY" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -68,14 +65,12 @@
         android:id="@+id/viewed"
         android:layout_width="14dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_viewed"
-        app:layout_constraintEnd_toEndOf="@id/cd"
-        app:layout_constraintBottom_toBottomOf="@id/cd"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/viewed_label"
-        app:tint="#FFFFFF"
-        />
-
+        android:src="@drawable/ic_viewed"
+        app:layout_constraintBottom_toBottomOf="@id/cd"
+        app:layout_constraintEnd_toEndOf="@id/cd"
+        app:tint="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

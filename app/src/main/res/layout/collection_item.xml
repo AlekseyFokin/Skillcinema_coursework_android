@@ -1,85 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="160dp"
-    android:layout_width="160dp"
-    android:layout_marginBottom="16dp"
-    android:layout_marginEnd="16dp"
-    android:background="@drawable/rect_corner_stroke"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/rect_corner_stroke">
 
     <LinearLayout
         android:id="@+id/open_collection_btn"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1.3" />
 
-    <ImageView
-        android:id="@+id/collection_label"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        <ImageView
+            android:id="@+id/collection_label"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#00FFFFFF"
+            android:contentDescription="collection_label"
+            android:src="@drawable/ic_heart"
+            app:tint="@color/color_of_main_label_in_onboarding" />
+
+        <TextView
+            android:id="@+id/collection_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:text="Любимые"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movie_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rating_label"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:padding="3dp"
+            android:text="  7  "
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.0" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/close_btn"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:layout_gravity="center_horizontal"
-        android:background="#00FFFFFF"
-        android:contentDescription="collection_label"
-        android:src="@drawable/ic_heart"
-        app:tint="@color/color_of_main_label_in_onboarding" />
-
-    <TextView
-        android:id="@+id/collection_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Любимые"
-        android:lines="2"
-        android:gravity="center_horizontal"
-        android:textColor="@color/color_of_main_label_in_onboarding"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/movie_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rating_label"
-        android:fontFamily="@font/hkgrotesk_medium"
-        android:padding="3dp"
-        android:text="  7  "
-        android:textColor="#ffffff"
-        android:textSize="12sp" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1.0" />
-</LinearLayout>
-
-            <ImageButton
-                android:id="@+id/close_btn"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_close_collection2"
-                android:background="@color/cardview_light_background"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="13dp"
-                android:scaleX="1.3"
-                android:scaleY="1.3"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="13dp"
+        android:background="@color/cardview_light_background"
+        android:contentDescription="@string/close_btn_pic"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        android:src="@drawable/ic_close_collection2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

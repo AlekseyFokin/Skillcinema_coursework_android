@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Просмотрено"
+                android:text="@string/viewed_collection"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -71,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Коллекции"
+                android:text="@string/collections_from_db"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 
@@ -96,17 +95,16 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="add new collection"
+                android:contentDescription="@string/add_new_collection_1"
                 android:src="@drawable/ic_plus_foreground"
-                app:tint="@color/color_of_main_label_in_onboarding"
-                />
+                app:tint="@color/color_of_main_label_in_onboarding" />
 
             <TextView
                 android:id="@+id/add_new_collection_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/hkgrotesk_regular"
-                android:text="  Создать свою коллекцию"
+                android:text="@string/create_my_collection_1"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="16sp" />
 
@@ -141,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_semibold"
-                android:text="Вам было интересно"
+                android:text="@string/collection_of_interested_movies"
                 android:textColor="@color/color_of_main_label_in_onboarding"
                 android:textSize="18sp" />
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="13dp"
     android:layout_marginBottom="13dp"
-    >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/about_episode"
         android:layout_width="wrap_content"
@@ -13,8 +13,8 @@
         android:fontFamily="@font/hkgrotesk_regular"
         android:text="1 сезон"
         android:textColor="@color/color_of_main_label_in_onboarding"
-        android:textSize="14sp"
-        />
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/time_episode"
         android:layout_width="wrap_content"
@@ -22,8 +22,7 @@
         android:fontFamily="@font/hkgrotesk_regular"
         android:text="1 сезон"
         android:textColor="@color/color_of_genre"
-        android:textSize="10sp"
-        />
+        android:textSize="10sp" />
 
 
 </LinearLayout>

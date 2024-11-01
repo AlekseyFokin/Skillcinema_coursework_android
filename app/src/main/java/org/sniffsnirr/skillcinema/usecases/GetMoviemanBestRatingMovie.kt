@@ -7,6 +7,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
 import javax.inject.Inject
 
+//Usecase - получение по актеру/кинематографисту 10 самых рейтинговых фильмов
 @ActivityRetainedScoped
 class GetMoviemanBestRatingMovie @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,

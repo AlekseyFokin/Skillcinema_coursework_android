@@ -4,6 +4,7 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import javax.inject.Inject
 
+//Usecase создания коллекции
 @ActivityRetainedScoped
 class CreateCollectionUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository){

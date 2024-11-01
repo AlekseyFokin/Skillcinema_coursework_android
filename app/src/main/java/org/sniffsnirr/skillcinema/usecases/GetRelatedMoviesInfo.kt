@@ -6,6 +6,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
 import javax.inject.Inject
 
+//Usecase - Получение похожих фильмов из API
 @ActivityRetainedScoped
 class GetRelatedMoviesInfo @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,

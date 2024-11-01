@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.android.HiltAndroidApp
-import java.io.File
+
 
 @HiltAndroidApp
 class App: Application(){
@@ -13,7 +13,7 @@ class App: Application(){
         super.onCreate()
         AndroidThreeTen.init(this)//инициализация работы с jsr 310 работа со временем
         try {
-            getDir(POSTERS_DIR, Context.MODE_PRIVATE)
+            getDir(POSTERS_DIR, Context.MODE_PRIVATE)// создание папки для хранения файлов с постерами фмльмов
         }catch(e: Exception){
             Log.d("Create directory error","coud'not create dir for posters")
         }

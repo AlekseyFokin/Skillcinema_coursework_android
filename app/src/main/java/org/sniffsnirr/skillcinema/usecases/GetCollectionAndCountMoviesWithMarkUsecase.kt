@@ -5,22 +5,29 @@ import org.sniffsnirr.skillcinema.room.DatabaseRepository
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import javax.inject.Inject
 
+//Usecase -  для работы BottomSheetDialogFragment со списком коллекций
+// и меткой что фильм принадлежит или не принадлежит каждой коллекции из списка
 @ActivityRetainedScoped
 class GetCollectionAndCountMoviesWithMarkUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
-    val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
-    val getCountMovieInCollection:GetCountMovieInCollection
+    private val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
+    val getCountMovieInCollection: GetCountMovieInCollection
 ) {
-
-    suspend fun getCollectionAndCountMoviesWithMark(movieId:Long):List<Pair<CollectionCountMovies,Boolean>>{
-        val ListCollectionCountMoviesWithMarks= mutableListOf<Pair<CollectionCountMovies,Boolean>>()
-        val ListCollectionCountMovies =getCollectionAndCountMoviesUsecase.getCollectionAndCountMovies()
-        ListCollectionCountMovies.map {
-            collection->
-            ListCollectionCountMoviesWithMarks.add(Pair(collection,getCountMovieInCollection.isAlreadyExist(movieId,collection.id)))
-       }
-        ListCollectionCountMoviesWithMarks.add(Pair(ListCollectionCountMovies.last(),false))
-        return ListCollectionCountMoviesWithMarks
+    suspend fun getCollectionAndCountMoviesWithMark(movieId: Long): List<Pair<CollectionCountMovies, Boolean>> {
+        val listCollectionCountMoviesWithMarks =
+            mutableListOf<Pair<CollectionCountMovies, Boolean>>()
+        val listCollectionCountMovies =
+            getCollectionAndCountMoviesUsecase.getCollectionAndCountMovies()
+        listCollectionCountMovies.map { collection ->
+            listCollectionCountMoviesWithMarks.add(
+                Pair(
+                    collection,
+                    getCountMovieInCollection.isAlreadyExist(movieId, collection.id)
+                )
+            )
+        }
+        listCollectionCountMoviesWithMarks.add(Pair(listCollectionCountMovies.last(), false))
+        return listCollectionCountMoviesWithMarks
     }
 
 }

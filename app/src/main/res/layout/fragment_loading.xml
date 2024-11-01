@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="26dp"
+    android:paddingTop="24dp"
     android:paddingEnd="26dp"
     android:paddingBottom="26dp"
-    android:paddingTop="24dp"
     tools:context=".ui.loading.LoadingFragment">
 
     <LinearLayout
@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:src="@drawable/skillcinema"
-            android:contentDescription="@string/label_skillcinema"/>
+            android:contentDescription="@string/label_skillcinema"
+            android:src="@drawable/skillcinema" />
 
     </LinearLayout>
 
@@ -34,22 +34,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"
+        android:contentDescription="@string/contentDescriptionOfPictureInLoadingFragment"
         android:src="@drawable/onboarding0_pic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/contentDescriptionOfPictureInLoadingFragment"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/loadingProgressbar"
         android:layout_width="36.35dp"
         android:layout_height="36.35dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/color_of_progress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:indeterminate="true"
-        app:indicatorColor="@color/color_of_progress"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

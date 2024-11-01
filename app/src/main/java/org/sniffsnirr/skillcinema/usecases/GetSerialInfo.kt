@@ -5,6 +5,7 @@ import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import javax.inject.Inject
 
+//Usecase -  получение информации по сериалу
 @ActivityRetainedScoped
 class GetSerialInfo @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository

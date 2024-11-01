@@ -8,12 +8,13 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 import javax.inject.Inject
 
+//Usecase - получение и агрегирование данных на HomeFragment
 @ActivityRetainedScoped
 class HomePageUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val getMoviePremiers: GetMoviePremiers,
-    val getCollectionMovies: GetCollectionMovies,
-    val getDynamicCompilation: GetDynamicCompilation
+    private val getMoviePremiers: GetMoviePremiers,
+    private val getCollectionMovies: GetCollectionMovies,
+    private val getDynamicCompilation: GetDynamicCompilation
 ) {
 
     private suspend fun getCountryAndGenre(): Pair<List<Country>, List<Genre>> {// получение списка стран и жанров

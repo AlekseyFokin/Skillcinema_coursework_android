@@ -6,7 +6,7 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import java.util.Locale
 import javax.inject.Inject
-
+//Usecase - получение фильмографии конкретного актера/ кинематографиста
 @ActivityRetainedScoped
 class GetMoviemanFilmography @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,

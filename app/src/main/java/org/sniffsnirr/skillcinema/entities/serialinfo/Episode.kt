@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.entities.serialinfo
 
+// модель данных для получения эпизода сериала
 data class Episode(
     val episodeNumber: Int,
     val nameEn: String,
