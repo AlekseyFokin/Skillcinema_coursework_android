@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,9 +62,9 @@ class GalleryFragment : Fragment() {
 
         val myLayout = FlexboxLayoutManager(requireContext())
         myLayout.setFlexWrap(FlexWrap.WRAP)
-        myLayout.setFlexDirection(FlexDirection.ROW)
-        myLayout.setJustifyContent(JustifyContent.CENTER)
-        myLayout.setAlignItems(AlignItems.CENTER)
+        myLayout.flexDirection = FlexDirection.ROW
+        myLayout.justifyContent = JustifyContent.CENTER
+        myLayout.alignItems = AlignItems.CENTER
 
         val footerAdapter = PagingLoadStateAdapter()
         val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
@@ -81,7 +80,7 @@ class GalleryFragment : Fragment() {
                     R.layout.chip_templ,
                     null
                 ) as Chip
-                val label = "${MAP_OF_IMAGE_TYPE.get(item.key)} ${item.value}"
+                val label = "${MAP_OF_IMAGE_TYPE[item.key]} ${item.value}"
 
                 val string = SpannableString(label)
                 string.setSpan(

@@ -11,7 +11,7 @@ import javax.inject.Inject
 class GetCollectionAndCountMoviesWithMarkUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
     private val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
-    val getCountMovieInCollection: GetCountMovieInCollection
+    val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase
 ) {
     suspend fun getCollectionAndCountMoviesWithMark(movieId: Long): List<Pair<CollectionCountMovies, Boolean>> {
         val listCollectionCountMoviesWithMarks =
@@ -22,7 +22,7 @@ class GetCollectionAndCountMoviesWithMarkUsecase @Inject constructor(
             listCollectionCountMoviesWithMarks.add(
                 Pair(
                     collection,
-                    getCountMovieInCollection.isAlreadyExist(movieId, collection.id)
+                    getCountMovieInCollectionUsecase.isAlreadyExist(movieId, collection.id)
                 )
             )
         }

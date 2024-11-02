@@ -1,8 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.profile
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -25,24 +22,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    val getViewedMoviesUsecase: GetViewedMoviesUsecase,
-    val getCountDbCollectionUsecase: GetCountDbCollectionUsecase,
-    val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase,
-    val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
-    val deleteCollectionUsecase: DeleteCollectionUsecase,
-    val getOneCollectionFromDBUsecase: GetOneCollectionFromDBUsecase,
-    val createCollectionUsecase: CreateCollectionUsecase
+    private val getViewedMoviesUsecase: GetViewedMoviesUsecase,
+    private val getCountDbCollectionUsecase: GetCountDbCollectionUsecase,
+    private val deleteAllMoviesFromCollectionUsecase: DeleteAllMoviesFromCollectionUsecase,
+    private val getCollectionAndCountMoviesUsecase: GetCollectionAndCountMoviesUsecase,
+    private val deleteCollectionUsecase: DeleteCollectionUsecase,
+    private val getOneCollectionFromDBUsecase: GetOneCollectionFromDBUsecase,
+    private val createCollectionUsecase: CreateCollectionUsecase
 ) : ViewModel() {
     private val _viewedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
     val viewedMovies = _viewedMovies.asStateFlow()
 
-    private val _countViewedMovies = MutableStateFlow<Int>(0)
+    private val _countViewedMovies = MutableStateFlow(0)
     val countViewedMovies = _countViewedMovies.asStateFlow()
 
     private val _interestedMovies = MutableStateFlow<List<MovieRVModel>?>(emptyList())
     val interestedMovies = _interestedMovies.asStateFlow()
 
-    private val _countInterestedMovies = MutableStateFlow<Int>(0)
+    private val _countInterestedMovies = MutableStateFlow(0)
     val countInterestedMovies = _countInterestedMovies.asStateFlow()
 
     private val _collectionsForRV = MutableStateFlow<List<CollectionCountMovies>?>(emptyList())
@@ -133,7 +130,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getViewedCollectionInfo() {
+    private fun getViewedCollectionInfo() {
         viewModelScope.launch(Dispatchers.IO) {// загрузка самой viewed коллекции
             kotlin.runCatching {
                 getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_VIEWED_COLLECTION)
@@ -144,7 +141,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getInterestedCollectionInfo() {
+    private fun getInterestedCollectionInfo() {
         viewModelScope.launch(Dispatchers.IO) {// загрузка самой interested коллекции
             kotlin.runCatching {
                 getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_INTERESTED_COLLECTION)

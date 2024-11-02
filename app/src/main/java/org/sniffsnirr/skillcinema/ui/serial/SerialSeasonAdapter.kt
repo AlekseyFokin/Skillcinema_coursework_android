@@ -8,7 +8,7 @@ import org.sniffsnirr.skillcinema.entities.serialinfo.Episode
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
+// Адаптер для RV сезона сериала
 class SerialSeasonAdapter : RecyclerView.Adapter<SerialSeasonAdapter.EpizodeViewHolder>() {
 
     private var episodeList: List<Episode> = emptyList()

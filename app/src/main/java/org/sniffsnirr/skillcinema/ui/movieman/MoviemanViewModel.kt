@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.movieman.MoviemanInfo
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.usecases.GetMoviemanBestRatingMovie
+import org.sniffsnirr.skillcinema.usecases.GetMoviemanBestRatingMovieUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviemanViewModel @Inject constructor(val getMoviemanBestRatingMovie: GetMoviemanBestRatingMovie) :
+class MoviemanViewModel @Inject constructor(private val getMoviemanBestRatingMovieUsecase: GetMoviemanBestRatingMovieUsecase) :
     ViewModel() {
     private val _moviemanInfo = MutableStateFlow<MoviemanInfo?>(null)
     var moviemanInfo = _moviemanInfo.asStateFlow()
@@ -28,7 +28,7 @@ class MoviemanViewModel @Inject constructor(val getMoviemanBestRatingMovie: GetM
     fun getBestMovies(idStaff: Int) {// получение лучших фильмов кинематографиста
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                getMoviemanBestRatingMovie.getBestMoviesRVModelByMovieman(idStaff)
+                getMoviemanBestRatingMovieUsecase.getBestMoviesRVModelByMovieman(idStaff)
             }.fold(
                 onSuccess = {
                     _moviemanInfo.value = it.first
@@ -39,5 +39,4 @@ class MoviemanViewModel @Inject constructor(val getMoviemanBestRatingMovie: GetM
             )
         }
     }
-
 }

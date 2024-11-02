@@ -17,14 +17,14 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 // Адаптер для премьер на будущие 2 недели - их ограниченное количество, поэтому без пагинации
 class OneProfileCollectionAdapter(
-     movieModel: List<MovieRVModel>,
-    val onMovieClick: (Int?,Int) -> Unit
+    movieModel: List<MovieRVModel>,
+    val onMovieClick: (Int?, Int) -> Unit
 ) : RecyclerView.Adapter<OneProfileCollectionAdapter.MovieViewHolder>() {
 
-    private var movieModelList=movieModel.toMutableList()
+    private var movieModelList = movieModel.toMutableList()
 
-    fun setMovieModelList(movieModelList: List<MovieRVModel>){
-        this.movieModelList=movieModelList.toMutableList()
+    fun setMovieModelList(movieModelList: List<MovieRVModel>) {
+        this.movieModelList = movieModelList.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -42,32 +42,34 @@ class OneProfileCollectionAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieModelList[position]
         with(holder.binding) {
-            if (!movie!!.viewed){
+            if (!movie.viewed) {
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
-                    .diskCacheStrategy( DiskCacheStrategy.NONE )
-                    .skipMemoryCache( true )
-                    .diskCacheStrategy( DiskCacheStrategy.NONE )
-                    .skipMemoryCache( true )
+                    .load(movie.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(poster)
                 viewed.visibility = View.INVISIBLE
-            }
-            else{
+            } else {
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
-                    .diskCacheStrategy( DiskCacheStrategy.NONE )
-                    .skipMemoryCache( true )
-                    .into(object : CustomTarget<Bitmap>(){
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            poster.background= BitmapDrawable(poster.context.resources,resource)
-                            //setImageBitmap(resource)
+                    .load(movie.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            poster.background = BitmapDrawable(poster.context.resources, resource)
                         }
+
                         override fun onLoadCleared(placeholder: Drawable?) {
                         }
                     })
-                poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                poster.foreground = poster.context.getDrawable(R.drawable.gradient_viewed)
                 viewed.visibility = View.VISIBLE
             }
 
@@ -80,12 +82,12 @@ class OneProfileCollectionAdapter(
             }
         }
         holder.binding.root.setOnClickListener {
-            onMovieClick(movie.kinopoiskId,position)
+            onMovieClick(movie.kinopoiskId, position)
         }
     }
 
-    fun updateMovieRVModel(position:Int){
-        movieModelList[position].viewed=!movieModelList[position].viewed
+    fun updateMovieRVModel(position: Int) {
+        movieModelList[position].viewed = !movieModelList[position].viewed
         notifyItemChanged(position)
     }
 }

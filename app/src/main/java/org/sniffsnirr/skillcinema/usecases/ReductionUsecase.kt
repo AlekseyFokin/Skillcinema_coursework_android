@@ -4,7 +4,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Reduction @Inject constructor() {
+class ReductionUsecase @Inject constructor() {
     // класс усечения списков и строк
     fun arrayReduction(source: List<String>, reductionLength: Int, limitItem: Int): String {
         val string = source.joinToString(

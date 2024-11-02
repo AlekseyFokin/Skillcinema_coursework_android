@@ -16,27 +16,27 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 import org.sniffsnirr.skillcinema.usecases.AddMovieToInterestedCollectionUsecase
 import org.sniffsnirr.skillcinema.usecases.DeleteMovieFromCollectionUsecase
-import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemen
-import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollection
-import org.sniffsnirr.skillcinema.usecases.GetImages
-import org.sniffsnirr.skillcinema.usecases.GetMovieInfo
-import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfo
-import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
+import org.sniffsnirr.skillcinema.usecases.GetActorsAndMoviemenUsecase
+import org.sniffsnirr.skillcinema.usecases.GetCountMovieInCollectionUsecase
+import org.sniffsnirr.skillcinema.usecases.GetImagesUsecase
+import org.sniffsnirr.skillcinema.usecases.GetMovieInfoUsecase
+import org.sniffsnirr.skillcinema.usecases.GetRelatedMoviesInfoUsecase
+import org.sniffsnirr.skillcinema.usecases.GetSerialInfoUsecase
 import org.sniffsnirr.skillcinema.usecases.InsertNewMovieToCollectionUsecase
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class OneMovieViewModel @Inject constructor(
-    val getMovieInfo: GetMovieInfo,
-    val getActorsAndMoviemen: GetActorsAndMoviemen,
-    val getImages: GetImages,
-    val getRelatedMoviesInfo: GetRelatedMoviesInfo,
-    val getSerialInfo: GetSerialInfo,
-    val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
-    val getCountMovieInCollection: GetCountMovieInCollection,
+    private val getMovieInfoUsecase: GetMovieInfoUsecase,
+    private val getActorsAndMoviemenUsecase: GetActorsAndMoviemenUsecase,
+    private val getImagesUsecase: GetImagesUsecase,
+    private val getRelatedMoviesInfoUsecase: GetRelatedMoviesInfoUsecase,
+    private val getSerialInfoUsecase: GetSerialInfoUsecase,
+    private val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
+    val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase,
     val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase,
-    val addMovieToInterestedCollectionUsecase: AddMovieToInterestedCollectionUsecase
+    private val addMovieToInterestedCollectionUsecase: AddMovieToInterestedCollectionUsecase
 ) : ViewModel() {
     val idMovie: Int = 0
 
@@ -58,19 +58,19 @@ class OneMovieViewModel @Inject constructor(
     private val _numberseries = MutableStateFlow(0)
     val numberseries = _numberseries.asStateFlow()
 
-    private val _isMovieInFavorite = MutableStateFlow<Boolean>(false)
+    private val _isMovieInFavorite = MutableStateFlow(false)
     val isMovieInFavorite = _isMovieInFavorite.asStateFlow()
 
-    private val _isMovieInWantToSee = MutableStateFlow<Boolean>(false)
+    private val _isMovieInWantToSee = MutableStateFlow(false)
     val isMovieInWantToSee = _isMovieInWantToSee.asStateFlow()
 
-    private val _isMovieInViewed = MutableStateFlow<Boolean>(false)
+    private val _isMovieInViewed = MutableStateFlow(false)
     val isMovieInViewed = _isMovieInViewed.asStateFlow()
 
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
             kotlin.runCatching {
-                getMovieInfo.getInfo(idMovie)
+                getMovieInfoUsecase.getInfo(idMovie)
             }.fold(
                 onSuccess = { _movieInfo.value = it },
                 onFailure = { Log.d("MovieInfo", it.message ?: "") }
@@ -82,7 +82,7 @@ class OneMovieViewModel @Inject constructor(
     private fun getActorsAndMoviemen(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение и актеров и кинематографистов  по фильму
             kotlin.runCatching {
-                getActorsAndMoviemen.getActorsAndMoviemen(idMovie)
+                getActorsAndMoviemenUsecase.getActorsAndMoviemen(idMovie)
             }.fold(
                 onSuccess = {
                     _actorsInfo.value = it.first
@@ -97,7 +97,7 @@ class OneMovieViewModel @Inject constructor(
     private fun getImages(idMovie: Int) {// получение изображений
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                getImages.getImages(idMovie)
+                getImagesUsecase.getImages(idMovie)
             }.fold(
                 onSuccess = { _gallery.value = it },
                 onFailure = { Log.d("Gallery", it.message ?: "") }
@@ -107,7 +107,7 @@ class OneMovieViewModel @Inject constructor(
     }
     private fun decideMovieInFavorite(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isMovieInFavorite.value = getCountMovieInCollection.isAlreadyExist(
+            _isMovieInFavorite.value = getCountMovieInCollectionUsecase.isAlreadyExist(
                 idMovie.toLong(),
                 ProfileFragment.ID_FAVORITE_COLLECTION
             )
@@ -117,7 +117,7 @@ class OneMovieViewModel @Inject constructor(
 
     fun decideMovieInWantToSee(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isMovieInWantToSee.value = getCountMovieInCollection.isAlreadyExist(
+            _isMovieInWantToSee.value = getCountMovieInCollectionUsecase.isAlreadyExist(
                 idMovie.toLong(),
                 ProfileFragment.ID_WANT_TO_SEE_COLLECTION
             )
@@ -127,7 +127,7 @@ class OneMovieViewModel @Inject constructor(
 
     private fun decideMovieInViewed(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _isMovieInViewed.value = getCountMovieInCollection.isAlreadyExist(
+            _isMovieInViewed.value = getCountMovieInCollectionUsecase.isAlreadyExist(
                 idMovie.toLong(),
                 ProfileFragment.ID_VIEWED_COLLECTION            )
         }
@@ -138,7 +138,7 @@ class OneMovieViewModel @Inject constructor(
         Log.d("Update","Запрос на получение данных для RV на OneMovieFragment")
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                getRelatedMoviesInfo.getRelatedMoviesRVModel(idMovie)
+                getRelatedMoviesInfoUsecase.getRelatedMoviesRVModel(idMovie)
             }.fold(
                 onSuccess = { _relatedMovies.value = it },
                 onFailure = { Log.d("relatedMovies", it.message ?: "") }
@@ -149,7 +149,7 @@ class OneMovieViewModel @Inject constructor(
     fun getNumberEpisodsOfFirstSeason(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                getSerialInfo.getNumberOfEpisodesOfFirstSeason(idMovie)
+                getSerialInfoUsecase.getNumberOfEpisodesOfFirstSeason(idMovie)
             }.fold(
                 onSuccess = { _numberseries.value = it },
                 onFailure = { Log.d("numberseries", it.message ?: "") }
@@ -160,7 +160,7 @@ class OneMovieViewModel @Inject constructor(
     fun addOrDeleteMovieToFavorite(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) { // нажатие на кнопку добавления в коллекцию любимых фильмов
         if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (getCountMovieInCollection.isAlreadyExist(
+                if (getCountMovieInCollectionUsecase.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
                         movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_FAVORITE_COLLECTION,
@@ -185,7 +185,7 @@ class OneMovieViewModel @Inject constructor(
     fun addOrDeleteMovieToWantToSee(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) {// нажатие на кнопку добавления в коллекцию фильмов планируемых к просмотру
         if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (getCountMovieInCollection.isAlreadyExist(
+                if (getCountMovieInCollectionUsecase.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
                         movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_WANT_TO_SEE_COLLECTION,
@@ -212,7 +212,7 @@ class OneMovieViewModel @Inject constructor(
     fun addOrDeleteMovieToViewed(movieRVModel:MovieRVModel,dir:File,bitmap:Bitmap) {// нажатие на кнопку добавления в коллекцию просмотренных фильмов
         if (movieRVModel.kinopoiskId != 0) {
             viewModelScope.launch(Dispatchers.IO) {
-                if (getCountMovieInCollection.isAlreadyExist(
+                if (getCountMovieInCollectionUsecase.isAlreadyExist(
 // если уже есть - исключить из коллекции Любимых фильмов
                         movieRVModel.kinopoiskId!!.toLong(),
                         ProfileFragment.ID_VIEWED_COLLECTION,

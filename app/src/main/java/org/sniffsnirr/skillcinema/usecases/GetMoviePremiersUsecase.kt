@@ -11,10 +11,10 @@ import java.util.Locale
 // на основе текущей даты - получение премьер на 2 недели вперед, с учетом конца месяца.
 // используется threetenabp - библиотека Backport JSR-310 java8 - для работы со временем
 @ActivityRetainedScoped
-class GetMoviePremiers @Inject constructor(
+class GetMoviePremiersUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
     private val today = LocalDate.now()
     private val todayPlusTwoWeek = today.plusWeeks(2)
@@ -53,13 +53,13 @@ class GetMoviePremiers @Inject constructor(
             val movieRVModel = MovieRVModel(
                 movie.kinopoiskId,
                 movie.posterUrl,
-                reduction.stringReduction(movie.nameRu, 17),
-                reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
+                reductionUsecase.stringReduction(movie.nameRu, 17),
+                reductionUsecase.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "0",
                 false,
                 false
             )
-            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+            decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку

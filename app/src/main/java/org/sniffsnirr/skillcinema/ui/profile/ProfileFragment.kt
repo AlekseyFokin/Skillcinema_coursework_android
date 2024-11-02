@@ -1,7 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.profile
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,17 +39,18 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val viewedAdapter = ViewedAdapter({ onClearAllViewedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
+    private val viewedAdapter = ViewedAdapter({ onClearAllViewedClick() },
+        { idMovie, position -> onMovieClick(idMovie, position) })
 
-    private val interestedAdapter = InterestedAdapter({ onClearAllInterestedClick() },{idMovie,position -> onMovieClick(idMovie,position)})
+    private val interestedAdapter = InterestedAdapter({ onClearAllInterestedClick() },
+        { idMovie, position -> onMovieClick(idMovie, position) })
 
-    private val collectionAdapter = CollectionAdapter({collection-> onDeleteCollectionClick(collection) },{collection->onOpenCollectionClick(collection)})
+    private val collectionAdapter =
+        CollectionAdapter({ collection -> onDeleteCollectionClick(collection) },
+            { collection -> onOpenCollectionClick(collection) })
 
-    var possiblyEditablePosition=0
+    private var possiblyEditablePosition = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,7 +82,7 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {// загрузка количества просмотренных
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.countViewedMovies.collect {
-                    binding.allViewedMoviesButton.text=it.toString()
+                    binding.allViewedMoviesButton.text = it.toString()
                 }
             }
         }
@@ -102,14 +102,15 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {// загрузка количества попавших в интересные
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.countInterestedMovies.collect {
-                    binding.allInterestedButton.text=it.toString()
+                    binding.allInterestedButton.text = it.toString()
                 }
             }
         }
 
-        val collectionGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-        binding.collectionsRv.layoutManager=collectionGridLayout
-        binding.collectionsRv.layoutManager=collectionGridLayout
+        val collectionGridLayout =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        binding.collectionsRv.layoutManager = collectionGridLayout
+        binding.collectionsRv.layoutManager = collectionGridLayout
         binding.collectionsRv.setHasFixedSize(true)
         binding.collectionsRv.adapter = collectionAdapter
         viewLifecycleOwner.lifecycleScope.launch {// загрузка RV коллекций
@@ -122,7 +123,7 @@ class ProfileFragment : Fragment() {
         binding.allInterestedButton.setOnClickListener { onOpenCollectionClick(viewModel.interestedCollection.value) }
         binding.allViewedMoviesButton.setOnClickListener { onOpenCollectionClick(viewModel.viewedCollection.value) }
 
-        binding.addNewCollectionBtn.setOnClickListener{showCustomDialog()}
+        binding.addNewCollectionBtn.setOnClickListener { showCustomDialog() }
     }
 
     override fun onDestroyView() {
@@ -130,24 +131,24 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 
-    private fun onMovieClick(idMovie: Int?,position:Int) {
+    private fun onMovieClick(idMovie: Int?, position: Int) {
         val bundle = Bundle()
-        if(idMovie!=null){
+        if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
             findNavController().navigate(
                 R.id.action_navigation_profile_to_oneMovieFragment,
                 bundle
             )
         }
-        possiblyEditablePosition=position
+        possiblyEditablePosition = position
     }
 
-   private fun onDeleteCollectionClick(collection:CollectionCountMovies){
-       viewModel.deleteCollection(collection)
-   }
+    private fun onDeleteCollectionClick(collection: CollectionCountMovies) {
+        viewModel.deleteCollection(collection)
+    }
 
-    private fun onOpenCollectionClick(collection: CollectionDBO?){
-        if (collection!=null) {
+    private fun onOpenCollectionClick(collection: CollectionDBO?) {
+        if (collection != null) {
             val bundle = Bundle()
             bundle.putInt(ID_COLLECTION, collection.id.toInt())
             bundle.putCharSequence(NAME_COLLECTION, collection.name)
@@ -158,51 +159,52 @@ class ProfileFragment : Fragment() {
         }
     }
 
-     override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
         super.onResume()
         setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
-                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-                        Log.d("Update!@#$", "Обновляю RV на ProfileFragment из OneMovieFragment")
-                        viewedAdapter.deleteFromRV(possiblyEditablePosition)
-                        //проброс изменения viewed
-                        setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
-                            RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
-                            bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
-                        )
-                   }
+            if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    Log.d("Update!@#$", "Обновляю RV на ProfileFragment из OneMovieFragment")
+                    viewedAdapter.deleteFromRV(possiblyEditablePosition)
+                    //проброс изменения viewed
+                    setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
+                        RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
+                        bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
+                    )
                 }
             }
+        }
     }
 
-    fun onClearAllViewedClick(){
+    private fun onClearAllViewedClick() {
         viewModel.clearViewedCollection()
         setFragmentResult(//сигнал на предыдущий фрагмент - нужно обновить rv
             PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
             bundleOf(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
         )
         setFragmentResult(//сигнал на home фрагмент - нужно обновить rv
-           RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
+            RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY,
             bundleOf(RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY to true)
         )
     }
 
-    fun onClearAllInterestedClick(){
+    private fun onClearAllInterestedClick() {
         viewModel.clearInterstedCollection()
     }
 
-    fun showCustomDialog(){//диалог создания новой коллекции
-        val dialog= Dialog(requireContext())
+    private fun showCustomDialog() {//диалог создания новой коллекции
+        val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_create_collection)
         val editText = dialog.findViewById<EditText>(R.id.new_collection_name)
-        val positiveButton=dialog.findViewById<AppCompatButton>(R.id.go_btn)
-        val negativeButton=dialog.findViewById<ImageButton>(R.id.close_btn)
+        val positiveButton = dialog.findViewById<AppCompatButton>(R.id.go_btn)
+        val negativeButton = dialog.findViewById<ImageButton>(R.id.close_btn)
 
         positiveButton.setOnClickListener {
-            if (!editText.text.isNullOrEmpty()){
+            if (!editText.text.isNullOrEmpty()) {
                 viewModel.createCollection(editText.text.toString())
             }
-            dialog.dismiss() }
+            dialog.dismiss()
+        }
         negativeButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
@@ -214,12 +216,12 @@ class ProfileFragment : Fragment() {
         const val ID_VIEWED_COLLECTION = 3L
         const val ID_INTERESTED_COLLECTION = 4L
 
-        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY="PRIFILE_FRAGMENT"
-        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY="PRIFILE_FRAGMENT"
+        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY = "PRIFILE_FRAGMENT"
+        const val RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY = "PRIFILE_FRAGMENT"
 
-        const val ID_COLLECTION="ID_COLLECTION"
-        const val NAME_COLLECTION="NAME_COLLECTION"
+        const val ID_COLLECTION = "ID_COLLECTION"
+        const val NAME_COLLECTION = "NAME_COLLECTION"
 
-        const val LIMIT_FOR_INTERESTED_COLLECTION=20
+        const val LIMIT_FOR_INTERESTED_COLLECTION = 20
     }
 }

@@ -13,7 +13,7 @@ import org.sniffsnirr.skillcinema.usecases.HomePageUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(val homePageUsecase: HomePageUsecase):ViewModel() {
+class HomeViewModel @Inject constructor(private val homePageUsecase: HomePageUsecase):ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 

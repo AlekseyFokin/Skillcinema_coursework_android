@@ -8,10 +8,10 @@ import java.util.Locale
 import javax.inject.Inject
 //Usecase - получение фильмографии конкретного актера/ кинематографиста
 @ActivityRetainedScoped
-class GetMoviemanFilmography @Inject constructor(
+class GetMoviemanFilmographyUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 )
 {
    suspend fun getMovieByMovieman(idStaff: Int): Pair<Pair<String,String>,Map<String,List<Film>>>{//получение фильмов по мувимену
@@ -27,12 +27,12 @@ class GetMoviemanFilmography @Inject constructor(
         val movieRVModel=MovieRVModel(
             onlyOneMovie.kinopoiskId,
             onlyOneMovie.posterUrlPreview,
-            reduction.stringReduction(onlyOneMovie.nameRu, 17),
-            reduction.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
+            reductionUsecase.stringReduction(onlyOneMovie.nameRu, 17),
+            reductionUsecase.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
             "  ${String.format(Locale.US, "%.1f", onlyOneMovie.ratingKinopoisk)}  ",
             false, false, null
         )
-        decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+        decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
         return movieRVModel
     }
 

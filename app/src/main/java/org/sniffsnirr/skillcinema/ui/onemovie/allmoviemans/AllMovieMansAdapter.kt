@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import org.sniffsnirr.skillcinema.databinding.ActorMoviemanBinding
 import org.sniffsnirr.skillcinema.entities.staff.Staff
 
+// адаптер для rv содрежащего всех актеров или кинематографистов
 class AllMovieMansAdapter(val onMoviemanClick: (Int) -> Unit): RecyclerView.Adapter<AllMovieMansAdapter.AllMovieMansHolder>() {
 
     private var moviemanList: List<Staff> = emptyList()

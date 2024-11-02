@@ -11,7 +11,7 @@ import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.ID_FAVORITE_COLLECTION
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.ID_WANT_TO_SEE_COLLECTION
 
-
+// Адаптер для RV коллекций
 class CollectionAdapter(
     val onDeleteCollectionClick: (CollectionCountMovies) -> Unit,
     val onOpenCollectionClick: (CollectionDBO) -> Unit
@@ -57,6 +57,6 @@ class CollectionAdapter(
     override fun getItemCount() = collections.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ButtonViewHolder).bind(collections!![position])
+        (holder as ButtonViewHolder).bind(collections[position])
     }
 }

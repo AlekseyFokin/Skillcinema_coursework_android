@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 // получение всех занятых в производстве фильма и фильтрация на актеров и кинематографистов
 @ActivityRetainedScoped
-class GetActorsAndMoviemen @Inject constructor(
+class GetActorsAndMoviemenUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
 ) {
     suspend fun getActorsAndMoviemen(movieId: Int): Pair<List<Staff>, List<Staff>> {

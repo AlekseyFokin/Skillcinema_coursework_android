@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.StaggeredGalleryItemBinding
 import org.sniffsnirr.skillcinema.entities.images.Image
 
-class GalleryAdapter(val widthDisplay: Int, val onPhotoClick: (String?) -> Unit) :
+class GalleryAdapter(private val widthDisplay: Int, val onPhotoClick: (String?) -> Unit) :
     PagingDataAdapter<Image, GalleryAdapter.ImageViewHolder>(
         DiffUtilCallback()
     ) {

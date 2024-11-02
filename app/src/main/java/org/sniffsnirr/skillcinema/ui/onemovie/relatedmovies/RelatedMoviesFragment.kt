@@ -2,13 +2,10 @@ package org.sniffsnirr.skillcinema.ui.onemovie.relatedmovies
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentRelatedMoviesBinding
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
@@ -29,8 +25,8 @@ class RelatedMoviesFragment : Fragment() {
     val binding get() = _binding!!
     var movieName = ""
     private lateinit var arrayListOfBestMovies: ArrayList<MovieRVModel>
-    val relatedMovieAdapter=RelatedMovieAdapter{ idMovie,position->onMovieClick(idMovie,position)}
-    var possiblyEditablePosition=0
+    private val relatedMovieAdapter=RelatedMovieAdapter{ idMovie, position->onMovieClick(idMovie,position)}
+    private var possiblyEditablePosition=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +41,7 @@ class RelatedMoviesFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
                 super.onResume()
         (activity as MainActivity).showActionBar()
         (activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME $movieName")
@@ -54,12 +50,6 @@ class RelatedMoviesFragment : Fragment() {
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                     relatedMovieAdapter.updateMovieRVModel(possiblyEditablePosition)
-                    Log.d("Update", "Update в RelatedMoviesFragmrnt_DONE на позиции $possiblyEditablePosition")
-                    Log.d("Update", "Update отправляю выше")
-//                    setFragmentResult(//сигнал на предыдущий фрагмент - нужно обновить rv
-//                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
-//                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
-//                    )
                 }
             }
         }
@@ -68,7 +58,7 @@ class RelatedMoviesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRelatedMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }

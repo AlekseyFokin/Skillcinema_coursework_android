@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 //Usecase - проверка есть ли конкретный фильм в конкретной коллекции
 @ActivityRetainedScoped
-class GetCountMovieInCollection @Inject constructor(val databaseRepository: DatabaseRepository) {
+class GetCountMovieInCollectionUsecase @Inject constructor(val databaseRepository: DatabaseRepository) {
     suspend fun isAlreadyExist(kinopoiskId: Long, collectionId: Long): Boolean {
         return databaseRepository.getCountMovieInCollection(kinopoiskId, collectionId) >= 1
     }

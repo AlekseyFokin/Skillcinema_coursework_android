@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 // получение информации по фильму
 @ActivityRetainedScoped
-class GetMovieInfo @Inject constructor(
+class GetMovieInfoUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
 ) {
     suspend fun getInfo(idMovie: Int): OnlyOneMovie {

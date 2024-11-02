@@ -3,7 +3,6 @@ package org.sniffsnirr.skillcinema.ui.onemovie.adapter
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adap
 
     fun setData(relatedMovies: List<MovieRVModel>) {
         this.relatedMovies = relatedMovies
-        Log.d("Обновляю данные relatedMovie","Обновляю данные relatedMovie")
         notifyDataSetChanged()
     }
 
@@ -43,10 +41,10 @@ class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adap
     override fun onBindViewHolder(holder: RelatedMoviesHolder, position: Int) {
         val movie = relatedMovies[position]
         with(holder.binding) {
-            if (!movie!!.viewed){
+            if (!movie.viewed){
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(poster)
@@ -55,7 +53,7 @@ class RelatedMoviesAdapter(val onMovieClick: (Int?) -> Unit) : RecyclerView.Adap
             else{
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){

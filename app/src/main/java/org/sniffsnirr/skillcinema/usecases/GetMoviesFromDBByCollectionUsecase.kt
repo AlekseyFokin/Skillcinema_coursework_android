@@ -9,7 +9,7 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class GetMoviesFromDBByCollectionUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
     private fun getMoviesDBOFromDb(collectionId: Long) =
         //получение списока kinopoisk_id из БД
@@ -30,7 +30,7 @@ class GetMoviesFromDBByCollectionUsecase @Inject constructor(
                     false,
                     null
                 )
-                decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+                decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
                 moviesRVModel.add(movieRVModel)
             }
         }

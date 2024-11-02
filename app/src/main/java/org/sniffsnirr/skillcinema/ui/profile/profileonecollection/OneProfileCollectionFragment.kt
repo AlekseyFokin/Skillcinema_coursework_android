@@ -15,13 +15,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCollectionBinding
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
@@ -36,21 +33,21 @@ class OneProfileCollectionFragment : Fragment() {
     var _binding: FragmentCollectionBinding? = null
     val binding get() = _binding!!
     val adapter = OneProfileCollectionAdapter(emptyList()) { idMovie, position ->
-        onMovieClick(idMovie,position)
+        onMovieClick(idMovie, position)
     }
-    var collectionName=""
-    var collectionId=0
-    var possiblyEditablePosition=0
+    private var collectionName = ""
+    var collectionId = 0
+    private var possiblyEditablePosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(ProfileFragment.NAME_COLLECTION).toString()
-        collectionId = arguments?.getInt(ProfileFragment.ID_COLLECTION)?:0
-         viewModel.loadMoviesInCollection(collectionId.toLong())
+        collectionId = arguments?.getInt(ProfileFragment.ID_COLLECTION) ?: 0
+        viewModel.loadMoviesInCollection(collectionId.toLong())
     }
 
-    override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
         super.onResume()
         (activity as MainActivity).setActionBarTitle(collectionName)
 
@@ -67,20 +64,18 @@ class OneProfileCollectionFragment : Fragment() {
                 }
             }
         }
-        setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
-                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-                        Log.d("Update!@#$", "Обновляю RV на OneMovieFragment из OneMovieFragment")
-                        adapter.updateMovieRVModel(possiblyEditablePosition)
-                        // передаю сигнал об изменении выше
-                        setFragmentResult(
-                            HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
-                            bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
-                        )
-
-                    }
+        setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+            if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                    adapter.updateMovieRVModel(possiblyEditablePosition)
+                    // передаю сигнал об изменении выше
+                    setFragmentResult(
+                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                        bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
+                    )
                 }
             }
+        }
     }
 
     override fun onCreateView(
@@ -117,7 +112,7 @@ class OneProfileCollectionFragment : Fragment() {
         (activity as MainActivity).setActionBarTitle("")
     }
 
-    private fun onMovieClick(idMovie: Int?,position:Int) {
+    private fun onMovieClick(idMovie: Int?, position: Int) {
         val bundle = Bundle()
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
@@ -126,6 +121,6 @@ class OneProfileCollectionFragment : Fragment() {
                 bundle
             )
         }
-        possiblyEditablePosition=position
+        possiblyEditablePosition = position
     }
 }

@@ -12,11 +12,11 @@ import javax.inject.Inject
 class DeleteMovieFromCollectionUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
     private val getOneMovieFromDBByCollectionUsecase: GetOneMovieFromDBByCollectionUsecase,
-    val getCountMovieInCollection: GetCountMovieInCollection
+    val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase
 ) {
 
     suspend fun deleteMovieFromCollection(movieRVModel: MovieRVModel, collectionId: Long) {
-        if (getCountMovieInCollection.isAlreadyExist(
+        if (getCountMovieInCollectionUsecase.isAlreadyExist(
                 movieRVModel.kinopoiskId!!.toLong(),
                 collectionId
             )

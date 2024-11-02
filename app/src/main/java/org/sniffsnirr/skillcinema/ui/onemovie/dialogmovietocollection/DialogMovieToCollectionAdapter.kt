@@ -1,36 +1,17 @@
 package org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection
 
-import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.CollectionDialogItemBinding
 import org.sniffsnirr.skillcinema.databinding.CollectionDialogItemButtonBinding
-import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
-import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.ButtonViewHolder
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion
 import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion.MOVIE
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.PosterViewHolder
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,
     val setCurrentListCollectionWithMark:(List<Pair<CollectionCountMovies, Boolean>>)->Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     var contentList= mutableListOf<Pair<CollectionCountMovies,Boolean>>()
 
     fun setContent(newContent:List<Pair<CollectionCountMovies,Boolean>>){
@@ -43,9 +24,7 @@ class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,
         fun bind() {
             binding.addCollectionItem// добавление новой коллекции
                 .setOnClickListener {
-
                     onPlusCollectionClick()
-
                 }
         }
     }
@@ -103,4 +82,4 @@ class DialogMovieToCollectionAdapter( val onPlusCollectionClick: () -> Unit,
         const val BUTTON = 1
     }
 }
-//emptyList<Pair<CollectionAdapter,Boolean>>()
+

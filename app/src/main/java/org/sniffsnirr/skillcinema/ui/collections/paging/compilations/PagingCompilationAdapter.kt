@@ -16,7 +16,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import org.sniffsnirr.skillcinema.R
-import java.security.AccessController.getContext
 
 // Адаптер с пагинацией для компиляций
 class PagingCompilationAdapter(
@@ -38,7 +37,7 @@ class PagingCompilationAdapter(
             if (!movie!!.viewed){
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(poster)
@@ -47,13 +46,12 @@ class PagingCompilationAdapter(
             else{
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             poster.background= BitmapDrawable(poster.context.resources,resource)
-                            //setImageBitmap(resource)
                         }
                         override fun onLoadCleared(placeholder: Drawable?) {
                         }
@@ -62,12 +60,12 @@ class PagingCompilationAdapter(
                 viewed.visibility = View.VISIBLE
             }
 
-            movieName.text = movie?.movieName
-            genre.text = movie?.movieGenre
-            if (movie?.rate?.trim() == "0" || movie?.rate?.trim() == "0.0") {
+            movieName.text = movie.movieName
+            genre.text = movie.movieGenre
+            if (movie.rate.trim() == "0" || movie.rate.trim() == "0.0") {
                 raiting.visibility = View.INVISIBLE
             } else {
-                raiting.text = movie?.rate
+                raiting.text = movie.rate
             }
 
         }

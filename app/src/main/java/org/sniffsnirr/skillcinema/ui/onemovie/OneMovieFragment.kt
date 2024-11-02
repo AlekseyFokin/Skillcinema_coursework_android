@@ -36,7 +36,6 @@ import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
-import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
@@ -44,7 +43,7 @@ import org.sniffsnirr.skillcinema.ui.onemovie.adapter.MoviemenAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.RelatedMoviesAdapter
 import org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.BottomSheetDialogFragmentAddMovieToCollection
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
-import org.sniffsnirr.skillcinema.usecases.Reduction
+import org.sniffsnirr.skillcinema.usecases.ReductionUsecase
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -62,21 +61,21 @@ class OneMovieFragment : Fragment() {
 
     private val relatedMoviesAdapter = RelatedMoviesAdapter { idMovie -> onMovieClick(idMovie) }
 
-    private val reduction = Reduction()
+    private val reductionUsecase = ReductionUsecase()
 
     var idMovie = 0
     var movieName = ""
-    var imdbUrl = ""
+    private var imdbUrl = ""
     private lateinit var relatedMovies: List<MovieRVModel>
 
-    private lateinit var animationScaleBtn: Animation;
+    private lateinit var animationScaleBtn: Animation
 
     private lateinit var movieRVModel: MovieRVModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
+        idMovie = arguments?.getInt(ID_MOVIE) ?: 0
         viewModel.setIdMovie(idMovie)
         (activity as MainActivity).showActionBar()
         (activity as MainActivity).setActionBarTitle("")
@@ -135,11 +134,11 @@ class OneMovieFragment : Fragment() {
 
                     movieRVModel = MovieRVModel(
                         it?.kinopoiskId,
-                        it?.posterUrl?: "",
-                        reduction.stringReduction(it?.nameRu, 17),
-                        reduction.arrayReduction(it?.genres?.map { it.genre }
-                            ?: emptyList<String>(), 20, 2),
-                        (it?.ratingKinopoisk?:0).toString(),
+                        it?.posterUrl ?: "",
+                        reductionUsecase.stringReduction(it?.nameRu, 17),
+                        reductionUsecase.arrayReduction(it?.genres?.map { it.genre }
+                            ?: emptyList(), 20, 2),
+                        (it?.ratingKinopoisk ?: 0).toString(),
                         false,
                         false
                     )
@@ -315,7 +314,7 @@ class OneMovieFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val bitmap = Glide.with(requireContext())
                     .asBitmap()
-                    .load(movieRVModel?.imageUrl)
+                    .load(movieRVModel.imageUrl)
                     .submit().get()
                 viewModel.addOrDeleteMovieToFavorite(
                     movieRVModel,
@@ -330,7 +329,7 @@ class OneMovieFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val bitmap = Glide.with(requireContext())
                     .asBitmap()
-                    .load(movieRVModel?.imageUrl)
+                    .load(movieRVModel.imageUrl)
                     .submit().get()
                 viewModel.addOrDeleteMovieToWantToSee(
                     movieRVModel,
@@ -349,7 +348,7 @@ class OneMovieFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val bitmap = Glide.with(requireContext())
                     .asBitmap()
-                    .load(movieRVModel?.imageUrl)
+                    .load(movieRVModel.imageUrl)
                     .submit().get()
                 viewModel.addOrDeleteMovieToViewed(
                     movieRVModel,
@@ -378,20 +377,16 @@ class OneMovieFragment : Fragment() {
         binding.someMore.setOnClickListener {// добавление фильма в коллекции
             val bundle = Bundle()
             bundle.putParcelable(MOVIE, movieRVModel)
-            //  findNavController().navigate(
-            //      R.id.action_oneMovieFragment_to_dialogMovieToCollectionFragment,
-            //      bundle
-            //  )
+
             val bottomSheetDialogFragmentAddMovieToCollection =
                 BottomSheetDialogFragmentAddMovieToCollection()
             bottomSheetDialogFragmentAddMovieToCollection.setArguments(bundle)
-            bottomSheetDialogFragmentAddMovieToCollection.lifecycle.addObserver(//в случае изменеия
+            bottomSheetDialogFragmentAddMovieToCollection.lifecycle.addObserver(//в случае закрытия диалога
                 LifecycleEventObserver { source, event ->
                     if (event == Lifecycle.Event.ON_STOP) {
                         viewModel.decideMovieInWantToSee(idMovie)
                     }
                 })
-
             bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager, "dialog")
         }
     }
@@ -409,9 +404,7 @@ class OneMovieFragment : Fragment() {
         }
     }
 
-    private fun addCurrentMovieToInterestedCollection(){
-        Log.d("Есть ли постер","${movieRVModel.imageUrl}")
-
+    private fun addCurrentMovieToInterestedCollection() {// добавление фильма в колекцию фильмов, которыми интересовался
         CoroutineScope(Dispatchers.IO).launch {
             val bitmap = Glide.with(requireContext())
                 .asBitmap()
@@ -504,35 +497,6 @@ class OneMovieFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        //   Log.d("Return From BottomSheet","Сработало!!!")
-        //viewModel.setIdMovie(idMovie)
-//        var needUpdate = false
-//
-//        setFragmentResultListener(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
-//            if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-//                if (bundle.getBoolean(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-//                    needUpdate = true
-//                    Log.d("Update", "Обновляю RV на OneMovieFragment из RelatedMovieFragments")
-//                    viewModel.getRelatedMovies(idMovie)
-//                }
-//            }
-//        }
-//        if (!needUpdate) {
-//            setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
-//                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-//                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-//                        Log.d("Update!@#$", "Обновляю RV на OneMovieFragment из OneMovieFragment")
-//                        viewModel.getRelatedMovies(idMovie)
-//                    }
-//                }
-//            }
-//        }
-
-    }
-
     override fun onStop() {
         super.onStop()
         addCurrentMovieToInterestedCollection()//добавление в коллекцию фильмов, которыми интересовался
@@ -547,9 +511,5 @@ class OneMovieFragment : Fragment() {
         const val RELATED_MOVIES_LIST = "RELATED_MOVIES_LIST"
         const val IMDB_PATH = "https://www.imdb.com/title/"
         const val MOVIE = "MOVIE_RV_MODEL"
-
-        //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_REQUEST_KEY"
-        //   const val RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY="RV_ITEM_HAS_BEEN_CHANGED_IN_ONEMOVIE_BUNDLE_KEY"
-
     }
 }

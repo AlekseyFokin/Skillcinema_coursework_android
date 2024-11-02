@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 //Usecase - получение по актеру/кинематографисту 10 самых рейтинговых фильмов
 @ActivityRetainedScoped
-class GetMoviemanBestRatingMovie @Inject constructor(
+class GetMoviemanBestRatingMovieUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
 
     private suspend fun getBestRatingMovieByMovieman(idStaff: Int): Triple<MoviemanInfo,List<Int>,Int>{
@@ -28,12 +28,12 @@ class GetMoviemanBestRatingMovie @Inject constructor(
         val movieRvModel= MovieRVModel(
             onlyOneMovie.kinopoiskId,
             onlyOneMovie.posterUrlPreview,
-            reduction.stringReduction(onlyOneMovie.nameRu, 17),
-            reduction.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
+            reductionUsecase.stringReduction(onlyOneMovie.nameRu, 17),
+            reductionUsecase.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
             "  ${String.format(Locale.US, "%.1f", onlyOneMovie.ratingKinopoisk)}  ",
             false, false, null
         )
-        decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRvModel)
+        decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRvModel)
         return movieRvModel
     }
 

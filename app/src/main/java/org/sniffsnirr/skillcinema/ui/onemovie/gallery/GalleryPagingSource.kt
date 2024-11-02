@@ -12,7 +12,7 @@ import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 class GalleryPagingSource(
     val kinopoiskRepository: KinopoiskRepository,
     val idMovie: Int,
-    val imageType: String
+    private val imageType: String
 ) : PagingSource<Int, Image>() {
     override fun getRefreshKey(state: PagingState<Int, Image>): Int = FIRST_PAGE
 

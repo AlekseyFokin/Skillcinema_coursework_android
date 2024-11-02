@@ -9,8 +9,8 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class GetViewedMoviesUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
 
     private suspend fun getViewedMoviesDBOFromDb(collectionId: Long) =
@@ -32,7 +32,7 @@ class GetViewedMoviesUsecase @Inject constructor(
                     false,
                     null
                 )
-                decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+                decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
                 viewedMoviesRVModel.add(movieRVModel)
             }
         }

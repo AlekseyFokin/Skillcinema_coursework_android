@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 //Usecase -  получение информации по сериалу
 @ActivityRetainedScoped
-class GetSerialInfo @Inject constructor(
+class GetSerialInfoUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
 ) {
 

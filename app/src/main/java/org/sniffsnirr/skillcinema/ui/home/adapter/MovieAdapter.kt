@@ -37,30 +37,33 @@ class MovieAdapter(
 
         fun bind(moviePoster: MovieRVModel) {
             binding.apply {
-                if (!moviePoster!!.viewed){
+                if (!moviePoster.viewed) {
                     Glide
                         .with(poster.context)
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(poster)
                     viewed.visibility = View.INVISIBLE
-                }
-                else{
+                } else {
                     Glide.with(poster.context)
                         .asBitmap()
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
-                        .into(object : CustomTarget<Bitmap>(){
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                poster.background= BitmapDrawable(poster.context.resources,resource)
-                                //setImageBitmap(resource)
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                poster.background =
+                                    BitmapDrawable(poster.context.resources, resource)
                             }
+
                             override fun onLoadCleared(placeholder: Drawable?) {
                             }
                         })
-                    poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                    poster.foreground = poster.context.getDrawable(R.drawable.gradient_viewed)
                     viewed.visibility = View.VISIBLE
                 }
 

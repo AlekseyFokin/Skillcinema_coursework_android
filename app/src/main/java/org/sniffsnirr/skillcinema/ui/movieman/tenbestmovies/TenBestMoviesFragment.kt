@@ -16,11 +16,12 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment
 import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment.Companion.BEST_MOVIES_LIST
 
+//Фрагмент показа 10 лучших фильмов
 class TenBestMoviesFragment : Fragment() {
     var _binding: FragmentTenBestMoviesBinding? = null
     val binding get() = _binding!!
-    var moviemanName = ""
-    lateinit var arrayListOfBestMovies: ArrayList<MovieRVModel>
+    private var moviemanName = ""
+    private lateinit var arrayListOfBestMovies: ArrayList<MovieRVModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

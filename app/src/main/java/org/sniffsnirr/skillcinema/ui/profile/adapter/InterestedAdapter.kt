@@ -16,6 +16,8 @@ import org.sniffsnirr.skillcinema.databinding.ClearHistoryBinding
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
+
+//Адаптер для RV для коллекции фильмов, которые просматривал пользователь
 class InterestedAdapter(
     val onButtonClearAllClick: () -> Unit,
     val onMovieClick: (Int?, Int) -> Unit
@@ -23,7 +25,7 @@ class InterestedAdapter(
 
     private var movies = emptyList<MovieRVModel>().toMutableList()
     fun setData(movies: List<MovieRVModel>?) {
-        this.movies = movies?.toMutableList()?:emptyList<MovieRVModel>().toMutableList()
+        this.movies = movies?.toMutableList() ?: emptyList<MovieRVModel>().toMutableList()
         notifyDataSetChanged()
     }
 
@@ -40,11 +42,11 @@ class InterestedAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (!movies.isNullOrEmpty()){
+        if (!movies.isNullOrEmpty()) {
             if (getItemViewType(position) == ViewedAdapter.BUTTON) {
-                (holder as InterestedAdapter.ButtonViewHolder).bind(movies!![position])
+                (holder as InterestedAdapter.ButtonViewHolder).bind()
             } else {
-                (holder as InterestedAdapter.PosterViewHolder).bind(movies!![position])
+                (holder as InterestedAdapter.PosterViewHolder).bind(movies[position])
             }
         }
     }
@@ -57,11 +59,11 @@ class InterestedAdapter(
         }
     }
 
-    override fun getItemCount()=movies.size
+    override fun getItemCount() = movies.size
 
     inner class ButtonViewHolder(val binding: ClearHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movieModel: MovieRVModel) {
+        fun bind() {
             binding.showMeAllBtn.setOnClickListener {
                 onButtonClearAllClick()
             }
@@ -73,32 +75,36 @@ class InterestedAdapter(
 
         fun bind(moviePoster: MovieRVModel) {
             binding.apply {
-                if (!moviePoster!!.viewed){
+                if (!moviePoster.viewed) {
                     Glide
                         .with(poster.context)
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(poster)
                     viewed.visibility = View.INVISIBLE
-                }
-                else{
+                } else {
                     Glide.with(poster.context)
                         .asBitmap()
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
-                        .into(object : CustomTarget<Bitmap>(){
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                poster.background= BitmapDrawable(poster.context.resources,resource)
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                poster.background =
+                                    BitmapDrawable(poster.context.resources, resource)
                                 //setImageBitmap(resource)
                             }
+
                             override fun onLoadCleared(placeholder: Drawable?) {
                             }
                         })
-                    poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                    poster.foreground = poster.context.getDrawable(R.drawable.gradient_viewed)
                     viewed.visibility = View.VISIBLE
                 }
 
@@ -110,9 +116,15 @@ class InterestedAdapter(
                     raiting.text = moviePoster.rate
                 }
             }
-            binding.cd.setOnClickListener { onMovieClick(moviePoster.kinopoiskId, getBindingAdapterPosition()) }
+            binding.cd.setOnClickListener {
+                onMovieClick(
+                    moviePoster.kinopoiskId,
+                    getBindingAdapterPosition()
+                )
+            }
         }
     }
+
     companion object {
         const val MOVIE = 0
         const val BUTTON = 1

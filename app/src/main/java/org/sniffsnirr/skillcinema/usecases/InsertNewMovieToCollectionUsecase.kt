@@ -17,7 +17,7 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class InsertNewMovieToCollectionUsecase @Inject constructor(
     val databaseRepository: DatabaseRepository,
-    private val getCountMovieInCollection: GetCountMovieInCollection
+    private val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase
 ) {
     suspend fun addNewMovie(
         movieRVModel: MovieRVModel,
@@ -25,7 +25,7 @@ class InsertNewMovieToCollectionUsecase @Inject constructor(
         dir: File,
         bitmap: Bitmap
     ) {
-        if (!getCountMovieInCollection.isAlreadyExist(
+        if (!getCountMovieInCollectionUsecase.isAlreadyExist(
                 movieRVModel.kinopoiskId!!.toLong(),
                 collectionId
             )

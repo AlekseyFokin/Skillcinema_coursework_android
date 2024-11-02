@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
-import org.sniffsnirr.skillcinema.usecases.GetSerialInfo
+import org.sniffsnirr.skillcinema.usecases.GetSerialInfoUsecase
 import javax.inject.Inject
 
 @HiltViewModel
 class SerialSeasonViewModel @Inject constructor(
-    val getSerialInfo: GetSerialInfo
+    private val getSerialInfoUsecase: GetSerialInfoUsecase
 ) : ViewModel() {
 
     private val _serialInfo = MutableStateFlow<SeasonsSerial?>(null)
@@ -23,7 +23,7 @@ class SerialSeasonViewModel @Inject constructor(
     fun getAllSerialData(idMovie:Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о сериале
             kotlin.runCatching {
-                getSerialInfo.getAllSeialInfo(idMovie)
+                getSerialInfoUsecase.getAllSeialInfo(idMovie)
             }.fold(
                 onSuccess = { _serialInfo.value = it },
                 onFailure = { Log.d("SerialInfo", it.message ?: "") }

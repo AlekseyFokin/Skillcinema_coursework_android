@@ -23,16 +23,16 @@ class BestMovieAdapter(
     val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-   private var movieList= emptyList <MovieRVModel>().toMutableList()
+    private var movieList = emptyList<MovieRVModel>().toMutableList()
 
-    fun setMovieList(movieList: List<MovieRVModel>){
-        this.movieList=movieList.toMutableList()
+    fun setMovieList(movieList: List<MovieRVModel>) {
+        this.movieList = movieList.toMutableList()
         notifyDataSetChanged()
     }
 
     inner class ButtonViewHolder(val binding: ShowMeAllBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movieModel: MovieRVModel) {
+        fun bind() {
             binding.showMeAllBtn.setOnClickListener {
                 onCollectionClick()
             }
@@ -44,30 +44,33 @@ class BestMovieAdapter(
 
         fun bind(moviePoster: MovieRVModel) {
             binding.apply {
-                if (!moviePoster!!.viewed){
+                if (!moviePoster.viewed) {
                     Glide
                         .with(poster.context)
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .into(poster)
                     viewed.visibility = View.INVISIBLE
-                }
-                else{
+                } else {
                     Glide.with(poster.context)
                         .asBitmap()
-                        .load(moviePoster?.imageUrl)
-                        .diskCacheStrategy( DiskCacheStrategy.NONE )
-                        .skipMemoryCache( true )
-                        .into(object : CustomTarget<Bitmap>(){
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                poster.background= BitmapDrawable(poster.context.resources,resource)
-                                //setImageBitmap(resource)
+                        .load(moviePoster.imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                poster.background =
+                                    BitmapDrawable(poster.context.resources, resource)
                             }
+
                             override fun onLoadCleared(placeholder: Drawable?) {
                             }
                         })
-                    poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                    poster.foreground = poster.context.getDrawable(R.drawable.gradient_viewed)
                     viewed.visibility = View.VISIBLE
                 }
 
@@ -108,7 +111,7 @@ class BestMovieAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (getItemViewType(position) == MovieAdapter.BUTTON) {
-            (holder as BestMovieAdapter.ButtonViewHolder).bind(movieList[position])
+            (holder as BestMovieAdapter.ButtonViewHolder).bind()
         } else {
             (holder as BestMovieAdapter.PosterViewHolder).bind(movieList[position])
         }

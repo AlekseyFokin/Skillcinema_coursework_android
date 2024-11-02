@@ -34,10 +34,10 @@ class FilmographyAdapter(val onMovieClick: (Int,Int) -> Unit): RecyclerView.Adap
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieList[position]
         with(holder.binding) {
-            if (!movie!!.viewed){
+            if (!movie.viewed){
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(poster)
@@ -46,7 +46,7 @@ class FilmographyAdapter(val onMovieClick: (Int,Int) -> Unit): RecyclerView.Adap
             else{
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){

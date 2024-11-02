@@ -5,27 +5,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentHomeBinding
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+
 import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
 
 @AndroidEntryPoint
@@ -62,8 +57,11 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {// прогрессбар загрузки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect {
-                    if (it) {binding.loadingProgressbar.visibility=View.VISIBLE}
-                    else {binding.loadingProgressbar.visibility=View.GONE}
+                    if (it) {
+                        binding.loadingProgressbar.visibility = View.VISIBLE
+                    } else {
+                        binding.loadingProgressbar.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -73,10 +71,7 @@ class HomeFragment : Fragment() {
         when (collectionModel.categoryDescription.first) {
             KinopoiskApi.PREMIERES.first -> { // клик по коллекции премьер на 2 недели вперед. их количество ограничено и этот список уже есть, поэтому направляю во фрагмент и список и название
                 val bundle = Bundle()
-              //  val arraylist = ArrayList<MovieRVModel>()
-              //  arraylist.addAll(collectionModel.MovieRVModelList)
-              //  bundle.putParcelableArrayList(COLLECTION_MODEL, arraylist)
-                bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
+                 bundle.putCharSequence(COLLECTION_NAME, collectionModel.category)
                 findNavController().navigate(
                     R.id.action_navigation_home_to_collectionFragment,
                     bundle
@@ -124,6 +119,7 @@ class HomeFragment : Fragment() {
                     bundle
                 )
             }
+
             else -> Log.d("ButtonClick", collectionModel.categoryDescription.first)
         }
     }
@@ -131,11 +127,11 @@ class HomeFragment : Fragment() {
 
     private fun onMovieClick(idMovie: Int?) {
         val bundle = Bundle()
-        if(idMovie!=null){
-           bundle.putInt(ID_MOVIE, idMovie)
-           findNavController().navigate(
-           R.id.action_navigation_home_to_oneMovieFragment,
-           bundle
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_navigation_home_to_oneMovieFragment,
+                bundle
             )
         }
     }
@@ -145,52 +141,46 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    override fun onResume(){
+    override fun onResume() { // если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние
         super.onResume()
-        var needUpdate=false
+        var needUpdate = false
 
         setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-                    needUpdate=true
+                    needUpdate = true
                     viewModel.loadMoviesCollectionsForHomePage()
-                    Log.d("Final Update", "Update_DONE!!!")
                 }
             }
         }
-if (!needUpdate) {
-        setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
-            if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
-                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
-                    viewModel.loadMoviesCollectionsForHomePage()
-                    Log.d("Final Update", "Update_DONE!!!")
+        if (!needUpdate) {
+            setFragmentResultListener(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { REQUEST_KEY, bundle ->
+                if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
+                    if (bundle.getBoolean(PagingCollectionFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
+                        viewModel.loadMoviesCollectionsForHomePage()
+                    }
                 }
             }
         }
-}
 
         if (!needUpdate) {
             setFragmentResultListener(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY) { REQUEST_KEY, bundle ->
                 if (bundle.getBoolean(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY) != null) {
                     if (bundle.getBoolean(ProfileFragment.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY)) {
                         viewModel.loadMoviesCollectionsForHomePage()
-                        Log.d("Final Update", "Update_DONE!!!")
                     }
                 }
             }
         }
-//if (needUpdate){
-//        viewModel.loadMoviesCollectionsForHomePage()
-//        Log.d("Final Update", "Update_DONE!!!")}
     }
 
     companion object {
-        const val COLLECTION_MODEL = "COLLECTION_MODEL"
+
         const val COLLECTION_NAME = "COLLECTION_NAME"
         const val COLLECTION_TYPE = "COLLECTION_TYPE"
         const val COLLECTION_COUNTRY = "COLLECTION_COUNTRY"
         const val COLLECTION_GENRE = "COLLECTION_GENRE"
-        const val ID_MOVIE="ID_MOVIE"
+        const val ID_MOVIE = "ID_MOVIE"
 
         const val RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY = "FINAL_UPDATE_REQUEST_KEY"
         const val RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY = "FINAL_UPDATE_BUNDLE_KEY"

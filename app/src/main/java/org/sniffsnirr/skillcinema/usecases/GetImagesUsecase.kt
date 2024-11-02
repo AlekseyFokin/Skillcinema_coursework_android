@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 // получение изображений для фильма
 @ActivityRetainedScoped
-class GetImages @Inject constructor(
+class GetImagesUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository
 ) {
     suspend fun getImages(movieId: Int,imageType:String=IMAGE_TYPE_DEFAULT): List<Image> { // получения списка изображений по типу

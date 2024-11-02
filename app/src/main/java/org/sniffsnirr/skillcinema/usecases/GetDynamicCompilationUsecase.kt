@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 // получение компиляции на основе комбинации жанра и страны и преобразование полученной модели к MovieRVModel
 @ActivityRetainedScoped
-class GetDynamicCompilation @Inject constructor(
+class GetDynamicCompilationUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-   val decideMovieRVmodelIsViewedOrNot:DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase:DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
     suspend fun getCompilation(country: Int, genre: Int): List<MovieRVModel> {
         val movieRVModelList = mutableListOf<MovieRVModel>()
@@ -20,13 +20,13 @@ class GetDynamicCompilation @Inject constructor(
             val movieRVModel = MovieRVModel(
                 movie.kinopoiskId,
                 movie.posterUrl,
-                reduction.stringReduction(movie.nameRu, 17),
-                reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
+                reductionUsecase.stringReduction(movie.nameRu, 17),
+                reductionUsecase.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "  ${String.format(Locale.US, "%.1f", movie.ratingKinopoisk)}  ",
                 viewed = false,
                 isButton = false
             )
-            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+            decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку

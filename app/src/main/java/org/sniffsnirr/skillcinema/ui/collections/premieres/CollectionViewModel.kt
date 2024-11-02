@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.usecases.GetMoviePremiers
+import org.sniffsnirr.skillcinema.usecases.GetMoviePremiersUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class CollectionViewModel @Inject constructor(val getMoviePremiers: GetMoviePremiers) :
+class CollectionViewModel @Inject constructor(val getMoviePremiersUsecase: GetMoviePremiersUsecase) :
     ViewModel() {
     private val _premierMovies = MutableStateFlow<List<MovieRVModel>?>(null)
     val premierMovies = _premierMovies.asStateFlow()
@@ -21,7 +21,7 @@ class CollectionViewModel @Inject constructor(val getMoviePremiers: GetMoviePrem
     fun loadPremiers() {
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки
             kotlin.runCatching {
-                getMoviePremiers.getPremiersForNextTwoWeek()
+                getMoviePremiersUsecase.getPremiersForNextTwoWeek()
             }.fold(
                 onSuccess = { _premierMovies.value = it },
                 onFailure = { Log.d("перезагрузка премьер", it.message ?: "") }

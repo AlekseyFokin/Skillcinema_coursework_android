@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.movieman.Film
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.usecases.GetMoviemanFilmography
+import org.sniffsnirr.skillcinema.usecases.GetMoviemanFilmographyUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class FilmographyViewModel @Inject constructor(val getMoviemanFilmography: GetMoviemanFilmography) : ViewModel() {
+class FilmographyViewModel @Inject constructor(private val getMoviemanFilmographyUsecase: GetMoviemanFilmographyUsecase) : ViewModel() {
 
     private val _moviemanName = MutableStateFlow(Pair("",""))
     var moviemanName = _moviemanName.asStateFlow()
@@ -25,14 +25,14 @@ class FilmographyViewModel @Inject constructor(val getMoviemanFilmography: GetMo
     private val _moviesByListID = MutableStateFlow<List<MovieRVModel>>(emptyList())
     var moviesByListID = _moviesByListID.asStateFlow()
 
-    private val _isLoading = MutableStateFlow<Boolean>(false)
+    private val _isLoading = MutableStateFlow(false)
     var isLoading = _isLoading.asStateFlow()
 
     fun getMoviesByProfessionKey(idStaff:Int){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 _isLoading.value=true
-                getMoviemanFilmography.getMovieByMovieman(idStaff)
+                getMoviemanFilmographyUsecase.getMovieByMovieman(idStaff)
             }.fold(
                 onSuccess = {
                     _moviemanName.value = it.first
@@ -48,7 +48,7 @@ class FilmographyViewModel @Inject constructor(val getMoviemanFilmography: GetMo
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 _isLoading.value=true
-                getMoviemanFilmography.getMoviesRVModelByMoviemanProfessionKey(idMoviesList)
+                getMoviemanFilmographyUsecase.getMoviesRVModelByMoviemanProfessionKey(idMoviesList)
             }.fold(
                 onSuccess = {
                         _moviesByListID.value = it

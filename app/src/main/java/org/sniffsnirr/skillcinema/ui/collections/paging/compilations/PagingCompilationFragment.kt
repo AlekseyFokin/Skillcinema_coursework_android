@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.collections.paging.compilations
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCompilationBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
@@ -34,7 +32,7 @@ class PagingCompilationFragment : Fragment() {
     var _binding: FragmentPagingCompilationBinding? = null
     val binding get() = _binding!!
     private val pagedAdapter = PagingCompilationAdapter { idMovie -> onMovieClick(idMovie) }
-    private var collectionName=""
+    private var collectionName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +45,7 @@ class PagingCompilationFragment : Fragment() {
         collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
     }
 
-    override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
         super.onResume()
         (activity as MainActivity).setActionBarTitle(collectionName)
         setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
@@ -55,10 +53,9 @@ class PagingCompilationFragment : Fragment() {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
                     pagedAdapter.refresh()
                     setFragmentResult(
-                       HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
+                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                         bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
                     )
-                    Log.d("Update", "Update_DONE!!!")
                 }
             }
         }

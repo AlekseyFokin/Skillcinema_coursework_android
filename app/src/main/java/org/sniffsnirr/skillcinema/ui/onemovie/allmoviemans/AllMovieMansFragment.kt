@@ -20,6 +20,7 @@ import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment.Companion.ID_STAFF
 
+// Фрагмент содрежащий всех актеров или кинематографистов
 @AndroidEntryPoint
 class AllMovieMansFragment : Fragment() {
 
@@ -27,7 +28,7 @@ class AllMovieMansFragment : Fragment() {
     val binding get()=_binding!!
 
     private val viewModel: AllMovieMansViewModel by viewModels()
-    var typeOfMoviemans=true
+    private var typeOfMoviemans=true
     var movieName=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +52,8 @@ class AllMovieMansFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (typeOfMoviemans) {
-            (activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_ACTOR_1 ${movieName} $FRAGMENT_NAME_ACTOR_2" )}
-        else {(activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_MOVIEMAN_1 ${movieName} $FRAGMENT_NAME_MOVIEMAN_2" )}
+            (activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_ACTOR_1 $movieName $FRAGMENT_NAME_ACTOR_2" )}
+        else {(activity as MainActivity).setActionBarTitle("$FRAGMENT_NAME_MOVIEMAN_1 $movieName $FRAGMENT_NAME_MOVIEMAN_2" )}
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

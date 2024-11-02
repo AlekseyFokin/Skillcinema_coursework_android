@@ -12,9 +12,9 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class HomePageUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    private val getMoviePremiers: GetMoviePremiers,
-    private val getCollectionMovies: GetCollectionMovies,
-    private val getDynamicCompilation: GetDynamicCompilation
+    private val getMoviePremiersUsecase: GetMoviePremiersUsecase,
+    private val getCollectionMoviesUsecase: GetCollectionMoviesUsecase,
+    private val getDynamicCompilationUsecase: GetDynamicCompilationUsecase
 ) {
 
     private suspend fun getCountryAndGenre(): Pair<List<Country>, List<Genre>> {// получение списка стран и жанров
@@ -39,14 +39,14 @@ class HomePageUsecase @Inject constructor(
         val bannerModel = MainModel("", emptyList(), Triple("BANNER", null, null), true) // баннер
         val primeres = MainModel(// премьеры
             KinopoiskApi.PREMIERES.second,
-            getMoviePremiers.getPremiersForNextTwoWeek(),
+            getMoviePremiersUsecase.getPremiersForNextTwoWeek(),
             Triple(KinopoiskApi.PREMIERES.first, null, null),
             false
         )
 
         val popular = MainModel(
             KinopoiskApi.TOP_POPULAR_MOVIES.second,
-            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_POPULAR_MOVIES),
+            getCollectionMoviesUsecase.getCollectionMovies(KinopoiskApi.TOP_POPULAR_MOVIES),
             Triple(KinopoiskApi.TOP_POPULAR_MOVIES.first, null, null),
             false
         )
@@ -56,7 +56,7 @@ class HomePageUsecase @Inject constructor(
 
         val dynamic1 = MainModel(// динамический список 1
             "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
-            getDynamicCompilation.getCompilation(
+            getDynamicCompilationUsecase.getCompilation(
                 pairCountryNGenre.first.id,
                 pairCountryNGenre.second.id
             ),
@@ -70,14 +70,14 @@ class HomePageUsecase @Inject constructor(
 
         val top250 = MainModel( // топ - 250
             KinopoiskApi.TOP_250_MOVIES.second,
-            getCollectionMovies.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
+            getCollectionMoviesUsecase.getCollectionMovies(KinopoiskApi.TOP_250_MOVIES),
             Triple(KinopoiskApi.TOP_250_MOVIES.first, null, null),
             false
         )
         pairCountryNGenre = getRandomCountryNGenre(countryNgenre)
         val dynamic2 = MainModel(//динамический список 2
             "${pairCountryNGenre.second.genre.replaceFirstChar { it.uppercase() }} ${pairCountryNGenre.first.country}",
-            getDynamicCompilation.getCompilation(
+            getDynamicCompilationUsecase.getCompilation(
                 pairCountryNGenre.first.id,
                 pairCountryNGenre.second.id
             ),
@@ -91,7 +91,7 @@ class HomePageUsecase @Inject constructor(
 
         val populrSerials = MainModel(
             KinopoiskApi.POPULAR_SERIES.second,
-            getCollectionMovies.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
+            getCollectionMoviesUsecase.getCollectionMovies(KinopoiskApi.POPULAR_SERIES),
             Triple(KinopoiskApi.POPULAR_SERIES.first, null, null),
             false
         )// популярные сериалы

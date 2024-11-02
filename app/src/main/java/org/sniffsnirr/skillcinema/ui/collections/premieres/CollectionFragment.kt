@@ -2,7 +2,6 @@ package org.sniffsnirr.skillcinema.ui.collections.premieres
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,23 +29,22 @@ class CollectionFragment : Fragment() {
     private val viewModel: CollectionViewModel by viewModels()
     var _binding: FragmentCollectionBinding? = null
     val binding get() = _binding!!
-    val adapter = CollectionAdapter(emptyList()) { idMovie,position ->
-        onMovieClick(idMovie,position)
+    val adapter = CollectionAdapter(emptyList()) { idMovie, position ->
+        onMovieClick(idMovie, position)
     }
-    var collectionName=""
-    var possiblyEditablePosition=0
+    private var collectionName = ""
+    private var possiblyEditablePosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
-         viewModel.loadPremiers()
+        viewModel.loadPremiers()
     }
 
-    override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
         super.onResume()
         (activity as MainActivity).setActionBarTitle(collectionName)
-
         setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
@@ -56,7 +54,6 @@ class CollectionFragment : Fragment() {
                         HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                         bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
                     )
-                    Log.d("Update", "Update_DONE!!!")
                 }
             }
         }
@@ -78,9 +75,6 @@ class CollectionFragment : Fragment() {
         viewModel.premierMovies.onEach {
             if (!it.isNullOrEmpty()) {
                 val premierMoviesWithoutHeader = it.filter { it.isButton == false }
-//                val adapter = CollectionAdapter(premierMoviesWithoutHeader) { idMovie ->
-//                    onMovieClick(idMovie)
-//                }
                 adapter.setMovieModelList(premierMoviesWithoutHeader)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -96,7 +90,7 @@ class CollectionFragment : Fragment() {
         (activity as MainActivity).setActionBarTitle("")
     }
 
-    private fun onMovieClick(idMovie: Int?,position:Int) {
+    private fun onMovieClick(idMovie: Int?, position: Int) {
 
         val bundle = Bundle()
         if (idMovie != null) {
@@ -106,6 +100,6 @@ class CollectionFragment : Fragment() {
                 bundle
             )
         }
-        possiblyEditablePosition=position
+        possiblyEditablePosition = position
     }
 }

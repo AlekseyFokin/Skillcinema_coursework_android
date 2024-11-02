@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import okhttp3.internal.toImmutableList
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -41,10 +40,10 @@ class RelatedMovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieList[position]
         with(holder.binding) {
-            if (!movie!!.viewed){
+            if (!movie.viewed){
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(poster)
@@ -53,7 +52,7 @@ class RelatedMovieAdapter(
             else{
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){

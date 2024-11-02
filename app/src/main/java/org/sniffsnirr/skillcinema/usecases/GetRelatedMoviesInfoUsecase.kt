@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 //Usecase - Получение похожих фильмов из API
 @ActivityRetainedScoped
-class GetRelatedMoviesInfo @Inject constructor(
+class GetRelatedMoviesInfoUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot: DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
     private suspend fun getRelatedMoviesIdList(idMovie: Int): List<Int> {// получений списка id похожих фильмов
         val idMovieList = mutableListOf<Int>()
@@ -25,12 +25,12 @@ class GetRelatedMoviesInfo @Inject constructor(
         val movieRVModel= MovieRVModel(
             onlyOneMovie.kinopoiskId,
             onlyOneMovie.posterUrlPreview,
-            reduction.stringReduction(onlyOneMovie.nameRu, 17),
-            reduction.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
+            reductionUsecase.stringReduction(onlyOneMovie.nameRu, 17),
+            reductionUsecase.arrayReduction(onlyOneMovie.genres.map { it.genre }, 20, 2),
             "  ${String.format(Locale.US, "%.1f", onlyOneMovie.ratingKinopoisk)}  ",
             false, false, null
         )
-        decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+        decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
         return movieRVModel
     }
 

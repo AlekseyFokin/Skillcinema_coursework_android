@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 // получение коллекции фильмов и преобразование полученной модели к модели MovieRVModel
 @ActivityRetainedScoped
-class GetCollectionMovies @Inject constructor(
+class GetCollectionMoviesUsecase @Inject constructor(
     val kinopoiskRepository: KinopoiskRepository,
-    val reduction: Reduction,
-    val decideMovieRVmodelIsViewedOrNot:DecideMovieRVmodelIsViewedOrNot
+    val reductionUsecase: ReductionUsecase,
+    val decideMovieRVmodelIsViewedOrNotUsecase:DecideMovieRVmodelIsViewedOrNotUsecase
 ) {
     suspend fun getCollectionMovies(collectionType: Pair<String, String>): List<MovieRVModel> {
         val movieRVModelList = mutableListOf<MovieRVModel>()
@@ -20,13 +20,13 @@ class GetCollectionMovies @Inject constructor(
             val movieRVModel = MovieRVModel(
                 movie.kinopoiskId,
                 movie.posterUrl,
-                reduction.stringReduction(movie.nameRu, 17),
-                reduction.arrayReduction(movie.genres.map { it.genre }, 20, 2),
+                reductionUsecase.stringReduction(movie.nameRu, 17),
+                reductionUsecase.arrayReduction(movie.genres.map { it.genre }, 20, 2),
                 "  ${String.format(Locale.US, "%.1f", movie.ratingKinopoisk)}  ",
                 viewed = false,
                 isButton = false
             )
-            decideMovieRVmodelIsViewedOrNot.setMovieRVmodelViewed(movieRVModel)
+            decideMovieRVmodelIsViewedOrNotUsecase.setMovieRVmodelViewed(movieRVModel)
             movieRVModelList.add(movieRVModel)
         }
         //добавляю кнопку

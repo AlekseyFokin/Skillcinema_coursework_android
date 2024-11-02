@@ -8,13 +8,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.sniffsnirr.skillcinema.databinding.ClearHistoryBinding
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
-import org.sniffsnirr.skillcinema.databinding.ShowMeAllBinding
-import org.sniffsnirr.skillcinema.entities.staff.Staff
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
-import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter.Companion
-//import org.sniffsnirr.skillcinema.ui.home.adapter.MovieAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
+// Адаптер для RV для коллекции просмотренных фильмов
 class ViewedAdapter(
             val onButtonClearAllClick: () -> Unit,
             val onMovieClick: (Int?,Int) -> Unit
@@ -39,27 +35,27 @@ class ViewedAdapter(
         }
     }
 
-    override fun getItemCount()=movies?.size?:0
+    override fun getItemCount()=movies.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (!movies.isNullOrEmpty()){
         if (getItemViewType(position) == BUTTON) {
-            (holder as ButtonViewHolder).bind(movies!![position])
+            (holder as ButtonViewHolder).bind()
         } else {
-            (holder as PosterViewHolder).bind(movies!![position])
+            (holder as PosterViewHolder).bind(movies[position])
         }
     }
     }
 
     fun deleteFromRV(position:Int){
-        movies?.drop(position)
+        movies.drop(position)
         notifyItemRemoved(position)
     }
 
 
     inner class ButtonViewHolder(val binding: ClearHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movieModel: MovieRVModel) {
+        fun bind() {
             binding.showMeAllBtn.setOnClickListener {
                 onButtonClearAllClick()
             }

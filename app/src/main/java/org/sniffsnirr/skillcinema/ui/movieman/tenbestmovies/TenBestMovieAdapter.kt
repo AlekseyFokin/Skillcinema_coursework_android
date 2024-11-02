@@ -17,7 +17,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 // Адаптер десять лучших фильмов
 class TenBestMovieAdapter(
-    var movieModel: List<MovieRVModel>,
+    private var movieModel: List<MovieRVModel>,
     val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<TenBestMovieAdapter.MovieViewHolder>() {
 
@@ -34,10 +34,10 @@ class TenBestMovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieModel[position]
         with(holder.binding) {
-            if (!movie!!.viewed){
+            if (!movie.viewed){
                 Glide
                     .with(poster.context)
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(poster)
@@ -46,7 +46,7 @@ class TenBestMovieAdapter(
             else{
                 Glide.with(poster.context)
                     .asBitmap()
-                    .load(movie?.imageUrl)
+                    .load(movie.imageUrl)
                     .diskCacheStrategy( DiskCacheStrategy.NONE )
                     .skipMemoryCache( true )
                     .into(object : CustomTarget<Bitmap>(){

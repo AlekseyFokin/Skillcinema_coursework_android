@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 //Usecase определения находится ли фильм в списке просмотренных
 @ActivityRetainedScoped
-class DecideMovieRVmodelIsViewedOrNot @Inject constructor(val databaseRepository: DatabaseRepository) {
+class DecideMovieRVmodelIsViewedOrNotUsecase @Inject constructor(val databaseRepository: DatabaseRepository) {
     suspend fun setMovieRVmodelViewed(movieRVModel: MovieRVModel) {
         if (movieRVModel.kinopoiskId != null) {
             movieRVModel.viewed = databaseRepository.getCountMovieInCollection(

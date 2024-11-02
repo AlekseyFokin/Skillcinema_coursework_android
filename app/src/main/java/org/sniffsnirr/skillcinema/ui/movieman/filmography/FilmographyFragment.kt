@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,14 +23,12 @@ import kotlinx.coroutines.flow.onEach
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentFilmographyBinding
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
-import org.sniffsnirr.skillcinema.ui.movieman.BestMovieAdapter
 import org.sniffsnirr.skillcinema.ui.movieman.MoviemanFragment
 
-
+// Фрагмент отображения фильмографии для актера и кинематографиста
 @AndroidEntryPoint
 class FilmographyFragment : Fragment() {
 
@@ -42,7 +39,7 @@ class FilmographyFragment : Fragment() {
     private var staffId = 0
     private var movieManSex = "MALE"
     private val  filmographyAdapter=FilmographyAdapter{idMovie, position-> onMovieClick(idMovie, position)}
-    var possiblyEditablePosition=0
+    private var possiblyEditablePosition=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +48,9 @@ class FilmographyFragment : Fragment() {
         viewModel.getMoviesByProfessionKey(staffId)
     }
 
-    override fun onResume() {
+    override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
         super.onResume()
         (activity as MainActivity).setActionBarTitle(FRAGMENT_NAME)
-
         setFragmentResultListener(RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY) { RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY, bundle ->
             if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY) != null) {
                 if (bundle.getBoolean(RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY)) {
@@ -63,7 +59,6 @@ class FilmographyFragment : Fragment() {
                        HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_REQUEST_KEY,
                         bundleOf(HomeFragment.RV_ITEM_HAS_BEEN_CHANGED_BUNDLE_KEY to true)
                     )//передаю сигнал об изменении выше
-                    Log.d("Update", "Update_DONE!!!")
                 }
             }
         }

@@ -10,7 +10,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 
 // Адаптер для rv верхнего уровня - отличает два типа item  - баннер и коллекции фильмов
 class MainAdapter(
-    val mainModelList: List<MainModel>,
+    private val mainModelList: List<MainModel>,
     val onCollectionClick: (MainModel) -> Unit,
     val onMovieClick: (Int?) -> Unit
 ) :
@@ -57,7 +57,7 @@ class MainAdapter(
         fun bind(dataItem: MainModel) {
             binding.apply {
                 moviesCategory.text = dataItem.category
-                val movieAdapter = MovieAdapter(dataItem.MovieRVModelList,
+                val movieAdapter = MovieAdapter(dataItem.movieRVModelList,
                     { collectionModel -> onCollectionClick(dataItem) },
                     { idMovie -> onMovieClick(idMovie) })
                 childRv.adapter = movieAdapter
