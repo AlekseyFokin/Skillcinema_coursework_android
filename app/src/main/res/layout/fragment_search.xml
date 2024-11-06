@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.SearchFragment">
+    tools:context=".ui.search.SearchFragment"
+    android:orientation="vertical"
+    android:padding="26dp">
 
-    <TextView
-        android:id="@+id/text_dashboard"
+    <include
+        android:id="@+id/search_view"
+        layout="@layout/main_search_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="23dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/search_result_rv"
+        android:layout_marginBottom="40dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/have_no_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/have_no_result_text"
+        android:fontFamily="@font/inter_medium"
+        android:lines="2"
+        android:textSize="16sp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:gravity="center"
+        />
+
+
+
+
+</LinearLayout>

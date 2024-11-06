@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="33dp"
+        android:layout_weight="0"
+        android:background="@drawable/left_part_main_search"
+        android:backgroundTint="@color/search_field_color"
+        android:contentDescription="search_left_border" />
+
+    <ImageView
+        android:id="@+id/search_btn"
+        android:layout_width="18dp"
+        android:layout_height="33dp"
+        android:layout_weight="0"
+        android:background="@color/search_field_color"
+        android:backgroundTint="@color/search_field_color"
+        android:contentDescription="search_ico"
+        android:src="@drawable/ico_search" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_text_input_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="33dp"
+        android:layout_weight="1"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_text_input_edittext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/search_field_color"
+            android:backgroundTint="@color/search_field_color"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="33dp"
+        android:layout_weight="0"
+        android:background="@drawable/right_part_main_search"
+        android:backgroundTint="@color/search_field_color"
+        android:contentDescription="search_left_border" />
+
+</LinearLayout>

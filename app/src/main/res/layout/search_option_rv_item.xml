@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_rv_selector">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Россия"
+        android:textColor="@color/color_of_main_label_in_onboarding"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:lines="1"
+        android:textSize="16sp"
+        android:paddingStart="26dp"
+        android:gravity="center_vertical"
+        />
+
+</LinearLayout>

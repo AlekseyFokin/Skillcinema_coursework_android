@@ -14,6 +14,8 @@
     <color name="color_of_main_label_in_onboarding">#272727</color>
     <color name="color_of_progress">#3D3BFF</color>
     <color name="color_of_genre">#838390</color>
+    <color name="color_of_selected_item">#B3838390</color>
     <color name="color_of_empty_poster">#40B5B5C9</color>
+    <color name="search_field_color">#99B5B5C9</color>
 
 </resources>

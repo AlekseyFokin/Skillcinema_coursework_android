@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="26dp"
+    android:paddingRight="26dp"
+    tools:context=".ui.search.options.AllOptionsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:text="Показывать"
+        android:textColor="@color/color_of_genre"
+        android:textSize="12sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:singleSelection="true">
+
+        <RadioButton
+            android:id="@+id/movies_and_serials_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/left_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Все"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+
+            />
+
+        <RadioButton
+            android:id="@+id/movies_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/center_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Фильмы"
+            android:textAlignment="center"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/serials_filter"
+            android:layout_width="90dp"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/right_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Сериалы"
+            android:textAlignment="center"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Страна"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/current_country_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Страна"
+            android:textColor="@color/color_of_genre"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_of_empty_poster" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Жанр"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/current_genre_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Страна"
+            android:textColor="@color/color_of_genre"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_of_empty_poster" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Год"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/current_year_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Страна"
+            android:textColor="@color/color_of_genre"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_of_empty_poster"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Рейтинг"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/current_rate_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="Любой"
+            android:textColor="@color/color_of_genre"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/continuousRangeSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.0"
+        android:valueTo="10.0"
+        app:values="@array/slider_values"
+        app:trackColor="@color/color_of_progress"
+        app:thumbColor="@color/white"
+        app:thumbStrokeColor="@color/color_of_main_label_in_onboarding"
+        app:thumbStrokeWidth="1dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="1"
+            android:textColor="@color/color_of_genre"
+            android:layout_marginStart="12dp"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:text="10"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/color_of_genre"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_of_empty_poster" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:text="Сортировать"
+        android:textColor="@color/color_of_genre"
+        android:textSize="14sp" />
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:singleSelection="true">
+
+        <RadioButton
+            android:id="@+id/date_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/left_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Дата"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+
+            />
+
+        <RadioButton
+            android:id="@+id/popular_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/center_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Популярность"
+            android:textAlignment="center"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rete_sort"
+            android:layout_width="90dp"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:background="@drawable/right_search_radiobtn"
+            android:button="@null"
+            android:checked="false"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:text="Рейтинг"
+            android:textAlignment="center"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_of_empty_poster" />
+
+    <CheckBox
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   Не просмотрен"
+        android:button="@drawable/checkbox_viewed_search"
+        android:layout_gravity="center"
+
+        />
+
+
+</LinearLayout>

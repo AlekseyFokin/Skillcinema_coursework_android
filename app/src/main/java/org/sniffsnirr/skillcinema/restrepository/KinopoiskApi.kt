@@ -41,7 +41,7 @@ interface KinopoiskApi {
         "Content-type: application/json"
     )
     @GET("/api/v2.2/films/filters")
-    suspend fun getCountryAndGenres(): CountriesGenres// получение стран и жанр
+    suspend fun getCountryAndGenres(): CountriesGenres// получение стран и жанров
 
     @Headers(
         "X-API-KEY: $api_key",

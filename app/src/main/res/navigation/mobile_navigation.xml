@@ -43,7 +43,15 @@
         android:id="@+id/navigation_search"
         android:name="org.sniffsnirr.skillcinema.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_allOptionsFragment"
+            app:destination="@id/allOptionsFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -329,4 +337,9 @@
         android:id="@+id/dialogMovieToCollectionFragment"
         android:name="org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.DialogMovieToCollectionFragment"
         android:label="DialogMovieToCollectionFragment" />
+    <fragment
+        android:id="@+id/allOptionsFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment"
+        android:label="fragment_all_options"
+        tools:layout="@layout/fragment_all_options" />
 </navigation>

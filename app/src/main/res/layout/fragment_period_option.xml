@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.options.PeriodOptionFragment"
+    android:padding="26dp"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Искать в период с"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:textSize="14sp"
+        android:textColor="@color/color_of_genre"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Искать в период с"
+        android:fontFamily="@font/hkgrotesk_regular"
+        android:textSize="14sp"
+        android:textColor="@color/color_of_genre"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+
+
+</LinearLayout>

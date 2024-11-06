@@ -54,4 +54,6 @@
     <string name="viewed_collection">Просмотрено</string>
     <string name="show_all">Все</string>
     <string name="show_me_all">Показать все</string>
+    <string name="search_hint">Фильмы, актёры, режиссёры</string>
+    <string name="have_no_result_text">К сожалению, по вашему запросу ничего не найдено</string>
 </resources>
