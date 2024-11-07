@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_corner_stroke"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/period"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_weight="0"
+            android:fontFamily="@font/hkgrotesk_medium"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="1998-2009"
+            android:textColor="@color/color_of_progress"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/plus_period"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:src="@drawable/ic_to_left_arrow" />
+
+        <ImageButton
+            android:id="@+id/minus_period"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:src="@drawable/ic_to_right_arrow" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_marginStart="18dp"
+            android:orientation="vertical"
+            android:layout_weight="0"
+            >
+
+            <TextView
+                android:id="@+id/year01"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year04"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year07"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year10"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_marginStart="18dp"
+            android:layout_weight="0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/year02"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year05"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year08"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year11"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:layout_weight="0"
+            >
+
+            <TextView
+                android:id="@+id/year03"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year06"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year09"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/year12"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/hkgrotesk_medium"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="1998"
+                android:textColor="@color/color_of_main_label_in_onboarding"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

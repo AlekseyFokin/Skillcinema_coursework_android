@@ -38,6 +38,7 @@ class SearchFragment : Fragment() {
             findNavController().navigate(
             R.id.action_navigation_search_to_allOptionsFragment
         ) }
+
     }
 
     override fun onDestroyView() {

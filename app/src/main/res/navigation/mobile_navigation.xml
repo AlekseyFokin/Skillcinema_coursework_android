@@ -341,5 +341,38 @@
         android:id="@+id/allOptionsFragment"
         android:name="org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment"
         android:label="fragment_all_options"
-        tools:layout="@layout/fragment_all_options" />
+        tools:layout="@layout/fragment_all_options" >
+        <action
+            android:id="@+id/action_allOptionsFragment_to_countryOptionFragment"
+            app:destination="@id/countryOptionFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_allOptionsFragment_to_periodOptionFragment"
+            app:destination="@id/periodOptionFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_allOptionsFragment_to_genreOptionFragment2"
+            app:destination="@id/genreOptionFragment2"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/slide_out"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryOptionFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.search.options.CountryOptionFragment"
+        android:label="fragment_genre_option"
+        tools:layout="@layout/fragment_genre_option" />
+    <fragment
+        android:id="@+id/periodOptionFragment"
+        android:name="org.sniffsnirr.skillcinema.ui.search.options.PeriodOptionFragment"
+        android:label="fragment_period_option"
+        tools:layout="@layout/fragment_period_option" />
+    <fragment
+        android:id="@+id/genreOptionFragment2"
+        android:name="org.sniffsnirr.skillcinema.ui.search.options.GenreOptionFragment"
+        android:label="GenreOptionFragment" />
 </navigation>
