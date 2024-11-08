@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,8 +15,9 @@ import org.sniffsnirr.skillcinema.databinding.FragmentSearchBinding
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private var _binding: FragmentSearchBinding? = null
+    val searchViewModel :SearchViewModel by viewModels()
 
+    private var _binding: FragmentSearchBinding? = null
 
     private val binding get() = _binding!!
 
@@ -24,8 +26,6 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 

@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPeriodOptionBinding
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
 import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
 
+@AndroidEntryPoint
 class PeriodOptionFragment : Fragment() {
 
+    private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
     var _binding :FragmentPeriodOptionBinding?=null
     val binding get()=_binding!!
 

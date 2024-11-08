@@ -218,7 +218,7 @@
     </LinearLayout>
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/continuousRangeSlider"
+        android:id="@+id/rateRangeSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:valueFrom="0.0"
@@ -314,7 +314,7 @@
             android:textSize="14sp" />
 
         <RadioButton
-            android:id="@+id/rete_sort"
+            android:id="@+id/rate_sort"
             android:layout_width="90dp"
             android:layout_height="31dp"
             android:layout_weight="1"
@@ -335,6 +335,7 @@
         android:background="@color/color_of_empty_poster" />
 
     <CheckBox
+        android:id="@+id/viewed"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -342,8 +343,6 @@
         android:button="@drawable/checkbox_viewed_search"
         android:layout_gravity="center"
         android:buttonTint="@color/color_of_main_label_in_onboarding"
-
-
         />
 
 
