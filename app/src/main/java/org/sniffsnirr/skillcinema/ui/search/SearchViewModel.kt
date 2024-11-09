@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.di.DaggerSearchViewModelComponent
 import org.sniffsnirr.skillcinema.di.SearchViewModelComponent
@@ -19,28 +23,36 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor() :
     ViewModel() {
 
-   @Inject
-   lateinit var getCountriesAndGenresUsecase: GetCountriesAndGenresUsecase//инжекция в поле
+    @Inject
+    lateinit var getCountriesAndGenresUsecase: GetCountriesAndGenresUsecase//инжекция в поле
 
     init {
         DaggerSearchViewModelComponent.create().inject(this)// инжекция через компонент
         getCountriesAndGenres()
     }
 
-    private val _сountriesAndGenres = MutableStateFlow<Pair<List<Country>, List<Genre>>>(
-        Pair(
-            emptyList(),
-            emptyList()
-        )
-    ) // страны и жанры
-    val сountriesAndGenres = _сountriesAndGenres.asStateFlow()
+    private val _searchCountryState =
+        MutableStateFlow<SearchState>(SearchState.AvailableSearch) // состояние поиска страны
+    val searchCountryState = _searchCountryState.asStateFlow()
 
-    private val _searchState =
-        MutableStateFlow<SearchState>(SearchState.SearchDone) // состояние поиска
-    val searchState = _searchState.asStateFlow()
+    private val _searchCountryString =
+        MutableStateFlow("") // строка поиска страны
+    val searchCountryString = _searchCountryString.asStateFlow()
 
-    private val _stringSearch = MutableStateFlow("") // фильтр по строке
-    val stringSearch = _stringSearch.asStateFlow()
+    private val _searchGenreState =
+        MutableStateFlow<SearchState>(SearchState.AvailableSearch) // состояние поиска жанра
+    val searchGenreState = _searchGenreState.asStateFlow()
+
+    private val _searchGenreString =
+        MutableStateFlow("") // строка поиска жанра
+    val searchGenreString = _searchGenreString.asStateFlow()
+
+    private val _searchMovieState =
+        MutableStateFlow<SearchState>(SearchState.AvailableSearch) // состояние поиска фильма
+    val searchMovieState = _searchMovieState.asStateFlow()
+
+    private val _searchMovieString = MutableStateFlow("") // фильтр фильмов по строке
+    val searchMovieString = _searchMovieString.asStateFlow()
 
     private val _type = MutableStateFlow(ALL_TYPE) // фильтр тип: фильм, сериал или оба
     val type = _type.asStateFlow()
@@ -48,8 +60,18 @@ class SearchViewModel @Inject constructor() :
     private val _country = MutableStateFlow(DEFAULT_COUNTRY) // фильтр страна
     val country = _country.asStateFlow()
 
+    private val _countries = MutableStateFlow(emptyList<Country>()) // список стран
+    val countries = _countries.asStateFlow()
+
+    lateinit var firstCountriesList: List<Country>
+
     private val _genre = MutableStateFlow(DEFAULT_GENRE) // фильтр жанр
     val genre = _genre.asStateFlow()
+
+    private val _genres = MutableStateFlow(emptyList<Genre>()) // список жанров
+    val genres = _genres.asStateFlow()
+
+    lateinit var firstGenresList: List<Genre>
 
     private val _startPeriod = MutableStateFlow(DEFAULT_START_PERIOD) // фильтр старт периода
     val startPeriod = _startPeriod.asStateFlow()
@@ -68,6 +90,12 @@ class SearchViewModel @Inject constructor() :
 
     private val _sort = MutableStateFlow(SORT_DEFAULT) // вид сортировки
     val sort = _sort.asStateFlow()
+
+    private var searchingCountryJob: Job? = null // текущий job поиска страны
+    private var searchingGenreJob: Job? = null // текущий job поиска жанра
+    private var searchingMovieJob: Job? = null // текущий job поиска фильма
+
+    private var previusSearchingCountryString = ""
 
     fun setType(newType: String) {
         _type.value = newType
@@ -110,11 +138,40 @@ class SearchViewModel @Inject constructor() :
             kotlin.runCatching {
                 getCountriesAndGenresUsecase.getCountriesAndGenres()
             }.fold(
-                onSuccess = { _сountriesAndGenres.value = it
-                            Log.d("загрузка и hilt module field","Загружено ${it.first.size}")},
+                onSuccess = {
+                    _countries.value = it.first
+                    firstCountriesList = it.first
+                    _genres.value = it.second
+                    firstGenresList = it.second
+                    Log.d("загрузка и hilt module field", "Загружено ${it.first.size}")
+                },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }
+    }
+
+    fun setCountrySearchString(string: String) {// поступление новой строки фильтрации стран
+        previusSearchingCountryString = _searchCountryString.value
+        _searchCountryString.value = string
+    }
+
+    fun onChangeCountrySearchString() {// новая итерация фильтрации стран
+        searchingCountryJob?.cancel()
+        if (previusSearchingCountryString.length < _searchCountryString.value.length && _searchCountryState.value == SearchState.EmptyData) {
+            return
+        }
+        searchingCountryJob = searchCountryString.debounce(300).onEach {
+            _searchCountryState.value = SearchState.Loading
+            val outCountryList = firstCountriesList.filter { country ->
+                country.country.lowercase().startsWith(_searchCountryString.value)
+            }
+            if (outCountryList.size == 0) {
+                _searchCountryState.value = SearchState.EmptyData
+            } else {
+                _searchCountryState.value = SearchState.AvailableSearch
+            }
+            _countries.value = outCountryList
+        }.launchIn(viewModelScope)
     }
 
 

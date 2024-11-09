@@ -6,8 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.SearchOptionRvItemBinding
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Genre
 
-class GenreOptionAdapter(val  genres: List<Genre>) :
+class GenreOptionAdapter(val onGenreClick: (Genre)->Unit) :
     RecyclerView.Adapter<GenreOptionAdapter.GenreViewHolder>() {
+    var selectedItemPosition = RecyclerView.NO_POSITION
+    var  genres= emptyList<Genre>()
+
+    fun setGenreList(newGenreList:List<Genre>){
+        this.genres=newGenreList
+        notifyDataSetChanged()
+    }
 
     inner class GenreViewHolder(val binding: SearchOptionRvItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -22,5 +29,13 @@ class GenreOptionAdapter(val  genres: List<Genre>) :
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         val genre = genres[position]
         holder.binding.itemText.text=genre.genre
+        holder.itemView.setSelected(selectedItemPosition == position)
+        holder.itemView.setOnClickListener{
+            onGenreClick(genre)
+            val previousSelectedItemPosition = selectedItemPosition
+            selectedItemPosition = holder.layoutPosition
+            notifyItemChanged(previousSelectedItemPosition)
+            notifyItemChanged(selectedItemPosition)
+        }
     }
 }

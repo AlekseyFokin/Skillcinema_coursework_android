@@ -5,10 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.SearchOptionRvItemBinding
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Country
-import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Genre
 
-class CountryOptionAdapter(val  countries: List<Country>) :
+class CountryOptionAdapter(val onCountryClick: (Country) -> Unit) :
     RecyclerView.Adapter<CountryOptionAdapter.CountryViewHolder>() {
+
+    var  countries= emptyList<Country>()
+    var selectedItemPosition = RecyclerView.NO_POSITION
+
+    fun setCountryList(newCountryList:List<Country>){
+        this.countries=newCountryList
+        notifyDataSetChanged()
+    }
 
     inner class CountryViewHolder(val binding: SearchOptionRvItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -23,5 +30,15 @@ class CountryOptionAdapter(val  countries: List<Country>) :
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val country = countries[position]
         holder.binding.itemText.text=country.country
+
+        holder.itemView.setSelected(selectedItemPosition == position)
+        holder.itemView.setOnClickListener{
+            onCountryClick(country)
+            val previousSelectedItemPosition = selectedItemPosition
+            selectedItemPosition = holder.layoutPosition
+            notifyItemChanged(previousSelectedItemPosition)
+            notifyItemChanged(selectedItemPosition)
+        }
+
     }
 }

@@ -36,7 +36,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/search_field_color"
-            android:backgroundTint="@color/search_field_color"/>
+            android:backgroundTint="@color/search_field_color"
+            android:textAppearance="@color/color_of_main_label_in_onboarding"
+            android:textColor="@color/color_of_main_label_in_onboarding"
+            android:fontFamily="@font/hkgrotesk_regular"
+            android:textSize="16sp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 

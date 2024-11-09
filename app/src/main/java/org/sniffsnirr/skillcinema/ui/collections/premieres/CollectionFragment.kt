@@ -102,4 +102,6 @@ class CollectionFragment : Fragment() {
         }
         possiblyEditablePosition = position
     }
+
+
 }
