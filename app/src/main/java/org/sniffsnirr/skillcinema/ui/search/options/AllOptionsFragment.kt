@@ -76,6 +76,11 @@ class AllOptionsFragment : Fragment() {
             )
         }
 
+        // установка типа
+        binding.moviesAndSerialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.ALL_TYPE) }
+        binding.moviesFilter.setOnClickListener { viewModel.setType(SearchViewModel.MOVIE_ONLY_TYPE) }
+        binding.serialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.SERIAL_ONLY_TYPE) }
+
         viewLifecycleOwner.lifecycleScope.launch {// отработка выбранного типа
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.type.collect {
@@ -112,10 +117,7 @@ class AllOptionsFragment : Fragment() {
                 }
             }
         }
-        // установка типа
-        binding.moviesAndSerialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.ALL_TYPE) }
-        binding.moviesFilter.setOnClickListener { viewModel.setType(SearchViewModel.MOVIE_ONLY_TYPE) }
-        binding.serialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.SERIAL_ONLY_TYPE) }
+
 
         binding.rateRangeSlider.addOnChangeListener{slider, value, fromUser ->
             val values =binding.rateRangeSlider.values
@@ -134,7 +136,7 @@ class AllOptionsFragment : Fragment() {
         //обработка установки рейтинга end
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.startRate.collect {
+                viewModel.endRate.collect {
                     binding.currentRateFilter.text="${viewModel.startRate.value}-${it}"
                 }
             }
@@ -142,8 +144,8 @@ class AllOptionsFragment : Fragment() {
 
         // установка сортировки
         binding.popularSort.setOnClickListener { viewModel.setSort(SearchViewModel.SORT_POP) }
-        binding.rateSort.setOnClickListener { viewModel.setType(SearchViewModel.SORT_RATE) }
-        binding.dateSort.setOnClickListener { viewModel.setType(SearchViewModel.SORT_DATE) }
+        binding.rateSort.setOnClickListener { viewModel.setSort(SearchViewModel.SORT_RATE) }
+        binding.dateSort.setOnClickListener { viewModel.setSort(SearchViewModel.SORT_DATE) }
 
         viewLifecycleOwner.lifecycleScope.launch {// отработка выбранной сортировки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -233,7 +235,7 @@ class AllOptionsFragment : Fragment() {
     }
 
     fun resetAllTypes() { // скидываю в выключено
-        binding.moviesAndSerialsFilter.isChecked = false
+       // binding.moviesAndSerialsFilter.isChecked = false
         binding.moviesAndSerialsFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -241,7 +243,7 @@ class AllOptionsFragment : Fragment() {
             )
         )
 
-        binding.moviesFilter.isChecked = false
+       // binding.moviesFilter.isChecked = false
         binding.moviesFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -249,7 +251,7 @@ class AllOptionsFragment : Fragment() {
             )
         )
 
-        binding.serialsFilter.isChecked = false
+       // binding.serialsFilter.isChecked = false
         binding.serialsFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -259,7 +261,7 @@ class AllOptionsFragment : Fragment() {
     }
 
     fun resetAllSort() {// скидываю в выключено
-        binding.dateSort.isChecked = false
+        //binding.dateSort.isChecked = false
         binding.dateSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -267,7 +269,7 @@ class AllOptionsFragment : Fragment() {
             )
         )
 
-        binding.rateSort.isChecked = false
+       // binding.rateSort.isChecked = false
         binding.rateSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -275,7 +277,7 @@ class AllOptionsFragment : Fragment() {
             )
         )
 
-        binding.popularSort.isChecked = false
+       // binding.popularSort.isChecked = false
         binding.popularSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,

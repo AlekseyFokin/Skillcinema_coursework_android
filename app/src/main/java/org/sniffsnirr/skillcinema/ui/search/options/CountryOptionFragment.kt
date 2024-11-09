@@ -19,6 +19,7 @@ class CountryOptionFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
     var _binding:FragmentCountryOptionBinding?=null
     val binding get()=_binding!!
+    val adapter=CountryOptionAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class CountryOptionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as MainActivity).hideActionBar()
+    //    (activity as MainActivity).hideActionBar()
     }
 
     override fun onCreateView(

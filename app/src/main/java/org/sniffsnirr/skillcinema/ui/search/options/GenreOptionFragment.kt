@@ -37,7 +37,7 @@ class GenreOptionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as MainActivity).hideActionBar()
+    //    (activity as MainActivity).hideActionBar()
     }
 
     override fun onCreateView(
