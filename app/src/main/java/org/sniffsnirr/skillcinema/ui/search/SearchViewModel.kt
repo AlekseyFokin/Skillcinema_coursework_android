@@ -96,6 +96,7 @@ class SearchViewModel @Inject constructor() :
     private var searchingMovieJob: Job? = null // текущий job поиска фильма
 
     private var previusSearchingCountryString = ""
+    private var previusSearchingGenreString = ""
 
     fun setType(newType: String) {
         _type.value = newType
@@ -157,6 +158,7 @@ class SearchViewModel @Inject constructor() :
 
     fun onChangeCountrySearchString() {// новая итерация фильтрации стран
         searchingCountryJob?.cancel()
+        //если список уже пустой то и нечего сортировать
         if (previusSearchingCountryString.length < _searchCountryString.value.length && _searchCountryState.value == SearchState.EmptyData) {
             return
         }
@@ -171,6 +173,31 @@ class SearchViewModel @Inject constructor() :
                 _searchCountryState.value = SearchState.AvailableSearch
             }
             _countries.value = outCountryList
+        }.launchIn(viewModelScope)
+    }
+
+    fun setGenreSearchString(string: String) {// поступление новой строки фильтрации жанров
+        previusSearchingCountryString = _searchCountryString.value
+        _searchCountryString.value = string
+    }
+
+    fun onChangeGenreSearchString() {// новая итерация фильтрации стран
+        searchingGenreJob?.cancel()
+        //если список уже пустой то и нечего сортировать
+        if (previusSearchingGenreString.length < _searchGenreString.value.length && _searchGenreState.value == SearchState.EmptyData) {
+            return
+        }
+        searchingGenreJob = searchGenreString.debounce(300).onEach {
+            _searchGenreState.value = SearchState.Loading
+            val outGenreList = firstGenresList.filter { genre ->
+                genre.genre.lowercase().startsWith(_searchGenreString.value)
+            }
+            if (outGenreList.size == 0) {
+                _searchGenreState.value = SearchState.EmptyData
+            } else {
+                _searchGenreState.value = SearchState.AvailableSearch
+            }
+            _genres.value = outGenreList
         }.launchIn(viewModelScope)
     }
 

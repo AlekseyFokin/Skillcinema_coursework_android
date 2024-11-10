@@ -56,17 +56,8 @@ class CountryOptionFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {// динамика поисковой строки
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchCountryString.collect {
-                    //binding.searchView.searchTextInputEdittext.=it
-                    Log.d("Что идет в едиттекст",it)
-                }
-            }
-        }
-
-        binding.searchView.searchTextInputEdittext.addTextChangedListener {
-            viewModel.setCountrySearchString(binding.searchView.searchTextInputEdittext.text.toString())
+        binding.searchView.searchTextInput.addTextChangedListener {
+            viewModel.setCountrySearchString(binding.searchView.searchTextInput.text.toString())
             viewModel.onChangeCountrySearchString()
         }
     }

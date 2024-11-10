@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +51,11 @@ class GenreOptionFragment : Fragment() {
                     genreAdapter.setGenreList(it)
                 }
             }
+        }
+
+        binding.searchView.searchTextInput.addTextChangedListener { //передача поисковой строки
+            viewModel.setGenreSearchString(binding.searchView.searchTextInput.text.toString())
+            viewModel.onChangeGenreSearchString()
         }
     }
 
