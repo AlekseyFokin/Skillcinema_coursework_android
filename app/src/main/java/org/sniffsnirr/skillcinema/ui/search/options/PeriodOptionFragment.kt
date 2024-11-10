@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sniffsnirr.skillcinema.MainActivity
@@ -19,10 +20,37 @@ class PeriodOptionFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
     var _binding :FragmentPeriodOptionBinding?=null
     val binding get()=_binding!!
+    var startYear=0
+    var endYear=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.startPeriod.addOutYearListeners {year->getStartYear(year)}
+
+        binding.endPeriod.addOutYearListeners {year->getEndYear(year)}
+         binding.goBtn.setOnClickListener {//проверка
+            if (startYear!=0&&endYear!=0&&startYear>endYear) {
+                viewModel.setStartPeriod(0)
+                viewModel.setEndPeriod(0)
+                Toast.makeText(requireContext(), "Начало периода позже конца периода. Данные не приняты",Toast.LENGTH_LONG).show()
+            }
+             parentFragmentManager.popBackStack();
+         }
+    }
+
+    fun getStartYear(year:Int){
+        startYear=year
+        viewModel.setStartPeriod(year)
+    }
+
+    fun getEndYear(year:Int){
+        endYear=year
+        viewModel.setEndPeriod(year)
     }
 
     override fun onResume() {

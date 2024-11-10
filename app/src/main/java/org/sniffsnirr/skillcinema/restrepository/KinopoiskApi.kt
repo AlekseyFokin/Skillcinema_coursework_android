@@ -104,6 +104,9 @@ interface KinopoiskApi {
     @GET("/api/v2.2/films/{movie}/seasons")
     suspend fun getSeasonsSerialInfo(@Path("movie") idMovie: Int): SeasonsSerial // получение информации по эпизодам и сериям сериала
 
+    @GET
+    //countries,genres,order=RATING,NUM_VOTE,YEAR,type=Available values :FILM,TV_SHOW,TV_SERIES,MINI_SERIES,ALL,ratingFrom,ratingTo,yearFrom,yearTo,imdbId,keyword,page
+
 
     companion object {
         private const val api_key ="f1a491f0-8e90-44d1-898a-17656c4ea1de"

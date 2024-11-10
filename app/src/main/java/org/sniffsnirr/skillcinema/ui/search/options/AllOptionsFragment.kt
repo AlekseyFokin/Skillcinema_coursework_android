@@ -218,7 +218,7 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.country.collect {
-                    binding.currentCountryFilter.text=it
+                    binding.currentCountryFilter.text=it?.country
                 }
             }
         }
@@ -226,8 +226,7 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.genre.collect {
-                    binding.currentGenreFilter.text=it
-                }
+                    binding.currentGenreFilter.text=it?.genre                }
             }
         }
 

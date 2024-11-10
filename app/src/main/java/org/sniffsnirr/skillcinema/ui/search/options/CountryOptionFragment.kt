@@ -87,7 +87,7 @@ _binding=FragmentCountryOptionBinding.inflate(inflater,container,false)
     }
 
     fun onCountryClick(selectedCountry:Country){
-        viewModel.setCountry(selectedCountry.country)
+        viewModel.setCountry(selectedCountry)
     }
 
     companion object{

@@ -72,6 +72,7 @@ class GenreOptionFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
     //    (activity as MainActivity).hideActionBar()
+        viewModel.setGenreSearchString("")
     }
 
     override fun onCreateView(
@@ -82,7 +83,7 @@ class GenreOptionFragment : Fragment() {
     }
 
     fun onGenreClick(newGenre: Genre){
-       viewModel.setGenre(newGenre.genre)
+       viewModel.setGenre(newGenre)
     }
 
 

@@ -57,7 +57,7 @@ class SearchViewModel @Inject constructor() :
     private val _type = MutableStateFlow(ALL_TYPE) // фильтр тип: фильм, сериал или оба
     val type = _type.asStateFlow()
 
-    private val _country = MutableStateFlow(DEFAULT_COUNTRY) // фильтр страна
+    private val _country = MutableStateFlow<Country?>(null) // фильтр страна
     val country = _country.asStateFlow()
 
     private val _countries = MutableStateFlow(emptyList<Country>()) // список стран
@@ -65,7 +65,7 @@ class SearchViewModel @Inject constructor() :
 
     lateinit var firstCountriesList: List<Country>
 
-    private val _genre = MutableStateFlow(DEFAULT_GENRE) // фильтр жанр
+    private val _genre = MutableStateFlow<Genre?>(null) // фильтр жанр
     val genre = _genre.asStateFlow()
 
     private val _genres = MutableStateFlow(emptyList<Genre>()) // список жанров
@@ -102,11 +102,11 @@ class SearchViewModel @Inject constructor() :
         _type.value = newType
     }
 
-    fun setCountry(newCountry: String) {
+    fun setCountry(newCountry: Country) {
         _country.value = newCountry
     }
 
-    fun setGenre(newGenre: String) {
+    fun setGenre(newGenre: Genre) {
         _genre.value = newGenre
     }
 
@@ -177,8 +177,8 @@ class SearchViewModel @Inject constructor() :
     }
 
     fun setGenreSearchString(string: String) {// поступление новой строки фильтрации жанров
-        previusSearchingCountryString = _searchCountryString.value
-        _searchCountryString.value = string
+        previusSearchingGenreString = _searchGenreString.value
+        _searchGenreString.value = string
     }
 
     fun onChangeGenreSearchString() {// новая итерация фильтрации стран

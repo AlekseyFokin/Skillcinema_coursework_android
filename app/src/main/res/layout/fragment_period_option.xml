@@ -31,7 +31,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Искать в период с"
+        android:text="Искать в период до"
         android:textColor="@color/color_of_genre"
         android:textSize="14sp" />
 
