@@ -101,7 +101,22 @@
             android:fontFamily="@font/hkgrotesk_regular"
             android:text="Страна"
             android:textColor="@color/color_of_genre"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/clear_country_btn"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="13dp"
+            android:background="@color/cardview_light_background"
+            android:contentDescription="@string/close_btn_pic"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_close_collection2"
+             />
     </LinearLayout>
 
     <View
@@ -139,7 +154,22 @@
             android:fontFamily="@font/hkgrotesk_regular"
             android:text="Страна"
             android:textColor="@color/color_of_genre"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/clear_genre_btn"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="13dp"
+            android:background="@color/cardview_light_background"
+            android:contentDescription="@string/close_btn_pic"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_close_collection2"
+            />
     </LinearLayout>
 
     <View
@@ -177,7 +207,22 @@
             android:fontFamily="@font/hkgrotesk_regular"
             android:text="Страна"
             android:textColor="@color/color_of_genre"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/clear_year_btn"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="13dp"
+            android:background="@color/cardview_light_background"
+            android:contentDescription="@string/close_btn_pic"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/ic_close_collection2"
+            />
     </LinearLayout>
 
     <View

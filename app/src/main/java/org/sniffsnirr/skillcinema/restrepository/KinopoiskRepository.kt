@@ -10,6 +10,7 @@ import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
 import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.entities.staff.Staff
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -83,6 +84,33 @@ class KinopoiskRepository @Inject constructor(retrofitInstance: KinopoiskDataSou
 
     suspend fun getSerialsInfo(idMovie: Int): SeasonsSerial {// получение информации про сериал
         return kinopoiskApi.getSeasonsSerialInfo(idMovie)
+    }
+
+    suspend fun getSearchResult(
+        country: Int? = null,
+        genre: Int? = null,
+        order: String,
+        type: String,
+        ratingFrom: Float? = 0.0f,
+        ratingTo: Float? = 10.0f,
+        yearFrom: Int? = 0,
+        yearTo: Int? = 0,
+        keyword: String? = null,
+        page: Int
+    ): List<CompilationsMovie> {
+        val result = kinopoiskApi.searchFun(
+            country,
+            genre,
+            order,
+            type,
+            ratingFrom,
+            ratingTo,
+            yearFrom,
+            yearTo,
+            keyword,
+            page
+        )
+        return result.items
     }
 
 }

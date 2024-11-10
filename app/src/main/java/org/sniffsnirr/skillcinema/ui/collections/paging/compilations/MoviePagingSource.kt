@@ -41,7 +41,7 @@ class MoviePagingSource(
         )
     }
 
-    suspend private fun castToMovieRVModel(movies: List<CompilationsMovie>): List<MovieRVModel> {// функция приведения CompilationsMovie к MovieRVModel
+    private suspend fun castToMovieRVModel(movies: List<CompilationsMovie>): List<MovieRVModel> {// функция приведения CompilationsMovie к MovieRVModel
         val movieRVModelList = mutableListOf<MovieRVModel>()
         movies.map { movie -> // создаю объекты для отображения в recyclerview
             val movieRVModel = MovieRVModel(

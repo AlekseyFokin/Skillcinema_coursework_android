@@ -102,11 +102,11 @@ class SearchViewModel @Inject constructor() :
         _type.value = newType
     }
 
-    fun setCountry(newCountry: Country) {
+    fun setCountry(newCountry: Country?) {
         _country.value = newCountry
     }
 
-    fun setGenre(newGenre: Genre) {
+    fun setGenre(newGenre: Genre?) {
         _genre.value = newGenre
     }
 
@@ -204,19 +204,19 @@ class SearchViewModel @Inject constructor() :
 
     companion object {
         const val ALL_TYPE = "ALL"
-        const val MOVIE_ONLY_TYPE = "MOVIE_ONLY"
-        const val SERIAL_ONLY_TYPE = "SERIAL_ONLY"
-        const val DEFAULT_COUNTRY = "Россия"
-        const val DEFAULT_GENRE = "Боевик"
+        const val MOVIE_ONLY_TYPE = "FILM"
+        const val SERIAL_ONLY_TYPE = "TV_SERIES"
+        val DEFAULT_COUNTRY = Country("Россия",34)
+        val DEFAULT_GENRE = Genre("боевик",11)
         const val DEFAULT_START_PERIOD = 0
         const val DEFAULT_END_PERIOD = 0
         const val DEFAULT_START_RATE = 0.0f
         const val DEFAULT_END_RATE = 10.0f
         val DEFAULT_VIEWED = false
 
-        const val SORT_DEFAULT = "SORT_DEFAULT"
-        const val SORT_DATE = "SORT_DATE"
-        const val SORT_POP = "SORT_POP"
-        const val SORT_RATE = "SORT_RATE"
+        const val SORT_DEFAULT = "RATING"
+        const val SORT_DATE = "YEAR"
+        const val SORT_POP = "NUM_VOTE"
+        const val SORT_RATE = "RATING"
     }
 }

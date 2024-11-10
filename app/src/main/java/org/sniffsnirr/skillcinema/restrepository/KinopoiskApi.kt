@@ -10,6 +10,7 @@ import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
 import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.entities.staff.Staff
+import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi.Companion.api_key
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -104,8 +105,25 @@ interface KinopoiskApi {
     @GET("/api/v2.2/films/{movie}/seasons")
     suspend fun getSeasonsSerialInfo(@Path("movie") idMovie: Int): SeasonsSerial // получение информации по эпизодам и сериям сериала
 
-    @GET
-    //countries,genres,order=RATING,NUM_VOTE,YEAR,type=Available values :FILM,TV_SHOW,TV_SERIES,MINI_SERIES,ALL,ratingFrom,ratingTo,yearFrom,yearTo,imdbId,keyword,page
+    @Headers(
+        "X-API-KEY: $api_key",
+        "Content-type: application/json"
+    )
+    @GET("/api/v2.2/films")
+    suspend fun searchFun(
+        @Query("countries") country: Int?,
+        @Query("genres") genre: Int?,
+        @Query("order") order: String,
+        @Query("type") type:String,
+        @Query("ratingFrom") ratingFrom:Float?,
+        @Query("ratingTo") ratingTo:Float?,
+        @Query("yearFrom") yearFrom:Int?,
+        @Query("yearTo") yearTo:Int?,
+        @Query("keyword") keyword:String?,
+        @Query("page") page:Int?
+    ):CompilationsMovieList
+    //countries,genres,order=RATING,NUM_VOTE,YEAR,type=Available values :FILM,TV_SHOW,TV_SERIES,MINI_SERIES,ALL,
+    // ratingFrom,ratingTo,yearFrom,yearTo,imdbId,keyword,page
 
 
     companion object {

@@ -218,7 +218,7 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.country.collect {
-                    binding.currentCountryFilter.text=it?.country
+                    binding.currentCountryFilter.text=it?.country?:""
                 }
             }
         }
@@ -226,9 +226,14 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.genre.collect {
-                    binding.currentGenreFilter.text=it?.genre                }
+                    binding.currentGenreFilter.text=it?.genre?:""                }
             }
         }
+//сбросы
+        binding.clearCountryBtn.setOnClickListener { viewModel.setCountry(null) }
+        binding.clearGenreBtn.setOnClickListener { viewModel.setGenre(null) }
+        binding.clearYearBtn.setOnClickListener { viewModel.setStartPeriod(0)
+            viewModel.setEndPeriod(0)}
 
 
     }
