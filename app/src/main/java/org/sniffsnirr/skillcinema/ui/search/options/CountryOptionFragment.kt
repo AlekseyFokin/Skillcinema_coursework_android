@@ -26,7 +26,7 @@ import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
 @AndroidEntryPoint
 class CountryOptionFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
+    private val viewModel: AllOptionsViewModel by viewModels({requireParentFragment()})
     var _binding:FragmentCountryOptionBinding?=null
     val binding get()=_binding!!
     private val countryAdapter=CountryOptionAdapter{country->onCountryClick(country)}
@@ -58,7 +58,6 @@ class CountryOptionFragment : Fragment() {
 
         binding.searchView.searchTextInput.addTextChangedListener {
             viewModel.setCountrySearchString(binding.searchView.searchTextInput.text.toString())
-            viewModel.onChangeCountrySearchString()
         }
     }
 

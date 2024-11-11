@@ -15,11 +15,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RoomInjectionModule {
+
+class RoomInjectionModule {
     @Provides
     @Singleton
     fun provideDB(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, AppDatabase::class.java, "skillcinema.db")// создание бд и заполнение начальными значениями коллекций
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "skillcinema.db"
+        )// создание бд и заполнение начальными значениями коллекций
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -47,5 +52,21 @@ object RoomInjectionModule {
     @Provides
     @Singleton
     fun provideMovieDao(db: AppDatabase) = db.movieDao()
+
+//    @Provides
+//    @Singleton
+//    fun provideDatabaseRepository(
+//        collectionDao: CollectionDAO,
+//        movieDao: MovieDAO
+//    ): DatabaseRepository {
+//        return DatabaseRepository(collectionDao, movieDao)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun providedecideMovieRVmodelIsViewedOrNotUsecase(databaseRepository: DatabaseRepository): DecideMovieRVmodelIsViewedOrNotUsecase {
+//        return DecideMovieRVmodelIsViewedOrNotUsecase(databaseRepository)
+//    }
+
 
 }

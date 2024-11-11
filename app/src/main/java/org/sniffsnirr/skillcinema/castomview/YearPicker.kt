@@ -34,9 +34,9 @@ class YearPicker @JvmOverloads constructor(
     val step = 12
 
     // var currentYearList = mutableListOf<Int>()
-    var outYearListeners = mutableListOf<(Int) -> Unit>()
+    var outYearListeners = mutableListOf<(Int?) -> Unit>()
 
-    var outYear = 0
+    var outYear:Int? = null
         set(value) {
             if (field == value) return
             field = value
@@ -108,7 +108,7 @@ class YearPicker @JvmOverloads constructor(
         }
     }
 
-    fun addOutYearListeners(listener: (Int) -> Unit) {
+    fun addOutYearListeners(listener: (Int?) -> Unit) {
         outYearListeners.add(listener)
         listener(outYear)
     }

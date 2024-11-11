@@ -1,4 +1,4 @@
-package org.sniffsnirr.skillcinema.ui.collections.paging.compilations
+package org.sniffsnirr.skillcinema.ui.search
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -6,29 +6,30 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import org.sniffsnirr.skillcinema.R
+import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
+import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.DiffUtilCallback
+import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-// Адаптер с пагинацией для компиляций
-class PagingCompilationAdapter(
-
-    val onMovieClick: (Int?) -> Unit
-) : PagingDataAdapter<MovieRVModel, PagingCompilationAdapter.MovieViewHolder>(DiffUtilCallback()) {
-
+class SearchResultPagingAdapter() : PagingDataAdapter<MovieRVModel,SearchResultPagingAdapter.MovieViewHolder>(
+    org.sniffsnirr.skillcinema.ui.collections.paging.compilations.DiffUtilCallback()
+) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val binding = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+    class DiffUtilCallback : DiffUtil.ItemCallback<MovieRVModel>() {
+        override fun areItemsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
+            oldItem.kinopoiskId == newItem.kinopoiskId
+
+        override fun areContentsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
+            oldItem == newItem
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -72,16 +73,14 @@ class PagingCompilationAdapter(
         }
         holder.binding.root.setOnClickListener {
             movie?.let {
-                onMovieClick(movie.kinopoiskId)
+               // onMovieClick(movie.kinopoiskId)
             }
         }
     }
-}
 
-class DiffUtilCallback : DiffUtil.ItemCallback<MovieRVModel>() {
-    override fun areItemsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
-        oldItem.kinopoiskId == newItem.kinopoiskId
 
-    override fun areContentsTheSame(oldItem: MovieRVModel, newItem: MovieRVModel): Boolean =
-        oldItem == newItem
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val binding = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieViewHolder(binding)
+    }
 }

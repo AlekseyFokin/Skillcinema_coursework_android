@@ -17,11 +17,11 @@ import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
 @AndroidEntryPoint
 class PeriodOptionFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
+    private val viewModel: AllOptionsViewModel by viewModels({requireParentFragment()})
     var _binding :FragmentPeriodOptionBinding?=null
     val binding get()=_binding!!
-    var startYear=0
-    var endYear=0
+    var startYear:Int?=null
+    var endYear:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,22 +33,29 @@ class PeriodOptionFragment : Fragment() {
         binding.startPeriod.addOutYearListeners {year->getStartYear(year)}
 
         binding.endPeriod.addOutYearListeners {year->getEndYear(year)}
+
          binding.goBtn.setOnClickListener {//проверка
-            if (startYear!=0&&endYear!=0&&startYear>endYear) {
-                viewModel.setStartPeriod(0)
-                viewModel.setEndPeriod(0)
-                Toast.makeText(requireContext(), "Начало периода позже конца периода. Данные не приняты",Toast.LENGTH_LONG).show()
+            if (startYear!=null&&endYear!=null) {
+                if (startYear!! >endYear!!) {
+                    viewModel.setStartPeriod(null)
+                    viewModel.setEndPeriod(null)
+                    Toast.makeText(
+                        requireContext(),
+                        "Начало периода позже конца периода. Данные не приняты",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
              parentFragmentManager.popBackStack();
          }
     }
 
-    fun getStartYear(year:Int){
+    fun getStartYear(year:Int?){
         startYear=year
         viewModel.setStartPeriod(year)
     }
 
-    fun getEndYear(year:Int){
+    fun getEndYear(year:Int?){
         endYear=year
         viewModel.setEndPeriod(year)
     }

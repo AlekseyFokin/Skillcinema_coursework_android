@@ -1,10 +1,13 @@
 package org.sniffsnirr.skillcinema.ui.search.options
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,20 +18,55 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAllOptionsBinding
+import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
+import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY
+import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY
+import org.sniffsnirr.skillcinema.ui.search.QueryParams
+import org.sniffsnirr.skillcinema.ui.search.SearchFragment
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.ALL_TYPE
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_COUNTRY
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_END_PERIOD
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_END_RATE
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_GENRE
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_KEYWORD
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_ONLY_UNVIEWED
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_START_PERIOD
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_START_RATE
+import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.SORT_DEFAULT
 
 @AndroidEntryPoint
 class AllOptionsFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels({ requireParentFragment() })
+    private val viewModel: AllOptionsViewModel by viewModels({ requireParentFragment() })
 
     var _binding: FragmentAllOptionsBinding? = null
     val binding get() = _binding!!
-
+lateinit var  queryParams:QueryParams
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
+        queryParams = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable<QueryParams>(SearchFragment.QUERYPARAMS_KEY)?: QueryParams(
+                DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
+                DEFAULT_START_RATE, DEFAULT_END_RATE, DEFAULT_START_PERIOD, DEFAULT_END_PERIOD,
+                DEFAULT_ONLY_UNVIEWED, DEFAULT_KEYWORD
+            )
+        } else {
+            arguments?.getParcelable(
+                SearchFragment.QUERYPARAMS_KEY,
+                QueryParams::class.java
+            )?: QueryParams(
+                DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
+                DEFAULT_START_RATE, DEFAULT_END_RATE, DEFAULT_START_PERIOD, DEFAULT_END_PERIOD,
+                DEFAULT_ONLY_UNVIEWED, DEFAULT_KEYWORD
+            )
+        }
+
+        viewModel.setQueryParams(queryParams)
     }
 
     override fun onResume() {
@@ -45,6 +83,10 @@ class AllOptionsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity as MainActivity).hideActionBar()
+        setFragmentResult(//сигнал на SearchFragment - нужно обновить rv
+            SearchFragment.FRAGMENT_REQUEST_KEY,
+            bundleOf(SearchFragment.FRAGMENT_BANDLE_KEY to viewModel.queryParams.value)
+        )
     }
 
     override fun onCreateView(
@@ -128,7 +170,7 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startRate.collect {
-                    binding.currentRateFilter.text="${it}-${viewModel.endRate.value}"
+                    binding.currentRateFilter.text="${it?:0}-${viewModel.endRate.value?:10}"
                 }
             }
         }
@@ -137,7 +179,7 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.endRate.collect {
-                    binding.currentRateFilter.text="${viewModel.startRate.value}-${it}"
+                    binding.currentRateFilter.text="${viewModel.startRate.value?:0}-${it?:10}"
                 }
             }
         }
@@ -186,12 +228,12 @@ class AllOptionsFragment : Fragment() {
         }
 
             // обработка нажатия viewed
-        binding.viewed.setOnClickListener { viewModel.setViewed(!viewModel.viewed.value) }
+        binding.viewed.setOnClickListener { viewModel.setOnlyUnviewed(!viewModel.onlyUnviewed.value) }
 
 //обработка установки viewed
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewed.collect {
+                viewModel.onlyUnviewed.collect {
                     binding.viewed.isChecked=it
                 }
             }
@@ -202,7 +244,10 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startPeriod.collect {
-                    binding.currentYearFilter.text="с ${it} по ${viewModel.endPeriod.value}"
+                    var outString=""
+                    if(it!=null){outString="с ${it}"}
+                    if(viewModel.endPeriod.value!=null){outString=outString+" по ${viewModel.endPeriod.value}"}
+                    binding.currentYearFilter.text=outString
                 }
             }
         }
@@ -210,7 +255,10 @@ class AllOptionsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.endPeriod.collect {
-                    binding.currentYearFilter.text="с ${viewModel.startPeriod.value} по ${it}"
+                    var outString=""
+                    if(viewModel.startPeriod.value!=null){outString="c ${viewModel.startPeriod.value}"}
+                    if(it!=null){outString=outString+" по ${it}"}
+                    binding.currentYearFilter.text=outString
                 }
             }
         }
@@ -232,30 +280,25 @@ class AllOptionsFragment : Fragment() {
 //сбросы
         binding.clearCountryBtn.setOnClickListener { viewModel.setCountry(null) }
         binding.clearGenreBtn.setOnClickListener { viewModel.setGenre(null) }
-        binding.clearYearBtn.setOnClickListener { viewModel.setStartPeriod(0)
-            viewModel.setEndPeriod(0)}
+        binding.clearYearBtn.setOnClickListener { viewModel.setStartPeriod(SearchViewModel.DEFAULT_START_PERIOD)
+            viewModel.setEndPeriod(SearchViewModel.DEFAULT_END_PERIOD)}
 
 
     }
 
     fun resetAllTypes() { // скидываю в выключено
-       // binding.moviesAndSerialsFilter.isChecked = false
         binding.moviesAndSerialsFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
                 null
             )
         )
-
-       // binding.moviesFilter.isChecked = false
         binding.moviesFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
                 null
             )
         )
-
-       // binding.serialsFilter.isChecked = false
         binding.serialsFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -264,24 +307,19 @@ class AllOptionsFragment : Fragment() {
         )
     }
 
-    fun resetAllSort() {// скидываю в выключено
-        //binding.dateSort.isChecked = false
-        binding.dateSort.setTextColor(
+    fun resetAllSort() {// скидываю сортировку
+       binding.dateSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
                 null
             )
         )
-
-       // binding.rateSort.isChecked = false
         binding.rateSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
                 null
             )
         )
-
-       // binding.popularSort.isChecked = false
         binding.popularSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,

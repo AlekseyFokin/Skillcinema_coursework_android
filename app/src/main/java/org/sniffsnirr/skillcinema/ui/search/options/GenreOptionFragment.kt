@@ -25,10 +25,10 @@ import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
 @AndroidEntryPoint
 class GenreOptionFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels({requireParentFragment()})
-    var _binding:FragmentGenreOptionBinding?= null
-    val binding get()=_binding!!
-    private val genreAdapter=GenreOptionAdapter{genre->onGenreClick(genre)}
+    private val viewModel: AllOptionsViewModel by viewModels({ requireParentFragment() })
+    var _binding: FragmentGenreOptionBinding? = null
+    val binding get() = _binding!!
+    private val genreAdapter = GenreOptionAdapter { genre -> onGenreClick(genre) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class GenreOptionFragment : Fragment() {
         binding.genreRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.genreRv.setHasFixedSize(true)
-        binding.genreRv.adapter =genreAdapter
+        binding.genreRv.adapter = genreAdapter
         val dividerItemDecorator = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecorator.setDrawable(resources.getDrawable(R.drawable.line_for_rv))
         binding.genreRv.addItemDecoration(dividerItemDecorator)
@@ -55,7 +55,6 @@ class GenreOptionFragment : Fragment() {
 
         binding.searchView.searchTextInput.addTextChangedListener { //передача поисковой строки
             viewModel.setGenreSearchString(binding.searchView.searchTextInput.text.toString())
-            viewModel.onChangeGenreSearchString()
         }
     }
 
@@ -71,23 +70,24 @@ class GenreOptionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-    //    (activity as MainActivity).hideActionBar()
+        //    (activity as MainActivity).hideActionBar()
         viewModel.setGenreSearchString("")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {_binding=FragmentGenreOptionBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentGenreOptionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    fun onGenreClick(newGenre: Genre){
-       viewModel.setGenre(newGenre)
+    fun onGenreClick(newGenre: Genre) {
+        viewModel.setGenre(newGenre)
     }
 
 
-    companion object{
-        const val NAME_FRAGMENT="Жанр"
+    companion object {
+        const val NAME_FRAGMENT = "Жанр"
     }
 }
