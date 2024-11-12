@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +29,7 @@ import org.sniffsnirr.skillcinema.databinding.FragmentSearchBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
 import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.PagingCompilationAdapter
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.ALL_TYPE
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_COUNTRY
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_END_PERIOD
@@ -46,7 +49,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val pagedAdapter = SearchResultPagingAdapter()// { idMovie -> onMovieClick(idMovie) }
+    private val pagedAdapter = SearchResultPagingAdapter { idMovie -> onMovieClick(idMovie) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +63,13 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchView.searchOptions.setOnClickListener {//перейти на экран с опциями
+        // скрыть все индикаторы loadstate
+
+        binding.progressbarAppend.visibility = View.GONE
+        binding.progressbarRefresh.visibility = View.GONE
+        binding.haveNoResult.visibility = View.GONE
+
+        binding.searchOptions.setOnClickListener {//перейти на экран с опциями
             val bundle = Bundle()
             bundle.putParcelable(QUERYPARAMS_KEY, viewModel.queryParams.value)
             findNavController().navigate(
@@ -68,12 +77,12 @@ class SearchFragment : Fragment() {
             )
         }
 
-        binding.searchView.searchTextInput.addTextChangedListener {// ввод в поисковую строку
-            viewModel.setSearchMovieString(binding.searchView.searchTextInput.text.toString())
+        binding.searchTextInput.addTextChangedListener {// ввод в поисковую строку
+            viewModel.setSearchMovieString(binding.searchTextInput.text.toString())
         }
 
-      //  val footerAdapter = PagingLoadStateAdapter()
-      //  val adapter = pagedAdapter.withLoadStateFooter(footerAdapter)
+        //  val footerAdapter = PagingLoadStateAdapter()
+        //  val adapter = pagedAdapter.withLoadStateFooter(footerAdapter)
 
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
         binding.searchResultRv.adapter = pagedAdapter
@@ -88,11 +97,35 @@ class SearchFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            pagedAdapter.loadStateFlow.collectLatest {
-                { loadStates ->
-                    progressBar.isVisible = loadStates.refresh is LoadState.Loading
-                    retry.isVisible = loadState.refresh !is LoadState.Loading
-                    errorMsg.isVisible = loadState.refresh is LoadState.Error
+            pagedAdapter.loadStateFlow.collectLatest { loadStates ->
+                binding.progressbarRefresh.visibility = View.GONE
+                binding.progressbarAppend.visibility = View.GONE
+                binding.haveNoResult.visibility = View.GONE
+
+                when (loadStates.refresh) {
+                    is LoadState.Loading -> binding.progressbarRefresh.visibility = View.VISIBLE
+                    is LoadState.Error -> Toast.makeText(
+                        requireContext(),
+                        "Ошибка загрузки",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    is LoadState.NotLoading -> if (pagedAdapter.itemCount < 1) {
+                        binding.haveNoResult.visibility = View.VISIBLE
+                    }
+
+                }
+                when (loadStates.append) {
+                    is LoadState.Loading -> binding.progressbarAppend.visibility = View.VISIBLE
+                    is LoadState.Error -> Toast.makeText(
+                        requireContext(),
+                        "Ошибка добавления",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    is LoadState.NotLoading -> if (pagedAdapter.itemCount < 1) {
+                        binding.haveNoResult.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -114,6 +147,17 @@ class SearchFragment : Fragment() {
             if (queryParams != null) {
                 viewModel.setQueryParams(queryParams)
             }
+        }
+    }
+
+    private fun onMovieClick(idMovie: Int?) {
+        val bundle = Bundle()
+        if (idMovie != null) {
+            bundle.putInt(ID_MOVIE, idMovie)
+            findNavController().navigate(
+                R.id.action_pagingCompilationFragment_to_oneMovieFragment,
+                bundle
+            )
         }
     }
 

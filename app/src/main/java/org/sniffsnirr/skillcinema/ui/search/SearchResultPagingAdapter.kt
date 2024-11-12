@@ -17,7 +17,7 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class SearchResultPagingAdapter() : PagingDataAdapter<MovieRVModel,SearchResultPagingAdapter.MovieViewHolder>(
+class SearchResultPagingAdapter( val onMovieClick: (Int?) -> Unit) : PagingDataAdapter<MovieRVModel,SearchResultPagingAdapter.MovieViewHolder>(
    DiffUtilCallback()
 ) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
@@ -72,7 +72,7 @@ class SearchResultPagingAdapter() : PagingDataAdapter<MovieRVModel,SearchResultP
         }
         holder.binding.root.setOnClickListener {
             movie?.let {
-               // onMovieClick(movie.kinopoiskId)
+                onMovieClick(movie.kinopoiskId)
             }
         }
     }

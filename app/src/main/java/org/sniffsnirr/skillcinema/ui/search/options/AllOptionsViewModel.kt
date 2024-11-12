@@ -153,11 +153,13 @@ class AllOptionsViewModel @Inject constructor(
 
     fun setSort(sortMode: String) {
         _sort.value = sortMode
-        _queryParams.value.order
+        _queryParams.value.order=sortMode
     }
 
 fun setQueryParams(newQueryParams:QueryParams){
     _queryParams.value=newQueryParams
+
+
 }
 
     private fun getCountriesAndGenres() {
@@ -170,8 +172,7 @@ fun setQueryParams(newQueryParams:QueryParams){
                     firstCountriesList = it.first
                     _genres.value = it.second
                     firstGenresList = it.second
-                    Log.d("загрузка и hilt module field", "Загружено ${it.first.size}")
-                },
+                   },
                 onFailure = { Log.d("ViewedList", it.message ?: "") }
             )
         }
