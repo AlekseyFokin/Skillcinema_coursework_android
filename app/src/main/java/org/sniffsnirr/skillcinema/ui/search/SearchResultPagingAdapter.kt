@@ -15,11 +15,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
-import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.DiffUtilCallback
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 class SearchResultPagingAdapter() : PagingDataAdapter<MovieRVModel,SearchResultPagingAdapter.MovieViewHolder>(
-    org.sniffsnirr.skillcinema.ui.collections.paging.compilations.DiffUtilCallback()
+   DiffUtilCallback()
 ) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -77,7 +76,6 @@ class SearchResultPagingAdapter() : PagingDataAdapter<MovieRVModel,SearchResultP
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

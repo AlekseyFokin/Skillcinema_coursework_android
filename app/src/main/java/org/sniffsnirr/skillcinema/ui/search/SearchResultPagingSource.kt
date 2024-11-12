@@ -1,12 +1,11 @@
 package org.sniffsnirr.skillcinema.ui.search
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.entities.compilations.CompilationsMovie
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
-import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.MoviePagingSource
-import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.MoviePagingSource.Companion
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.usecases.DecideMovieRVmodelIsViewedOrNotUsecase
 import org.sniffsnirr.skillcinema.usecases.ReductionUsecase
@@ -26,6 +25,9 @@ class SearchResultPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieRVModel> {
         val page = params.key ?: SearchResultPagingSource.FIRST_PAGE
         return kotlin.runCatching {
+
+            Log.d("Ввод текста", "Получил в PagingSource ${queryParams}")
+
             kinopoiskRepository.getSearchResult(
                 queryParams.country,
                 queryParams.genre,
