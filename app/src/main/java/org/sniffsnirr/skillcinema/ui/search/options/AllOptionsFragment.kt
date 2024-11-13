@@ -118,8 +118,8 @@ lateinit var  queryParams:QueryParams
             )
         }
 
-        binding.rateRangeSlider.values.add(0,viewModel.startRate.value)
-        binding.rateRangeSlider.values.add(1,viewModel.endRate.value)
+        binding.rateRangeSlider.setValues(viewModel.queryParams.value.ratingFrom?:0.0f,viewModel.queryParams.value.ratingTo?:10.0f)
+
         // установка типа
         binding.moviesAndSerialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.ALL_TYPE) }
         binding.moviesFilter.setOnClickListener { viewModel.setType(SearchViewModel.MOVIE_ONLY_TYPE) }

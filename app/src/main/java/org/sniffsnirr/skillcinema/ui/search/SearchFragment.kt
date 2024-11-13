@@ -155,7 +155,7 @@ class SearchFragment : Fragment() {
         if (idMovie != null) {
             bundle.putInt(ID_MOVIE, idMovie)
             findNavController().navigate(
-                R.id.action_pagingCompilationFragment_to_oneMovieFragment,
+                R.id.action_navigation_search_to_oneMovieFragment,
                 bundle
             )
         }
