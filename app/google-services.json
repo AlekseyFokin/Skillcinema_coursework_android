@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451442682111",
+    "project_id": "skillcinema-82ea8",
+    "storage_bucket": "skillcinema-82ea8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451442682111:android:c178cf79a02eb3ebb384ca",
+        "android_client_info": {
+          "package_name": "org.sniffsnirr.skillcinema"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp_w8q96bM3pIjI-Rx8InbBlpNxtWJ5ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

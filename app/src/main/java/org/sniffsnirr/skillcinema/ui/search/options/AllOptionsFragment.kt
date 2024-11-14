@@ -18,11 +18,6 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAllOptionsBinding
-import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
-import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
-import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment
-import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_BUNDLE_KEY
-import org.sniffsnirr.skillcinema.ui.profile.ProfileFragment.Companion.RV_ITEM_HAS_BEEN_CHANGED_IN_PRIFILE_FRAGMENT_REQUEST_KEY
 import org.sniffsnirr.skillcinema.ui.search.QueryParams
 import org.sniffsnirr.skillcinema.ui.search.SearchFragment
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
@@ -280,7 +275,9 @@ lateinit var  queryParams:QueryParams
             }
         }
 //сбросы
-        binding.clearCountryBtn.setOnClickListener { viewModel.setCountry(null) }
+        binding.clearCountryBtn.setOnClickListener { viewModel.setCountry(null)
+         //throw Exception("test crashlytics")
+        }
         binding.clearGenreBtn.setOnClickListener { viewModel.setGenre(null) }
         binding.clearYearBtn.setOnClickListener { viewModel.setStartPeriod(SearchViewModel.DEFAULT_START_PERIOD)
             viewModel.setEndPeriod(SearchViewModel.DEFAULT_END_PERIOD)}

@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.compilerKsp)
     id("com.google.dagger.hilt.android") version "2.48"
     alias(libs.plugins.kotlinPluginParcelize)
+    id("com.google.gms.google-services")
+
+    id("com.google.firebase.crashlytics")
 
 }
 
@@ -84,4 +87,10 @@ implementation(libs.glide.slider)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.ksp)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-crashlytics")
 }
