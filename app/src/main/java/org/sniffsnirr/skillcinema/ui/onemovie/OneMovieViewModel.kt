@@ -73,7 +73,7 @@ class OneMovieViewModel @Inject constructor(
                 getMovieInfoUsecase.getInfo(idMovie)
             }.fold(
                 onSuccess = { _movieInfo.value = it },
-                onFailure = { Log.d("MovieInfo", it.message ?: "") }
+                onFailure = { Log.d("MovieInfo", it.message ?: "")  }
             )
         }
         getActorsAndMoviemen(idMovie)
