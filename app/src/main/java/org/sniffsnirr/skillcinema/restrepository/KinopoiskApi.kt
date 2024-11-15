@@ -10,7 +10,6 @@ import org.sniffsnirr.skillcinema.entities.premiers.PremierMovieList
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
 import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.entities.staff.Staff
-import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi.Companion.api_key
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query

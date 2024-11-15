@@ -1,8 +1,6 @@
 package org.sniffsnirr.skillcinema
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.android.HiltAndroidApp
 

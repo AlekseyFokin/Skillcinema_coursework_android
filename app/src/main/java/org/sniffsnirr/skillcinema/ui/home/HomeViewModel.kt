@@ -1,7 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.home
 
 import android.util.Log
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,9 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
-import org.sniffsnirr.skillcinema.ui.onemovie.dialogmovietocollection.BottomSheetDialogFragmentAddMovieToCollection
 import org.sniffsnirr.skillcinema.usecases.HomePageUsecase
 import javax.inject.Inject
 
