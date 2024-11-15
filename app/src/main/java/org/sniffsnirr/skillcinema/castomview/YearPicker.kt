@@ -13,37 +13,36 @@ class YearPicker @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     LinearLayout(context, attrs, defStyleAttr) {
-    lateinit var period: TextView
-    lateinit var plusPeriod: ImageButton
-    lateinit var minusPeriod: ImageButton
+    private lateinit var period: TextView
+    private lateinit var plusPeriod: ImageButton
+    private lateinit var minusPeriod: ImageButton
 
-    lateinit var year01: TextView
-    lateinit var year02: TextView
-    lateinit var year03: TextView
-    lateinit var year04: TextView
-    lateinit var year05: TextView
-    lateinit var year06: TextView
-    lateinit var year07: TextView
-    lateinit var year08: TextView
-    lateinit var year09: TextView
-    lateinit var year10: TextView
-    lateinit var year11: TextView
-    lateinit var year12: TextView
+    private lateinit var year01: TextView
+    private lateinit var year02: TextView
+    private lateinit var year03: TextView
+    private lateinit var year04: TextView
+    private lateinit var year05: TextView
+    private lateinit var year06: TextView
+    private lateinit var year07: TextView
+    private lateinit var year08: TextView
+    private lateinit var year09: TextView
+    private lateinit var year10: TextView
+    private lateinit var year11: TextView
+    private lateinit var year12: TextView
 
-    var yearListTextView = mutableListOf<TextView>()
-    val step = 12
+    private var yearListTextView = mutableListOf<TextView>()
+    private val step = 12
 
-    // var currentYearList = mutableListOf<Int>()
-    var outYearListeners = mutableListOf<(Int?) -> Unit>()
+    private var outYearListeners = mutableListOf<(Int?) -> Unit>()
 
-    var outYear:Int? = null
+    private var outYear: Int? = null
         set(value) {
             if (field == value) return
             field = value
             outYearListeners.forEach { it(value) }
         }
 
-    var currentPeriod = Pair(1998, 2009)
+    private var currentPeriod = Pair(1998, 2009)
         set(value) {
             field = value
             period.text = "${value.first}-${value.second}"
@@ -95,7 +94,7 @@ class YearPicker @JvmOverloads constructor(
 
         fun setOutYear(tv: TextView) {
             outYear = (tv.text).toString().toInt()
-            outYearListeners.forEach {it(outYear) }
+            outYearListeners.forEach { it(outYear) }
         }
 
         yearListTextView.forEach { textView ->
@@ -113,7 +112,7 @@ class YearPicker @JvmOverloads constructor(
         listener(outYear)
     }
 
-    fun clearAllTextViews() { //сброс всех настроек вида textview
+    private fun clearAllTextViews() { //сброс всех настроек вида textview
         yearListTextView.forEach { textview ->
             textview.setTextColor(
                 resources.getColor(

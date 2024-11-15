@@ -8,9 +8,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.images.Image
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
@@ -31,6 +33,9 @@ class GalleryViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     var isLoading = _isLoading.asStateFlow()
 
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
+
 
     fun getImages(imageType: String): Flow<PagingData<Image>> {
         return Pager(
@@ -48,7 +53,10 @@ class GalleryViewModel @Inject constructor(
                 onSuccess = {
                     _numberOfImagesByType.value = it
                 },
-                onFailure = { Log.d("MoviesGallery", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка изображений: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
             _isLoading.value = false
         }

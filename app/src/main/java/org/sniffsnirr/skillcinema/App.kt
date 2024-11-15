@@ -12,11 +12,11 @@ class App: Application(){
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)//инициализация работы с jsr 310 работа со временем
-        try {
-            getDir(POSTERS_DIR, Context.MODE_PRIVATE)// создание папки для хранения файлов с постерами фмльмов
-        }catch(e: Exception){
-            Log.d("Create directory error","coud'not create dir for posters")
-        }
+//        try {
+//            getDir(POSTERS_DIR, Context.MODE_PRIVATE)// создание папки для хранения файлов с постерами фмльмов
+//        }catch(e: Exception){
+//            Log.d("Create directory error","coud'not create dir for posters")
+//        }
     }
     companion object{
         const val POSTERS_DIR="posters"

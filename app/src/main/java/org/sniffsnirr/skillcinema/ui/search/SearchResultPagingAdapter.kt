@@ -17,9 +17,10 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.MovieItemBinding
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
-class SearchResultPagingAdapter( val onMovieClick: (Int?) -> Unit) : PagingDataAdapter<MovieRVModel,SearchResultPagingAdapter.MovieViewHolder>(
-   DiffUtilCallback()
-) {
+class SearchResultPagingAdapter(val onMovieClick: (Int?) -> Unit) :
+    PagingDataAdapter<MovieRVModel, SearchResultPagingAdapter.MovieViewHolder>(
+        DiffUtilCallback()
+    ) {
     inner class MovieViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -35,29 +36,32 @@ class SearchResultPagingAdapter( val onMovieClick: (Int?) -> Unit) : PagingDataA
         val movie = getItem(position)
         with(holder.binding) {
 
-            if (!movie!!.viewed){
+            if (!movie!!.viewed) {
                 Glide
                     .with(poster.context)
                     .load(movie.imageUrl)
-                    .diskCacheStrategy( DiskCacheStrategy.NONE )
-                    .skipMemoryCache( true )
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(poster)
                 viewed.visibility = View.INVISIBLE
-            }
-            else{
+            } else {
                 Glide.with(poster.context)
                     .asBitmap()
                     .load(movie.imageUrl)
-                    .diskCacheStrategy( DiskCacheStrategy.NONE )
-                    .skipMemoryCache( true )
-                    .into(object : CustomTarget<Bitmap>(){
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            poster.background= BitmapDrawable(poster.context.resources,resource)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            poster.background = BitmapDrawable(poster.context.resources, resource)
                         }
+
                         override fun onLoadCleared(placeholder: Drawable?) {
                         }
                     })
-                poster.foreground=poster.context.getDrawable( R.drawable.gradient_viewed )
+                poster.foreground = poster.context.getDrawable(R.drawable.gradient_viewed)
                 viewed.visibility = View.VISIBLE
             }
 

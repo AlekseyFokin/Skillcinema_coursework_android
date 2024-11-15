@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -26,6 +29,7 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentGalleryBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 
 @AndroidEntryPoint
@@ -109,6 +113,22 @@ class GalleryFragment : Fragment() {
                 binding.frameProgress.visibility = View.INVISIBLE
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
+
+        lifecycleScope.launch {// обработка ошибок пейджинга
+            pagedAdapter.loadStateFlow.collectLatest { loadStates ->
+                if (loadStates.refresh is LoadState.Error||loadStates.append is LoadState.Error) {
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
     private fun onPhotoClick(photoUrl: String?) {

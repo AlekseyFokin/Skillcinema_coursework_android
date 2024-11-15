@@ -137,7 +137,7 @@ interface KinopoiskApi {
 
         val TOP_POPULAR_MOVIES = Pair("TOP_POPULAR_MOVIES", "Популярное")
         val TOP_250_MOVIES = Pair("TOP_250_MOVIES", "Топ-250")
-        val POPULAR_SERIES = Pair("POPULAR_SERIES", "Популярные сериалы")
+        val POPULAR_SERIES = Pair("TOP_250_TV_SHOWS", "Популярные сериалы")
         val PREMIERES = Pair("PREMIERES", "Премьеры")
         val DYNAMIC = Pair("DYNAMIC", "Основаны на фильтах")
     }

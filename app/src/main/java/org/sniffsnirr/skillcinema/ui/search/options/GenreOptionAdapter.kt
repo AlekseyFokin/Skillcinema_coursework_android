@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sniffsnirr.skillcinema.databinding.SearchOptionRvItemBinding
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Genre
 
-class GenreOptionAdapter(val onGenreClick: (Genre)->Unit) :
+class GenreOptionAdapter(val onGenreClick: (Genre) -> Unit) :
     RecyclerView.Adapter<GenreOptionAdapter.GenreViewHolder>() {
-    var selectedItemPosition = RecyclerView.NO_POSITION
-    var  genres= emptyList<Genre>()
+    private var selectedItemPosition = RecyclerView.NO_POSITION
+    var genres = emptyList<Genre>()
 
-    fun setGenreList(newGenreList:List<Genre>){
-        this.genres=newGenreList
+    fun setGenreList(newGenreList: List<Genre>) {
+        this.genres = newGenreList
         notifyDataSetChanged()
     }
 
@@ -20,17 +20,18 @@ class GenreOptionAdapter(val onGenreClick: (Genre)->Unit) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
-        val binding =SearchOptionRvItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            SearchOptionRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GenreViewHolder(binding)
     }
 
-    override fun getItemCount()=genres.size
+    override fun getItemCount() = genres.size
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         val genre = genres[position]
-        holder.binding.itemText.text=genre.genre
+        holder.binding.itemText.text = genre.genre
         holder.itemView.setSelected(selectedItemPosition == position)
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             onGenreClick(genre)
             val previousSelectedItemPosition = selectedItemPosition
             selectedItemPosition = holder.layoutPosition

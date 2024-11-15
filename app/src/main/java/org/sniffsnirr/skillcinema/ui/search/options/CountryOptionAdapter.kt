@@ -9,11 +9,11 @@ import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Count
 class CountryOptionAdapter(val onCountryClick: (Country) -> Unit) :
     RecyclerView.Adapter<CountryOptionAdapter.CountryViewHolder>() {
 
-    var  countries= emptyList<Country>()
-    var selectedItemPosition = RecyclerView.NO_POSITION
+    var countries = emptyList<Country>()
+    private var selectedItemPosition = RecyclerView.NO_POSITION
 
-    fun setCountryList(newCountryList:List<Country>){
-        this.countries=newCountryList
+    fun setCountryList(newCountryList: List<Country>) {
+        this.countries = newCountryList
         notifyDataSetChanged()
     }
 
@@ -21,18 +21,19 @@ class CountryOptionAdapter(val onCountryClick: (Country) -> Unit) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
-        val binding =SearchOptionRvItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            SearchOptionRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CountryViewHolder(binding)
     }
 
-    override fun getItemCount()=countries.size
+    override fun getItemCount() = countries.size
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val country = countries[position]
-        holder.binding.itemText.text=country.country
+        holder.binding.itemText.text = country.country
 
         holder.itemView.setSelected(selectedItemPosition == position)
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             onCountryClick(country)
             val previousSelectedItemPosition = selectedItemPosition
             selectedItemPosition = holder.layoutPosition

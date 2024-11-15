@@ -7,21 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
-import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPeriodOptionBinding
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
-import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 
 @AndroidEntryPoint
 class PeriodOptionFragment : Fragment() {
 
-    private val viewModel: AllOptionsViewModel by viewModels({requireParentFragment()})
-    var _binding :FragmentPeriodOptionBinding?=null
-    val binding get()=_binding!!
-    var startYear:Int?=null
-    var endYear:Int?=null
+    private val viewModel: AllOptionsViewModel by viewModels({ requireParentFragment() })
+    var _binding: FragmentPeriodOptionBinding? = null
+    val binding get() = _binding!!
+    private var startYear: Int? = null
+    private var endYear: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +32,13 @@ class PeriodOptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.startPeriod.addOutYearListeners {year->getStartYear(year)}
+        binding.startPeriod.addOutYearListeners { year -> getStartYear(year) }
 
-        binding.endPeriod.addOutYearListeners {year->getEndYear(year)}
+        binding.endPeriod.addOutYearListeners { year -> getEndYear(year) }
 
-         binding.goBtn.setOnClickListener {//проверка
-            if (startYear!=null&&endYear!=null) {
-                if (startYear!! >endYear!!) {
+        binding.goBtn.setOnClickListener {//проверка
+            if (startYear != null && endYear != null) {
+                if (startYear!! > endYear!!) {
                     viewModel.setStartPeriod(null)
                     viewModel.setEndPeriod(null)
                     Toast.makeText(
@@ -46,17 +48,25 @@ class PeriodOptionFragment : Fragment() {
                     ).show()
                 }
             }
-             parentFragmentManager.popBackStack();
-         }
+            parentFragmentManager.popBackStack()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
-    fun getStartYear(year:Int?){
-        startYear=year
+    private fun getStartYear(year: Int?) {
+        startYear = year
         viewModel.setStartPeriod(year)
     }
 
-    fun getEndYear(year:Int?){
-        endYear=year
+    private fun getEndYear(year: Int?) {
+        endYear = year
         viewModel.setEndPeriod(year)
     }
 
@@ -70,21 +80,16 @@ class PeriodOptionFragment : Fragment() {
         (activity as MainActivity).setActionBarTitle("")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-     //   (activity as MainActivity).hideActionBar()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-_binding=FragmentPeriodOptionBinding.inflate(inflater,container,false)
+        _binding = FragmentPeriodOptionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    companion object{
-        const val NAME_FRAGMENT="Период"
+    companion object {
+        const val NAME_FRAGMENT = "Период"
     }
 
 

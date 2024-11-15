@@ -11,14 +11,18 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentPagingCollectionBinding
 import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 
@@ -77,6 +81,14 @@ class PagingCollectionFragment : Fragment() {
         viewModel.pagedMovies.onEach {
             pagedAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        lifecycleScope.launch {// обработка ошибок пейджинга
+            pagedAdapter.loadStateFlow.collectLatest { loadStates ->
+                if (loadStates.refresh is LoadState.Error||loadStates.append is LoadState.Error) {
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

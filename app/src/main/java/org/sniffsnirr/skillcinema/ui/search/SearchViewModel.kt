@@ -21,7 +21,7 @@ class SearchViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-        // начальные параметры поиска
+    // начальные параметры поиска
     private val _queryParams =
         MutableStateFlow(
             QueryParams(
@@ -56,7 +56,6 @@ class SearchViewModel @Inject constructor(
 
     private val _searchStatus =
         MutableStateFlow("") // статус поиска
-    val searchStatus = _searchStatus.asStateFlow()
 
     fun setSearchMovieString(string: String) {// поступление новой строки фильтрации названий, актеров, режиссеров
         _searchKeywordString.value = string
@@ -82,7 +81,7 @@ class SearchViewModel @Inject constructor(
         val DEFAULT_END_PERIOD = null
         val DEFAULT_START_RATE = null
         val DEFAULT_END_RATE = null
-        val DEFAULT_ONLY_UNVIEWED = false
+        const val DEFAULT_ONLY_UNVIEWED = false
         val DEFAULT_KEYWORD = null
 
         const val SORT_DEFAULT = "RATING"

@@ -19,8 +19,7 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentGenreOptionBinding
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Genre
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
-import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 
 @AndroidEntryPoint
 class GenreOptionFragment : Fragment() {
@@ -56,6 +55,14 @@ class GenreOptionFragment : Fragment() {
         binding.searchView.searchTextInput.addTextChangedListener { //передача поисковой строки
             viewModel.setGenreSearchString(binding.searchView.searchTextInput.text.toString())
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -82,7 +89,7 @@ class GenreOptionFragment : Fragment() {
         return binding.root
     }
 
-    fun onGenreClick(newGenre: Genre) {
+    private fun onGenreClick(newGenre: Genre) {
         viewModel.setGenre(newGenre)
     }
 

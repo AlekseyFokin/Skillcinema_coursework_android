@@ -18,6 +18,7 @@ import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentHomeBinding
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.adapter.MainAdapter
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
 
@@ -62,6 +63,14 @@ class HomeFragment : Fragment() {
                     } else {
                         binding.loadingProgressbar.visibility = View.GONE
                     }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }
         }

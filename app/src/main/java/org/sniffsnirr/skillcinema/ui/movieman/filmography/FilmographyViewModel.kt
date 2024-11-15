@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.movieman.Film
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -28,6 +30,9 @@ class FilmographyViewModel @Inject constructor(private val getMoviemanFilmograph
     private val _isLoading = MutableStateFlow(false)
     var isLoading = _isLoading.asStateFlow()
 
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
+
     fun getMoviesByProfessionKey(idStaff:Int){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -38,7 +43,9 @@ class FilmographyViewModel @Inject constructor(private val getMoviemanFilmograph
                     _moviemanName.value = it.first
                     _moviesByProfessionKey.value = it.second
                                     },
-                onFailure = { Log.d("MoviesByFilmography", it.message ?: "") }
+                onFailure = { Log.d("Error", "Загрузка фильмографии - фильмы по кинематографисту: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
             _isLoading.value=false
         }
@@ -53,7 +60,9 @@ class FilmographyViewModel @Inject constructor(private val getMoviemanFilmograph
                 onSuccess = {
                         _moviesByListID.value = it
                 },
-                onFailure = { Log.d("MoviesByFilmography", it.message ?: "") }
+                onFailure = { Log.d("Error", "Загрузка фильмов кинематографиста по professionkey: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
             _isLoading.value=false
         }

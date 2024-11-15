@@ -29,7 +29,7 @@ class CollectionViewModel @Inject constructor(val getMoviePremiersUsecase: GetMo
                 getMoviePremiersUsecase.getPremiersForNextTwoWeek()
             }.fold(
                 onSuccess = { _premierMovies.value = it },
-                onFailure = { Log.d("перезагрузка премьер", it.message ?: "")
+                onFailure = { Log.d("Error", "Загрузка премьер: ${it.message}")
                               _error.send(true)  // показывать диалог с ошибкой
                 }
             )

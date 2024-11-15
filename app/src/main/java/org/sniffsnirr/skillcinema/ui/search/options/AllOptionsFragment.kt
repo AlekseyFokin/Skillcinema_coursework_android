@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAllOptionsBinding
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.search.QueryParams
 import org.sniffsnirr.skillcinema.ui.search.SearchFragment
 import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
@@ -39,13 +40,13 @@ class AllOptionsFragment : Fragment() {
 
     var _binding: FragmentAllOptionsBinding? = null
     val binding get() = _binding!!
-lateinit var  queryParams:QueryParams
+    private lateinit var queryParams: QueryParams
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).showActionBar()
         queryParams = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable<QueryParams>(SearchFragment.QUERYPARAMS_KEY)?: QueryParams(
+            arguments?.getParcelable(SearchFragment.QUERYPARAMS_KEY) ?: QueryParams(
                 DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
                 DEFAULT_START_RATE, DEFAULT_END_RATE, DEFAULT_START_PERIOD, DEFAULT_END_PERIOD,
                 DEFAULT_ONLY_UNVIEWED, DEFAULT_KEYWORD
@@ -54,7 +55,7 @@ lateinit var  queryParams:QueryParams
             arguments?.getParcelable(
                 SearchFragment.QUERYPARAMS_KEY,
                 QueryParams::class.java
-            )?: QueryParams(
+            ) ?: QueryParams(
                 DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
                 DEFAULT_START_RATE, DEFAULT_END_RATE, DEFAULT_START_PERIOD, DEFAULT_END_PERIOD,
                 DEFAULT_ONLY_UNVIEWED, DEFAULT_KEYWORD
@@ -113,7 +114,10 @@ lateinit var  queryParams:QueryParams
             )
         }
 
-        binding.rateRangeSlider.setValues(viewModel.queryParams.value.ratingFrom?:0.0f,viewModel.queryParams.value.ratingTo?:10.0f)
+        binding.rateRangeSlider.setValues(
+            viewModel.queryParams.value.ratingFrom ?: 0.0f,
+            viewModel.queryParams.value.ratingTo ?: 10.0f
+        )
 
         // установка типа
         binding.moviesAndSerialsFilter.setOnClickListener { viewModel.setType(SearchViewModel.ALL_TYPE) }
@@ -134,6 +138,7 @@ lateinit var  queryParams:QueryParams
                                 )
                             )
                         }
+
                         SearchViewModel.MOVIE_ONLY_TYPE -> {
                             binding.moviesFilter.isChecked = true
                             binding.moviesFilter.setTextColor(
@@ -143,6 +148,7 @@ lateinit var  queryParams:QueryParams
                                 )
                             )
                         }
+
                         SearchViewModel.SERIAL_ONLY_TYPE -> {
                             binding.serialsFilter.isChecked = true
                             binding.serialsFilter.setTextColor(
@@ -158,16 +164,17 @@ lateinit var  queryParams:QueryParams
         }
 
 
-        binding.rateRangeSlider.addOnChangeListener{slider, value, fromUser ->
-            val values =binding.rateRangeSlider.values
-            viewModel.setStartRate(Math.round(values[0] *10.0f)/10.0f)
-            viewModel.setEndRate(Math.round(values[1] *10.0f)/10.0f)}
+        binding.rateRangeSlider.addOnChangeListener { _, _, _ ->
+            val values = binding.rateRangeSlider.values
+            viewModel.setStartRate(Math.round(values[0] * 10.0f) / 10.0f)
+            viewModel.setEndRate(Math.round(values[1] * 10.0f) / 10.0f)
+        }
 
         //обработка установки рейтинга старт
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startRate.collect {
-                    binding.currentRateFilter.text="${it?:0}-${viewModel.endRate.value?:10}"
+                    binding.currentRateFilter.text = "${it ?: 0}-${viewModel.endRate.value ?: 10}"
                 }
             }
         }
@@ -176,7 +183,7 @@ lateinit var  queryParams:QueryParams
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.endRate.collect {
-                    binding.currentRateFilter.text="${viewModel.startRate.value?:0}-${it?:10}"
+                    binding.currentRateFilter.text = "${viewModel.startRate.value ?: 0}-${it ?: 10}"
                 }
             }
         }
@@ -201,6 +208,7 @@ lateinit var  queryParams:QueryParams
                                 )
                             )
                         }
+
                         SearchViewModel.SORT_DATE -> {
                             binding.dateSort.isChecked = true
                             binding.dateSort.setTextColor(
@@ -210,6 +218,7 @@ lateinit var  queryParams:QueryParams
                                 )
                             )
                         }
+
                         SearchViewModel.SORT_RATE -> {
                             binding.rateSort.isChecked = true
                             binding.rateSort.setTextColor(
@@ -224,14 +233,14 @@ lateinit var  queryParams:QueryParams
             }
         }
 
-            // обработка нажатия viewed
+        // обработка нажатия viewed
         binding.viewed.setOnClickListener { viewModel.setOnlyUnviewed(!viewModel.onlyUnviewed.value) }
 
 //обработка установки viewed
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.onlyUnviewed.collect {
-                    binding.viewed.isChecked=it
+                    binding.viewed.isChecked = it
                 }
             }
         }
@@ -241,10 +250,14 @@ lateinit var  queryParams:QueryParams
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startPeriod.collect {
-                    var outString=""
-                    if(it!=null){outString="с ${it}"}
-                    if(viewModel.endPeriod.value!=null){outString=outString+" по ${viewModel.endPeriod.value}"}
-                    binding.currentYearFilter.text=outString
+                    var outString = ""
+                    if (it != null) {
+                        outString = "с $it"
+                    }
+                    if (viewModel.endPeriod.value != null) {
+                        outString += " по ${viewModel.endPeriod.value}"
+                    }
+                    binding.currentYearFilter.text = outString
                 }
             }
         }
@@ -252,10 +265,14 @@ lateinit var  queryParams:QueryParams
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.endPeriod.collect {
-                    var outString=""
-                    if(viewModel.startPeriod.value!=null){outString="c ${viewModel.startPeriod.value}"}
-                    if(it!=null){outString=outString+" по ${it}"}
-                    binding.currentYearFilter.text=outString
+                    var outString = ""
+                    if (viewModel.startPeriod.value != null) {
+                        outString = "c ${viewModel.startPeriod.value}"
+                    }
+                    if (it != null) {
+                        outString += " по $it"
+                    }
+                    binding.currentYearFilter.text = outString
                 }
             }
         }
@@ -263,7 +280,7 @@ lateinit var  queryParams:QueryParams
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.country.collect {
-                    binding.currentCountryFilter.text=it?.country?:""
+                    binding.currentCountryFilter.text = it?.country ?: ""
                 }
             }
         }
@@ -271,21 +288,32 @@ lateinit var  queryParams:QueryParams
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.genre.collect {
-                    binding.currentGenreFilter.text=it?.genre?:""                }
+                    binding.currentGenreFilter.text = it?.genre ?: ""
+                }
             }
         }
 //сбросы
-        binding.clearCountryBtn.setOnClickListener { viewModel.setCountry(null)
-         //throw Exception("test crashlytics")
+        binding.clearCountryBtn.setOnClickListener {
+            viewModel.setCountry(null)
+            //throw Exception("test crashlytics")
         }
         binding.clearGenreBtn.setOnClickListener { viewModel.setGenre(null) }
-        binding.clearYearBtn.setOnClickListener { viewModel.setStartPeriod(SearchViewModel.DEFAULT_START_PERIOD)
-            viewModel.setEndPeriod(SearchViewModel.DEFAULT_END_PERIOD)}
+        binding.clearYearBtn.setOnClickListener {
+            viewModel.setStartPeriod(SearchViewModel.DEFAULT_START_PERIOD)
+            viewModel.setEndPeriod(SearchViewModel.DEFAULT_END_PERIOD)
+        }
 
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
 
     }
 
-    fun resetAllTypes() { // скидываю в выключено
+    private fun resetAllTypes() { // скидываю в выключено
         binding.moviesAndSerialsFilter.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
@@ -306,8 +334,8 @@ lateinit var  queryParams:QueryParams
         )
     }
 
-    fun resetAllSort() {// скидываю сортировку
-       binding.dateSort.setTextColor(
+    private fun resetAllSort() {// скидываю сортировку
+        binding.dateSort.setTextColor(
             resources.getColor(
                 R.color.color_of_main_label_in_onboarding,
                 null
@@ -326,7 +354,6 @@ lateinit var  queryParams:QueryParams
             )
         )
     }
-
 
 
     companion object {

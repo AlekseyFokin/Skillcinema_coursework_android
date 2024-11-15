@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.di.DaggerAllOptionsViewModelComponent
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Country
@@ -41,7 +43,7 @@ class AllOptionsViewModel @Inject constructor(
     }
 
     private val _queryParams =
-        MutableStateFlow<QueryParams>(
+        MutableStateFlow(
             QueryParams(
                 DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
                 DEFAULT_START_RATE, DEFAULT_END_RATE, DEFAULT_START_PERIOD, DEFAULT_END_PERIOD,
@@ -56,15 +58,14 @@ class AllOptionsViewModel @Inject constructor(
 
     private val _searchCountryString =
         MutableStateFlow("") // строка поиска страны
-    val searchCountryString = _searchCountryString.asStateFlow()
+    private val searchCountryString = _searchCountryString.asStateFlow()
 
     private val _searchGenreState =
         MutableStateFlow<SearchState>(SearchState.AvailableSearch) // состояние поиска жанра
-    val searchGenreState = _searchGenreState.asStateFlow()
 
     private val _searchGenreString =
         MutableStateFlow("") // строка поиска жанра
-    val searchGenreString = _searchGenreString.asStateFlow()
+    private val searchGenreString = _searchGenreString.asStateFlow()
 
     private val _type = MutableStateFlow(ALL_TYPE) // фильтр тип: фильм, сериал или оба
     val type = _type.asStateFlow()
@@ -75,7 +76,7 @@ class AllOptionsViewModel @Inject constructor(
     private val _countries = MutableStateFlow(emptyList<Country>()) // список стран
     val countries = _countries.asStateFlow()
 
-    lateinit var firstCountriesList: List<Country>
+    private lateinit var firstCountriesList: List<Country>
 
     private val _genre = MutableStateFlow<Genre?>(DEFAULT_GENRE) // фильтр жанр
     val genre = _genre.asStateFlow()
@@ -83,7 +84,7 @@ class AllOptionsViewModel @Inject constructor(
     private val _genres = MutableStateFlow(emptyList<Genre>()) // список жанров
     val genres = _genres.asStateFlow()
 
-    lateinit var firstGenresList: List<Genre>
+    private lateinit var firstGenresList: List<Genre>
 
     private val _startPeriod = MutableStateFlow<Int?>(DEFAULT_START_PERIOD) // фильтр старт периода
     val startPeriod = _startPeriod.asStateFlow()
@@ -103,6 +104,9 @@ class AllOptionsViewModel @Inject constructor(
 
     private val _sort = MutableStateFlow(SORT_DEFAULT) // вид сортировки
     val sort = _sort.asStateFlow()
+
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
 
     private var searchingCountryJob: Job? = null // текущий job поиска страны
     private var searchingGenreJob: Job? = null // текущий job поиска жанра
@@ -173,7 +177,10 @@ fun setQueryParams(newQueryParams:QueryParams){
                     _genres.value = it.second
                     firstGenresList = it.second
                    },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка жанров и стран из Api: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }
@@ -192,7 +199,7 @@ fun setQueryParams(newQueryParams:QueryParams){
             val outCountryList = firstCountriesList.filter { country ->
                 country.country.lowercase().startsWith(_searchCountryString.value)
             }
-            if (outCountryList.size == 0) {
+            if (outCountryList.isEmpty()) {
                 _searchCountryState.value = SearchState.EmptyData
             } else {
                 _searchCountryState.value = SearchState.AvailableSearch
@@ -214,7 +221,7 @@ fun setQueryParams(newQueryParams:QueryParams){
             val outGenreList = firstGenresList.filter { genre ->
                 genre.genre.lowercase().startsWith(_searchGenreString.value)
             }
-            if (outGenreList.size == 0) {
+            if (outGenreList.isEmpty()) {
                 _searchGenreState.value = SearchState.EmptyData
             } else {
                 _searchGenreState.value = SearchState.AvailableSearch

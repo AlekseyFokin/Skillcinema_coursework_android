@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.entities.images.Image
 import org.sniffsnirr.skillcinema.entities.onlyonemovie.OnlyOneMovie
@@ -67,13 +69,17 @@ class OneMovieViewModel @Inject constructor(
     private val _isMovieInViewed = MutableStateFlow(false)
     val isMovieInViewed = _isMovieInViewed.asStateFlow()
 
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
+
     fun setIdMovie(idMovie: Int) {
         viewModelScope.launch(Dispatchers.IO) {// получение информации о фильме, как только установлен id фильма из bundle
             kotlin.runCatching {
                 getMovieInfoUsecase.getInfo(idMovie)
             }.fold(
                 onSuccess = { _movieInfo.value = it },
-                onFailure = { Log.d("MovieInfo", it.message ?: "")  }
+                onFailure = { Log.d("Error", "Загрузка инфо о фильме: ${it.message}")
+                    _error.send(true)}  // показывать диалог с ошибкой - где onFailure  }
             )
         }
         getActorsAndMoviemen(idMovie)
@@ -88,7 +94,10 @@ class OneMovieViewModel @Inject constructor(
                     _actorsInfo.value = it.first
                     _movieMenInfo.value = it.second
                 },
-                onFailure = { Log.d("ActorsAndMoviemen", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка актеров и кинематографистов  по фильму: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure}
+                }
             )
         }
         getImages(idMovie)
@@ -100,7 +109,10 @@ class OneMovieViewModel @Inject constructor(
                 getImagesUsecase.getImages(idMovie)
             }.fold(
                 onSuccess = { _gallery.value = it },
-                onFailure = { Log.d("Gallery", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка изображений: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
         decideMovieInFavorite(idMovie)
@@ -141,7 +153,10 @@ class OneMovieViewModel @Inject constructor(
                 getRelatedMoviesInfoUsecase.getRelatedMoviesRVModel(idMovie)
             }.fold(
                 onSuccess = { _relatedMovies.value = it },
-                onFailure = { Log.d("relatedMovies", it.message ?: "") }
+                onFailure = {Log.d("Error", "Загрузка похожих фильмов: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+
+                }
             )
         }
     }
@@ -152,7 +167,9 @@ class OneMovieViewModel @Inject constructor(
                 getSerialInfoUsecase.getNumberOfEpisodesOfFirstSeason(idMovie)
             }.fold(
                 onSuccess = { _numberseries.value = it },
-                onFailure = { Log.d("numberseries", it.message ?: "") }
+                onFailure = {Log.d("Error", "Загрузка серий в сезоне сериала: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }

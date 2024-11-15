@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -32,6 +34,9 @@ class BottomSheetDialogFragmentAddMovieToCollectionViewModel @Inject constructor
         MutableStateFlow<List<Pair<CollectionCountMovies, Boolean>>?>(emptyList())
     val collectionsForRV = _collectionsForRV.asStateFlow()
 
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
+
 
     fun loadCollections(movieId: Long) {
         this.movieId = movieId//сохраню для перезагрузки коллекций
@@ -42,7 +47,10 @@ class BottomSheetDialogFragmentAddMovieToCollectionViewModel @Inject constructor
                 )
             }.fold(
                 onSuccess = { _collectionsForRV.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка коллекций: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }

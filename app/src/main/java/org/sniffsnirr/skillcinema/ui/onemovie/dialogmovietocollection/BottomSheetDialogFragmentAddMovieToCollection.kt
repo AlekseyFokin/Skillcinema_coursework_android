@@ -29,6 +29,7 @@ import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentAddMovieToCollectionBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.OneMovieFragment
 
@@ -121,6 +122,14 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
         binding.headerForRv.setOnClickListener {//сохранить все указанное присутствие фильма в коллекциях
             saveMovieToAllCheckedCollection()
             mastDismiss = true
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
         }
     }
 

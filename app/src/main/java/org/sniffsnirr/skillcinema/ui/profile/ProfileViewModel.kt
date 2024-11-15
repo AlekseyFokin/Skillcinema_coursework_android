@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
@@ -51,6 +53,9 @@ class ProfileViewModel @Inject constructor(
     private val _interestedCollection = MutableStateFlow<CollectionDBO?>(null)
     val interestedCollection = _interestedCollection.asStateFlow()
 
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
+
     init{
         getViewedCollectionInfo()
         getInterestedCollectionInfo()
@@ -64,7 +69,10 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = {val movies=it.toMutableList()
                                  movies.add(MovieRVModel(isButton = true))// кнопка - удалить все
                              _viewedMovies.value = movies },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка просмотренных фильмов: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки размера коллекции просмотренных фильмов
@@ -72,7 +80,10 @@ class ProfileViewModel @Inject constructor(
                 getCountDbCollectionUsecase.getCountCollection(ProfileFragment.ID_VIEWED_COLLECTION)
             }.fold(
                 onSuccess = { _countViewedMovies.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка размера коллекции просмотренных фильмов: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+             }
             )
         }
     }
@@ -85,7 +96,10 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = {  val movies=it.toMutableList()
                                    movies.add(MovieRVModel(isButton = true)) // кнопка - удалить все
                               _interestedMovies.value = movies.toList() },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка интересных фильмов: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
         viewModelScope.launch(Dispatchers.IO) {// Запуск загрузки размера коллекции интересных фильмов
@@ -93,7 +107,10 @@ class ProfileViewModel @Inject constructor(
                 getCountDbCollectionUsecase.getCountCollection(ProfileFragment.ID_INTERESTED_COLLECTION)
             }.fold(
                 onSuccess = { _countInterestedMovies.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка размера коллекции интересных фильмов: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }
@@ -104,7 +121,10 @@ class ProfileViewModel @Inject constructor(
                 getCollectionAndCountMoviesUsecase.getCollectionAndCountMovies()
             }.fold(
                 onSuccess = { _collectionsForRV.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка коллекций: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }
@@ -136,7 +156,10 @@ class ProfileViewModel @Inject constructor(
                 getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_VIEWED_COLLECTION)
             }.fold(
                 onSuccess = { _viewedCollection.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка viewed коллекции: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }
@@ -147,7 +170,10 @@ class ProfileViewModel @Inject constructor(
                 getOneCollectionFromDBUsecase.getCollectionById(ProfileFragment.ID_INTERESTED_COLLECTION)
             }.fold(
                 onSuccess = { _interestedCollection.value = it },
-                onFailure = { Log.d("ViewedList", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", "Загрузка interested коллекции: ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
+                }
             )
         }
     }

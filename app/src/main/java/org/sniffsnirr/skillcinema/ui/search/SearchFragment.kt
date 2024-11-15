@@ -2,18 +2,14 @@ package org.sniffsnirr.skillcinema.ui.search
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -21,25 +17,11 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentSearchBinding
-import org.sniffsnirr.skillcinema.ui.collections.paging.PagingLoadStateAdapter
-import org.sniffsnirr.skillcinema.ui.collections.paging.compilations.PagingCompilationAdapter
-import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.ALL_TYPE
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_COUNTRY
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_END_PERIOD
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_END_RATE
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_GENRE
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_KEYWORD
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_ONLY_UNVIEWED
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_START_PERIOD
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.DEFAULT_START_RATE
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel.Companion.SORT_DEFAULT
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -96,7 +78,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        lifecycleScope.launch {// обработка состояний пейджинга
             pagedAdapter.loadStateFlow.collectLatest { loadStates ->
                 binding.progressbarRefresh.visibility = View.GONE
                 binding.progressbarAppend.visibility = View.GONE
@@ -104,11 +86,10 @@ class SearchFragment : Fragment() {
 
                 when (loadStates.refresh) {
                     is LoadState.Loading -> binding.progressbarRefresh.visibility = View.VISIBLE
-                    is LoadState.Error -> Toast.makeText(
-                        requireContext(),
-                        "Ошибка загрузки",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    is LoadState.Error -> BottomSheetErrorFragment().show(
+                        parentFragmentManager,
+                        "errordialog"
+                    )
 
                     is LoadState.NotLoading -> if (pagedAdapter.itemCount < 1) {
                         binding.haveNoResult.visibility = View.VISIBLE
@@ -117,11 +98,10 @@ class SearchFragment : Fragment() {
                 }
                 when (loadStates.append) {
                     is LoadState.Loading -> binding.progressbarAppend.visibility = View.VISIBLE
-                    is LoadState.Error -> Toast.makeText(
-                        requireContext(),
-                        "Ошибка добавления",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    is LoadState.Error -> BottomSheetErrorFragment().show(
+                        parentFragmentManager,
+                        "errordialog"
+                    )
 
                     is LoadState.NotLoading -> if (pagedAdapter.itemCount < 1) {
                         binding.haveNoResult.visibility = View.VISIBLE

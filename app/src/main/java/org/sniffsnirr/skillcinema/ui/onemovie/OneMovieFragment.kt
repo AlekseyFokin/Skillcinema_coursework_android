@@ -36,6 +36,7 @@ import org.sniffsnirr.skillcinema.databinding.FragmentOneMovieBinding
 import org.sniffsnirr.skillcinema.entities.Country
 import org.sniffsnirr.skillcinema.entities.Genre
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 import org.sniffsnirr.skillcinema.ui.onemovie.adapter.GalleryAdapter
@@ -389,6 +390,14 @@ class OneMovieFragment : Fragment() {
                 })
             bottomSheetDialogFragmentAddMovieToCollection.show(parentFragmentManager, "dialog")
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
     private fun getAllActorsOrMoviemans(typrOfMoviemans: Boolean) {//фрагмент со всеми фильмами кинематографиста
@@ -405,17 +414,20 @@ class OneMovieFragment : Fragment() {
     }
 
     private fun addCurrentMovieToInterestedCollection() {// добавление фильма в колекцию фильмов, которыми интересовался
-        CoroutineScope(Dispatchers.IO).launch {
-            val bitmap = Glide.with(requireContext())
-                .asBitmap()
-                .load(movieRVModel.imageUrl)
-                .submit().get()
-            viewModel.addMovieToInterestedCollection(
-                movieRVModel,
-                ProfileFragment.ID_INTERESTED_COLLECTION,
-                requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
-                bitmap
-            )
+        if (!movieRVModel.imageUrl.isNullOrEmpty()) {
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val bitmap = Glide.with(requireContext())
+                    .asBitmap()
+                    .load(movieRVModel.imageUrl)
+                    .submit().get()
+                viewModel.addMovieToInterestedCollection(
+                    movieRVModel,
+                    ProfileFragment.ID_INTERESTED_COLLECTION,
+                    requireContext().getDir(POSTERS_DIR, Context.MODE_PRIVATE),
+                    bitmap
+                )
+            }
         }
     }
 

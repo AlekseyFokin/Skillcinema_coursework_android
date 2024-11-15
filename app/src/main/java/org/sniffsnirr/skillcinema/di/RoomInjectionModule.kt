@@ -52,21 +52,4 @@ class RoomInjectionModule {
     @Provides
     @Singleton
     fun provideMovieDao(db: AppDatabase) = db.movieDao()
-
-//    @Provides
-//    @Singleton
-//    fun provideDatabaseRepository(
-//        collectionDao: CollectionDAO,
-//        movieDao: MovieDAO
-//    ): DatabaseRepository {
-//        return DatabaseRepository(collectionDao, movieDao)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun providedecideMovieRVmodelIsViewedOrNotUsecase(databaseRepository: DatabaseRepository): DecideMovieRVmodelIsViewedOrNotUsecase {
-//        return DecideMovieRVmodelIsViewedOrNotUsecase(databaseRepository)
-//    }
-
-
 }

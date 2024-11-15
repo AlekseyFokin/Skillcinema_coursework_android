@@ -3,6 +3,7 @@ package org.sniffsnirr.skillcinema
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,7 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.databinding.ActivityMainBinding
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
     name = "skillcinema_settings",
@@ -72,6 +75,13 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
 
         toolbar.setNavigationOnClickListener { navController!!.popBackStack() }
+
+        try {
+            getDir(POSTERS_DIR, Context.MODE_PRIVATE)// создание папки для хранения файлов с постерами фмльмов
+        }catch(e: Exception){
+            Log.d("Create directory error","coud'not create dir for posters")
+            BottomSheetErrorFragment().show(supportFragmentManager, "errordialog")
+        }
     }
 
     private fun isFirstStart() {

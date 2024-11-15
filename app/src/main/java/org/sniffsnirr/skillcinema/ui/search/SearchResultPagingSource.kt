@@ -16,7 +16,7 @@ import java.util.Locale
 class SearchResultPagingSource(
     val kinopoiskRepository: KinopoiskRepository,
     val reductionUsecase: ReductionUsecase,
-    val queryParams: QueryParams,
+    private val queryParams: QueryParams,
     val decideMovieRVmodelIsViewedOrNotUsecase: DecideMovieRVmodelIsViewedOrNotUsecase
 ) : PagingSource<Int, MovieRVModel>() {
 
@@ -26,7 +26,7 @@ class SearchResultPagingSource(
         val page = params.key ?: SearchResultPagingSource.FIRST_PAGE
         return kotlin.runCatching {
 
-            Log.d("Ввод текста", "Получил в PagingSource ${queryParams}")
+            Log.d("Ввод текста", "Получил в PagingSource $queryParams")
 
             kinopoiskRepository.getSearchResult(
                 queryParams.country,

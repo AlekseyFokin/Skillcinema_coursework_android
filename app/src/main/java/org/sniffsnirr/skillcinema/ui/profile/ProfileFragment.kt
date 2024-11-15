@@ -27,6 +27,7 @@ import org.sniffsnirr.skillcinema.databinding.FragmentProfileBinding
 import org.sniffsnirr.skillcinema.room.dbo.CollectionCountMovies
 import org.sniffsnirr.skillcinema.room.dbo.CollectionDBO
 import org.sniffsnirr.skillcinema.ui.collections.paging.presets.PagingCollectionFragment
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.HomeFragment.Companion.ID_MOVIE
 import org.sniffsnirr.skillcinema.ui.profile.adapter.CollectionAdapter
 import org.sniffsnirr.skillcinema.ui.profile.adapter.InterestedAdapter
@@ -124,6 +125,15 @@ class ProfileFragment : Fragment() {
         binding.allViewedMoviesButton.setOnClickListener { onOpenCollectionClick(viewModel.viewedCollection.value) }
 
         binding.addNewCollectionBtn.setOnClickListener { showCustomDialog() }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
+
     }
 
     override fun onDestroyView() {

@@ -1,7 +1,6 @@
 package org.sniffsnirr.skillcinema.ui.search.options
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,16 +19,15 @@ import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentCountryOptionBinding
 import org.sniffsnirr.skillcinema.entities.compilations.countriesandgenres.Country
-import org.sniffsnirr.skillcinema.ui.search.SearchViewModel
-import org.sniffsnirr.skillcinema.ui.search.options.AllOptionsFragment.Companion
+import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 
 @AndroidEntryPoint
 class CountryOptionFragment : Fragment() {
 
-    private val viewModel: AllOptionsViewModel by viewModels({requireParentFragment()})
-    var _binding:FragmentCountryOptionBinding?=null
-    val binding get()=_binding!!
-    private val countryAdapter=CountryOptionAdapter{country->onCountryClick(country)}
+    private val viewModel: AllOptionsViewModel by viewModels({ requireParentFragment() })
+    var _binding: FragmentCountryOptionBinding? = null
+    val binding get() = _binding!!
+    private val countryAdapter = CountryOptionAdapter { country -> onCountryClick(country) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +41,7 @@ class CountryOptionFragment : Fragment() {
         binding.countryRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.countryRv.setHasFixedSize(true)
-        binding.countryRv.adapter =countryAdapter
+        binding.countryRv.adapter = countryAdapter
         val dividerItemDecorator = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
         dividerItemDecorator.setDrawable(resources.getDrawable(R.drawable.line_for_rv))
         binding.countryRv.addItemDecoration(dividerItemDecorator)
@@ -59,6 +57,14 @@ class CountryOptionFragment : Fragment() {
         binding.searchView.searchTextInput.addTextChangedListener {
             viewModel.setCountrySearchString(binding.searchView.searchTextInput.text.toString())
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.error.collect { _ ->
+                    BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -73,24 +79,24 @@ class CountryOptionFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-    //    (activity as MainActivity).hideActionBar()
+        //    (activity as MainActivity).hideActionBar()
         viewModel.setCountrySearchString("")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-_binding=FragmentCountryOptionBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentCountryOptionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    fun onCountryClick(selectedCountry:Country){
+    private fun onCountryClick(selectedCountry: Country) {
         viewModel.setCountry(selectedCountry)
     }
 
-    companion object{
-        const val NAME_FRAGMENT="Страна"
+    companion object {
+        const val NAME_FRAGMENT = "Страна"
     }
 
 }

@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 import org.sniffsnirr.skillcinema.ui.home.model.MainModel
@@ -19,6 +21,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val homePageUsecase: HomePageUsecase):ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _error = Channel<Boolean>() // для передачи ошибки соединения с сервисом поиска
+    val error = _error.receiveAsFlow()
 
     private val _moviesCollectionsForHomePage = MutableStateFlow<List<MainModel>>(emptyList())
     val moviesCollectionsForHomePage = _moviesCollectionsForHomePage.asStateFlow()
@@ -34,8 +39,8 @@ class HomeViewModel @Inject constructor(private val homePageUsecase: HomePageUse
                 homePageUsecase.getHomePageCollections()
             }.fold(
                 onSuccess = { _moviesCollectionsForHomePage.value = it },
-                onFailure = { Log.d("MovieListViewModel", it.message ?: "")
-                  //  val bottomSheetErrorFragment = BottomSheetErrorFragment().show(parentFragmentManager, "dialog")
+                onFailure = { Log.d("Error", "Загрузка Home : ${it.message}")
+                    _error.send(true)  // показывать диалог с ошибкой - где onFailure
                 }
             )
             _isLoading.value = false
