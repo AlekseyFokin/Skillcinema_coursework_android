@@ -1,5 +1,6 @@
 package org.sniffsnirr.skillcinema.usecases
 
+import android.util.Log
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskRepository
 import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
@@ -28,6 +29,7 @@ class GetMoviePremiersUsecase @Inject constructor(
         val movieRVModelList = mutableListOf<MovieRVModel>()
 
         val listPrimeres = kinopoiskRepository.getPremieres(currentMonth, currentYear)
+        //Log.d("что пришло при квоте","$listPrimeres")
         val commonPremierList = listPrimeres.toMutableList()
 
         if (currentMonth != plusTwoWeekMonth) {// если до конца месяца мение 14 дней - то нужно загружать следующий месяц

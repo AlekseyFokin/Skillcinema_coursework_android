@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Показывать"
+        android:text="@string/show_me_text"
         android:textColor="@color/color_of_genre"
         android:textSize="12sp" />
 
@@ -36,7 +36,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Все"
+            android:text="@string/all_type"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -52,7 +52,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Фильмы"
+            android:text="@string/type_only_movies"
             android:textAlignment="center"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="14sp" />
@@ -66,7 +66,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Сериалы"
+            android:text="@string/type_serials_only"
             android:textAlignment="center"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="14sp" />
@@ -84,7 +84,7 @@
             android:layout_height="32dp"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Страна"
+            android:text="@string/country_label"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp" />
 
@@ -137,7 +137,7 @@
             android:layout_height="32dp"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Жанр"
+            android:text="@string/genre_label"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp" />
 
@@ -190,7 +190,7 @@
             android:layout_height="32dp"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Год"
+            android:text="@string/year_label"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp" />
 
@@ -243,7 +243,7 @@
             android:layout_height="32dp"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="Рейтинг"
+            android:text="@string/rate_label"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="16sp" />
 
@@ -285,7 +285,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="1"
+            android:text="@string/start_rate_label"
             android:textColor="@color/color_of_genre"
             android:layout_marginStart="12dp"
             android:textSize="14sp" />
@@ -300,7 +300,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:fontFamily="@font/hkgrotesk_regular"
-            android:text="10"
+            android:text="@string/end_rate_label"
             android:layout_marginEnd="12dp"
             android:textColor="@color/color_of_genre"
             android:textSize="14sp" />
@@ -317,7 +317,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Сортировать"
+        android:text="@string/sort_label"
         android:textColor="@color/color_of_genre"
         android:textSize="14sp" />
 
@@ -339,7 +339,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Дата"
+            android:text="@string/sort_for_date"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -355,7 +355,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Популярность"
+            android:text="@string/popular_sort"
             android:textAlignment="center"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="14sp" />
@@ -369,7 +369,7 @@
             android:button="@null"
             android:checked="false"
             android:fontFamily="@font/hkgrotesk_medium"
-            android:text="Рейтинг"
+            android:text="@string/rate_sort"
             android:textAlignment="center"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="14sp" />
@@ -386,7 +386,7 @@
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="   Не просмотрен"
+        android:text="@string/checkbox_only_not_viewed_label"
         android:button="@drawable/checkbox_viewed_search"
         android:layout_gravity="center"
         android:buttonTint="@color/color_of_main_label_in_onboarding"

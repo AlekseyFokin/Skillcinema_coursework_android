@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Добавить в колекцию"
+        android:text="@string/add_collection_checkbox_label"
         android:textColor="@color/color_of_main_label_in_onboarding"
         android:textSize="18sp" />
 

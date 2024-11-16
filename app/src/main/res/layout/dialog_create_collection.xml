@@ -41,7 +41,8 @@
         android:hint="@string/thinck_up_name_for_new_collection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/go_btn"

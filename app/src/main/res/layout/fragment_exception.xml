@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Ошибка!"
+            android:text="@string/error_label"
             android:textColor="@color/color_of_main_label_in_onboarding"
             android:textSize="18sp"
             android:layout_weight="0"/>
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
-        android:text="Во время обработки запроса \nпроизошла ошибка"
+        android:text="@string/error_description"
         android:textColor="@color/color_of_genre"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

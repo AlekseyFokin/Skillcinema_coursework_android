@@ -20,7 +20,7 @@
         <ImageView
             android:layout_height="33dp"
             android:layout_width="18dp"
-            android:contentDescription="search_left_border"
+            android:contentDescription="@string/search_left_border"
             android:background="@drawable/left_part_main_search"
             android:backgroundTint="@color/search_field_color"
             android:layout_weight = "0"
@@ -33,7 +33,7 @@
             android:layout_weight="0"
             android:background="@color/search_field_color"
             android:backgroundTint="@color/search_field_color"
-            android:contentDescription="search_ico"
+            android:contentDescription="@string/search_ico"
             android:src="@drawable/ico_search"
             android:paddingEnd="6dp"
             />
@@ -58,7 +58,7 @@
             android:id="@+id/search_separator"
             android:layout_height="33dp"
             android:layout_width="18dp"
-            android:contentDescription="search_separator"
+            android:contentDescription="@string/search_separator"
             android:src="@drawable/search_separator"
             android:background="@color/search_field_color"
             android:backgroundTint="@color/search_field_color"
@@ -75,11 +75,12 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_weight = "0"
+            android:contentDescription="@string/search_ico"
             />
         <ImageView
             android:layout_height="33dp"
             android:layout_width="18dp"
-            android:contentDescription="search_left_border"
+            android:contentDescription="@string/search_left_border_2"
             android:background="@drawable/right_part_main_search"
             android:backgroundTint="@color/search_field_color"
             android:layout_weight = "0"

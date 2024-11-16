@@ -14,8 +14,9 @@ class GalleryAdapter(private val widthDisplay: Int, val onPhotoClick: (String?) 
     ) {
 
     override fun onBindViewHolder(holder: GalleryAdapter.ImageViewHolder, position: Int) {
+
         val image = getItem(position)
-      if (position % 3 == 0) {// каждая третья картинка на всю ширину экрана
+        if (position % 3 == 0&&position<(itemCount-1)) {// каждая третья картинка на всю ширину экрана
             holder.binding.galleryImage.layoutParams.width =
                 (widthDisplay - 56 * holder.binding.galleryImage.context.resources
                     .displayMetrics.density).toInt()
@@ -29,7 +30,7 @@ class GalleryAdapter(private val widthDisplay: Int, val onPhotoClick: (String?) 
 
         }
         holder.binding.galleryImage.setOnClickListener { onPhotoClick(image?.imageUrl) }
-    }
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

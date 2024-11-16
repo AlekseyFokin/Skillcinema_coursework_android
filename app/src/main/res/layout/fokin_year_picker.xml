@@ -37,7 +37,8 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:src="@drawable/ic_to_left_arrow" />
+            android:src="@drawable/ic_to_left_arrow"
+            android:contentDescription="@string/to_back_btn_label"/>
 
         <ImageButton
             android:id="@+id/minus_period"
@@ -46,7 +47,8 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:src="@drawable/ic_to_right_arrow" />
+            android:src="@drawable/ic_to_right_arrow"
+            android:contentDescription="@string/to_forward_btn_label"/>
 
     </LinearLayout>
 

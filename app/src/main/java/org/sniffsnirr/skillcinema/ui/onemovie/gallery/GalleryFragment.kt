@@ -70,11 +70,8 @@ class GalleryFragment : Fragment() {
         myLayout.justifyContent = JustifyContent.CENTER
         myLayout.alignItems = AlignItems.CENTER
 
-        val footerAdapter = PagingLoadStateAdapter()
-        val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)
-
         binding.imagesRv.layoutManager = myLayout
-        binding.imagesRv.adapter = myAdapter
+        binding.imagesRv.adapter = pagedAdapter//myAdapter
 
         // собрать chipGroup
         viewModel.numberOfImagesByType.onEach {
@@ -98,7 +95,7 @@ class GalleryFragment : Fragment() {
                 chip.setOnClickListener {
                     lifecycleScope.launch {
                         viewModel.getImages(item.key).collectLatest { response ->
-                            pagedAdapter.submitData(response)
+                                                pagedAdapter.submitData(response)
                         }
                     }
                 }
