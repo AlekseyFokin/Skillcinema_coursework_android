@@ -14,8 +14,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
-import androidx.navigation.NavGraphNavigator
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -65,14 +63,14 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        navView.setupWithNavController(navController!!)
+        navView.setupWithNavController(navController)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
         toolbar.setNavigationIcon(R.drawable.action_bar_icon)
 
-        toolbar.setNavigationOnClickListener { navController!!.popBackStack() }
+        toolbar.setNavigationOnClickListener { navController.popBackStack() }
 
         try {
             getDir(
@@ -106,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun hideButtomBar() {
+    private fun hideButtomBar() {
         binding.navView.visibility =
             View.GONE// скрываю ButtomBar
     }
@@ -129,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController!!.navigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
 
