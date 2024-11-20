@@ -41,7 +41,6 @@ class CollectionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
         viewModel.loadPremiers()
     }
@@ -73,6 +72,8 @@ class CollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         binding.movieCollectionRv.adapter = adapter
         binding.movieCollectionRv.setHasFixedSize(true)
 

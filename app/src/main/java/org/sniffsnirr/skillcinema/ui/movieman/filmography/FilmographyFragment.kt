@@ -48,7 +48,6 @@ class FilmographyFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         staffId = arguments?.getInt(MoviemanFragment.MOVIEMAN_ID) ?: 0
-        (activity as MainActivity).showActionBar()
         viewModel.getMoviesByProfessionKey(staffId)
     }
 
@@ -78,6 +77,7 @@ class FilmographyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
 
         viewModel.moviemanName.onEach {
             binding.moviemanName.text = it.first

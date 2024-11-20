@@ -27,11 +27,12 @@ class PeriodOptionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         binding.startPeriod.addOutYearListeners { year -> getStartYear(year) }
 
         binding.endPeriod.addOutYearListeners { year -> getEndYear(year) }

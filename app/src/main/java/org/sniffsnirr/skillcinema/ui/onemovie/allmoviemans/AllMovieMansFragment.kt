@@ -41,8 +41,6 @@ class AllMovieMansFragment : Fragment() {
         movieName=arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME).toString()
         typeOfMoviemans=arguments?.getBoolean(OneMovieFragment.ACTORS_OR_MOVIEMANS)?:true
         viewModel.loadAllMoviemanByMovieId(idMovie,typeOfMoviemans)
-        (activity as MainActivity).showActionBar()
-
     }
 
     override fun onCreateView(
@@ -62,6 +60,8 @@ class AllMovieMansFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         binding.allmoviemanRv.setHasFixedSize(true)
         binding.allmoviemanRv.layoutManager =
             LinearLayoutManager(requireContext(),  GridLayoutManager.VERTICAL, false)

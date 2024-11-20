@@ -40,7 +40,6 @@ class SerialSeasonFragment : Fragment() {
         val idMovie = arguments?.getInt(HomeFragment.ID_MOVIE) ?: 0
         movieName = arguments?.getCharSequence(OneMovieFragment.MOVIE_NAME).toString()
         viewModel.getAllSerialData(idMovie)
-        (activity as MainActivity).showActionBar()
     }
 
     override fun onResume() {
@@ -58,6 +57,7 @@ class SerialSeasonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
 
         binding.episodesRv.setHasFixedSize(true)
         binding.episodesRv.layoutManager =

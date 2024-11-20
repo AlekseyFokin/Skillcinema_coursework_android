@@ -37,6 +37,7 @@ class HomeViewModel @Inject constructor(private val homePageUsecase: HomePageUse
             }.fold(
                 onSuccess = { _moviesCollectionsForHomePage.value = it },
                 onFailure = { Log.d("Error", "Загрузка Home : ${it.message}")
+                    _isLoading.value = false
                     _error.send(true)  // показывать диалог с ошибкой - где onFailure
                 }
             )

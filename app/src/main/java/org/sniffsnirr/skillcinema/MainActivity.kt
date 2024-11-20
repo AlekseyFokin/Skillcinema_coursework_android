@@ -2,8 +2,10 @@ package org.sniffsnirr.skillcinema
 
 import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.datastore.core.DataStore
@@ -11,9 +13,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,24 +31,28 @@ import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.databinding.ActivityMainBinding
 import org.sniffsnirr.skillcinema.ui.exception.BottomSheetErrorFragment
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
-    name = "skillcinema_settings",
-    corruptionHandler = null,
-    scope = CoroutineScope(Dispatchers.IO)
-)
+//val Context.dataStore: DataStore<Preferences> by preferencesDataStore( // работа с хранилищем DataStore
+//    name = "skillcinema_settings",
+//    corruptionHandler = null,
+//    scope = CoroutineScope(Dispatchers.IO)
+//)
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+
     private lateinit var navController: NavController//? = null
     private lateinit var toolbar: Toolbar
-    private lateinit var graph: NavGraph
+    //private lateinit var graph: NavGraph
+    private lateinit var navOptions:NavOptions
+    private var startDestination=R.id.loadingFragment
 
+    init {if ((application as App).isFirst) {startDestination=R.id.onboardingMainFragment}}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,15 +61,25 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
 
-        val inflater = navController.navInflater
-        graph = inflater.inflate(R.navigation.mobile_navigation)
+   //     val inflater = navController.navInflater
+   //     graph = inflater.inflate(R.navigation.mobile_navigation)
+       navOptions = NavOptions.Builder()
+           .setRestoreState(restoreState = true)
+           .setLaunchSingleTop(true)
+           .setPopUpTo(navController.graph.startDestinationId, false,saveState = true)
+            .build()
 
-        lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
+        navController.navigate(startDestination, null, navOptions)
 
-        hideActionBar()//скрытие всех баров - они не нужны на фрагментах Onboard и loading
-        hideButtomBar()
+    //    lifecycleScope.launch(Dispatchers.Main) { isFirstStart() }.onJoin
+
+   //     if ((application as App).isFirst) { navController.navigate(R.id.onboardingMainFragment, null, navOptions)}
+   //     else {navController.navigate(R.id.loadingFragment, null, navOptions)}
+
+
         val navView: BottomNavigationView = binding.navView
-        toolbar = findViewById(R.id.myToolbar)
+        toolbar=binding.myToolbar
+        //toolbar = findViewById(R.id.myToolbar)
 
         setSupportActionBar(toolbar)
 
@@ -72,6 +92,9 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.setNavigationOnClickListener { navController.popBackStack() }
 
+        hideActionBar()//скрытие всех баров - они не нужны на фрагментах Onboard и loading
+        hideButtomBar()
+
         try {
             getDir(
                 POSTERS_DIR,
@@ -81,28 +104,35 @@ class MainActivity : AppCompatActivity() {
             Log.d("Create directory error", "coud'not create dir for posters")
             BottomSheetErrorFragment().show(supportFragmentManager, "errordialog")
         }
+
+
+
     }
 
-    private fun isFirstStart() {
-        var isFirstStart = true // по умолчанию - первая загрузка
-        lifecycleScope.launch {
-            dataStore.data
-                .collect { pref: Preferences ->
-                    isFirstStart = pref[FIRST_START]
-                        ?: true // чтение из DataStore метки первого открытия приложения
-                    if (isFirstStart) {  // если в DataStore нет метки о первой загрузке - переход на onboarding фрагмент
-                        navController.graph =
-                            graph.apply { setStartDestination(R.id.onboardingMainFragment) }
-                        dataStore.edit { prefs ->// сохранение метки о первой загрузке
-                            prefs[FIRST_START] = false
-                        }
-                    } else { // загрузка не первая - переход в фрагмент loadingFragment
-                        navController.graph =
-                            graph.apply { setStartDestination(R.id.loadingFragment) }
-                    }
-                }
-        }
-    }
+
+
+//    private fun isFirstStart() {
+//        var isFirstStart = true // по умолчанию - первая загрузка
+//        lifecycleScope.launch {
+//            dataStore.data
+//                .collect { pref: Preferences ->
+//                    isFirstStart = pref[FIRST_START]
+//                        ?: true // чтение из DataStore метки первого открытия приложения
+//                    if (isFirstStart) {  // если в DataStore нет метки о первой загрузке - переход на onboarding фрагмент
+//                      //  navController.graph =
+//                      //      graph.apply { setStartDestination(R.id.onboardingMainFragment) }
+//                        navController.navigate(R.id.onboardingMainFragment, null, navOptions)
+//                        dataStore.edit { prefs ->// сохранение метки о первой загрузке
+//                            prefs[FIRST_START] = false
+//                        }
+//                    } else { // загрузка не первая - переход в фрагмент loadingFragment
+//                       // navController.graph =
+//                         //   graph.apply { setStartDestination(R.id.loadingFragment) }
+//                        navController.navigate(R.id.loadingFragment, null, navOptions)
+//                    }
+//                }
+//        }
+//    }
 
     private fun hideButtomBar() {
         binding.navView.visibility =
@@ -129,6 +159,8 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
+
 
 
     companion object {

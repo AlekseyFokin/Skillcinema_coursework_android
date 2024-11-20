@@ -78,8 +78,6 @@ class OneMovieFragment : Fragment() {
         super.onCreate(savedInstanceState)
         idMovie = arguments?.getInt(ID_MOVIE) ?: 0
         viewModel.setIdMovie(idMovie)
-        (activity as MainActivity).showActionBar()
-        (activity as MainActivity).setActionBarTitle("")
     }
 
 
@@ -94,6 +92,8 @@ class OneMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         animationScaleBtn = AnimationUtils.loadAnimation(requireContext(), R.anim.btn_anim)
+        (activity as MainActivity).showActionBar()
+        (activity as MainActivity).setActionBarTitle("")
 
         viewModel.getRelatedMovies(idMovie)
 

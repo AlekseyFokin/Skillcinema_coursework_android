@@ -25,7 +25,6 @@ class TenBestMoviesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
         moviemanName = arguments?.getCharSequence(MoviemanFragment.MOVIEMAN_NAME).toString()
         arrayListOfBestMovies = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelableArrayList(BEST_MOVIES_LIST)!!
@@ -52,6 +51,8 @@ class TenBestMoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         binding.tenBestMoviesRv.setHasFixedSize(true)
         binding.tenBestMoviesRv.layoutManager=GridLayoutManager(context,2,GridLayoutManager.VERTICAL,false)
         binding.tenBestMoviesRv.adapter=TenBestMovieAdapter(arrayListOfBestMovies){idMovie->onMovieClick(idMovie)}

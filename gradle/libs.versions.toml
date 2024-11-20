@@ -37,6 +37,7 @@ flexboxlayoutVers="3.0.0"
 sliderglideVers="1.5.2"
 
 roomVers="2.6.1"
+lifecycleProcess = "2.8.7"
 
 
 [libraries]
@@ -83,6 +84,7 @@ glide-slider={group="com.github.firdausmaulan", name="GlideSlider",version.ref="
 androidx-room-runtime={group="androidx.room",name="room-runtime", version.ref="roomVers"}
 androidx-room-ktx={group="androidx.room",name="room-ktx", version.ref="roomVers"}
 androidx-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "roomVers" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 
 
 [plugins]

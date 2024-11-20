@@ -45,8 +45,6 @@ class GalleryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movieId = arguments?.getInt(ID_MOVIE) ?: 0
-        (activity as MainActivity).showActionBar()
-        (activity as MainActivity).setActionBarTitle("Галерея")
         viewModel.idMovie = movieId
         viewModel.getNumberOfImagesByType(MAP_OF_IMAGE_TYPE.keys)
         pagedAdapter =
@@ -63,6 +61,8 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+        (activity as MainActivity).setActionBarTitle("Галерея")
 
         val myLayout = FlexboxLayoutManager(requireContext())
         myLayout.setFlexWrap(FlexWrap.WRAP)

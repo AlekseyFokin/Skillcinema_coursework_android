@@ -44,7 +44,6 @@ class MoviemanFragment : Fragment() {
         super.onCreate(savedInstanceState)
         idMovieman = arguments?.getInt(OneMovieFragment.ID_STAFF) ?: 0
         viewModel.getBestMovies(idMovieman)
-        (activity as MainActivity).showActionBar()
     }
 
     override fun onResume() {// если при восстановлении фрагмента получен сигнал об изменении данных - обновить состояние и передать выше
@@ -83,6 +82,7 @@ class MoviemanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
 
         viewModel.moviemanInfo.onEach {//общая информция по кинематографисту
             moviemanName = it?.nameRu ?: ""

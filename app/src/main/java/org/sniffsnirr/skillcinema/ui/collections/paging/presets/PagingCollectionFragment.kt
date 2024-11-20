@@ -40,7 +40,6 @@ class PagingCollectionFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val collectionType = arguments?.getCharSequence(HomeFragment.COLLECTION_TYPE)
         viewModel.collectionType = collectionType.toString()
-        (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(HomeFragment.COLLECTION_NAME).toString()
     }
 
@@ -71,6 +70,8 @@ class PagingCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         val myGridLayout = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         val footerAdapter = PagingLoadStateAdapter()
         val myAdapter = pagedAdapter.withLoadStateHeader(footerAdapter)

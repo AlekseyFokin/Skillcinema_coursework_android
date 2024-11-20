@@ -44,7 +44,7 @@ class AllOptionsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
+
         queryParams = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(SearchFragment.QUERYPARAMS_KEY) ?: QueryParams(
                 DEFAULT_COUNTRY, DEFAULT_GENRE, SORT_DEFAULT, ALL_TYPE,
@@ -95,6 +95,7 @@ class AllOptionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
 
         binding.gotoCountryOption.setOnClickListener {
             findNavController().navigate(

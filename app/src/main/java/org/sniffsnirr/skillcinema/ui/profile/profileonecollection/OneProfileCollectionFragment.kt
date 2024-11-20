@@ -42,7 +42,6 @@ class OneProfileCollectionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).showActionBar()
         collectionName = arguments?.getCharSequence(ProfileFragment.NAME_COLLECTION).toString()
         collectionId = arguments?.getInt(ProfileFragment.ID_COLLECTION) ?: 0
         viewModel.loadMoviesInCollection(collectionId.toLong())
@@ -89,6 +88,8 @@ class OneProfileCollectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showActionBar()
+
         binding.movieCollectionRv.adapter = adapter
         binding.movieCollectionRv.setHasFixedSize(true)
 
