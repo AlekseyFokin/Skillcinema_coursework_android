@@ -76,7 +76,7 @@
         android:id="@+id/goto_country_option"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal">
 
         <TextView
@@ -122,14 +122,14 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/color_of_empty_poster" />
 
     <LinearLayout
         android:id="@+id/goto_genre_option"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal">
 
         <TextView
@@ -175,14 +175,14 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/color_of_empty_poster" />
 
     <LinearLayout
         android:id="@+id/goto_year_option"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:orientation="horizontal">
 
         <TextView
@@ -228,14 +228,14 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/color_of_empty_poster"
         android:layout_marginBottom="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
         <TextView
@@ -309,13 +309,13 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/color_of_empty_poster" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/hkgrotesk_regular"
         android:text="@string/sort_label"
         android:textColor="@color/color_of_genre"
@@ -326,7 +326,7 @@
         android:id="@+id/rbg2"
         android:layout_width="match_parent"
         android:layout_height="31dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal"
         app:singleSelection="true">
 
@@ -378,12 +378,12 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/color_of_empty_poster" />
 
     <CheckBox
         android:id="@+id/viewed"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/checkbox_only_not_viewed_label"
@@ -391,6 +391,18 @@
         android:layout_gravity="center"
         android:buttonTint="@color/color_of_main_label_in_onboarding"
         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/search_btn"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
+        android:background="@drawable/rect_corner_without_stroke_blue"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/hkgrotesk_medium"
+        android:text="Поиск"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"      />
 
 
 </LinearLayout>
