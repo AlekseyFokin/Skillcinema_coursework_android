@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
 import org.sniffsnirr.skillcinema.databinding.FragmentHomeBinding
 import org.sniffsnirr.skillcinema.restrepository.KinopoiskApi
@@ -43,6 +44,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as MainActivity).showButtomBar()
+        (activity as MainActivity).hideActionBar()
 
         binding.mainRv.setHasFixedSize(true)
 
