@@ -23,11 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import org.sniffsnirr.skillcinema.App
 import org.sniffsnirr.skillcinema.R
-import org.sniffsnirr.skillcinema.dataStore
 import org.sniffsnirr.skillcinema.databinding.FragmentOnboardingMainBinding
 
 // фрагмент onboarding - появляется только при первой загрузке приложения
