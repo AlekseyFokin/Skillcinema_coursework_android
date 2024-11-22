@@ -36,7 +36,7 @@ class OneMovieViewModel @Inject constructor(
     private val getRelatedMoviesInfoUsecase: GetRelatedMoviesInfoUsecase,
     private val getSerialInfoUsecase: GetSerialInfoUsecase,
     private val insertNewMovieToCollectionUsecase: InsertNewMovieToCollectionUsecase,
-    val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase,
+    private val getCountMovieInCollectionUsecase: GetCountMovieInCollectionUsecase,
     val deleteMovieFromCollectionUsecase: DeleteMovieFromCollectionUsecase,
     private val addMovieToInterestedCollectionUsecase: AddMovieToInterestedCollectionUsecase
 ) : ViewModel() {

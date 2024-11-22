@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    <style name="Theme.Skillcinema" parent="@android:style/Theme.DeviceDefault.Settings">-->
-<!--        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>-->
-<!--    <item name="android:titleTextAppearance">@style/MyTitleTextStyle</item>-->
-<!--    </style>-->
-
-<!--    <style name="MyActionBarStyle" parent="@android:style/Widget.Material.ActionBar.Solid">-->
-
-<!--        <item name="android:background">@color/white</item>-->
-<!--        <item name="android:paddingTop">8dp</item>-->
-<!--        <item name="navigationIcon">@drawable/action_bar_icon</item>-->
-
-<!--        <item name="titleCentered">true</item>-->
-<!--        <item name="actionBarTabTextStyle">@style/MyTitleTextStyle</item>-->
-<!--    </style>-->
-
     <style name="MyTitleTextStyle" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="android:textSize">12sp</item>

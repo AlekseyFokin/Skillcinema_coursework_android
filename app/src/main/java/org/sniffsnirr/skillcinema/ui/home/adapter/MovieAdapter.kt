@@ -18,7 +18,7 @@ import org.sniffsnirr.skillcinema.ui.home.model.MovieRVModel
 
 //Адаптер для вложенного rv, отличает фильм и кнопку
 class MovieAdapter(
-    var movieModel: List<MovieRVModel>,
+    private var movieModel: List<MovieRVModel>,
     val onCollectionClick: (String) -> Unit,
     val onMovieClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

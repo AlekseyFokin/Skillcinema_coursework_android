@@ -42,7 +42,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
     val binding get() = _binding!!
     val adapter =
         DialogMovieToCollectionAdapter({ onPlusCollectionClick() },
-            { ListCollectionWithMark -> putCurrentListCollectionWithMark(ListCollectionWithMark) })
+            { listCollectionWithMark -> putCurrentListCollectionWithMark(listCollectionWithMark) })
 
     var movieRVModel: MovieRVModel? = null
     private lateinit var currentListCollectionWithMark: MutableList<Pair<CollectionCountMovies, Boolean>>

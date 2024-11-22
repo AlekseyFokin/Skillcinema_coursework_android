@@ -15,7 +15,7 @@ import org.sniffsnirr.skillcinema.usecases.GetMoviePremiersUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class CollectionViewModel @Inject constructor(val getMoviePremiersUsecase: GetMoviePremiersUsecase) :
+class CollectionViewModel @Inject constructor(private val getMoviePremiersUsecase: GetMoviePremiersUsecase) :
     ViewModel() {
     private val _premierMovies = MutableStateFlow<List<MovieRVModel>?>(null)
     val premierMovies = _premierMovies.asStateFlow()

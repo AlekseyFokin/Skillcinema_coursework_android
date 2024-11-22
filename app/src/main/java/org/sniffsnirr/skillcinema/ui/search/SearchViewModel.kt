@@ -54,8 +54,8 @@ class SearchViewModel @Inject constructor(
 
     private val _searchKeywordString = MutableStateFlow("") // фильтр фильмов по строке
 
-    private val _searchStatus =
-        MutableStateFlow("") // статус поиска
+//    private val _searchStatus =
+//        MutableStateFlow("") // статус поиска
 
     fun setSearchMovieString(string: String) {// поступление новой строки фильтрации названий, актеров, режиссеров
         _searchKeywordString.value = string

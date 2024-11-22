@@ -10,7 +10,6 @@ import org.sniffsnirr.skillcinema.entities.premiers.PremierMovie
 import org.sniffsnirr.skillcinema.entities.related.RelatedMovies
 import org.sniffsnirr.skillcinema.entities.serialinfo.SeasonsSerial
 import org.sniffsnirr.skillcinema.entities.staff.Staff
-import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 

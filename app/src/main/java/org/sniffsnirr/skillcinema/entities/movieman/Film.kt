@@ -14,7 +14,7 @@ data class Film(
         get() =rating?.toDoubleOrNull()?:0.0
 
     override fun compareTo(other: Film):Int {
-        val delta= this.ratingDouble.minus((other.ratingDouble?:0.0))
+        val delta= this.ratingDouble.minus((other.ratingDouble))
         return when {
             delta>0.0-> 1
             delta<0.0-> -1
