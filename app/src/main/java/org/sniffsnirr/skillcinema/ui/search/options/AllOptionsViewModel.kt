@@ -54,7 +54,6 @@ class AllOptionsViewModel @Inject constructor(
 
     private val _searchCountryState =
         MutableStateFlow<SearchState>(SearchState.AvailableSearch) // состояние поиска страны
-    //   val searchCountryState = _searchCountryState.asStateFlow()
 
     private val _searchCountryString =
         MutableStateFlow("") // строка поиска страны

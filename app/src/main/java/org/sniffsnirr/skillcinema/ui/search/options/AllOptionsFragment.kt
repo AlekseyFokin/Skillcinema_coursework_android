@@ -246,7 +246,7 @@ class AllOptionsFragment : Fragment() {
             }
         }
 
-        //ОБРАБОтка установки периода
+        //обработка установки периода
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -296,7 +296,6 @@ class AllOptionsFragment : Fragment() {
 //сбросы
         binding.clearCountryBtn.setOnClickListener {
             viewModel.setCountry(null)
-            //throw Exception("test crashlytics")
         }
         binding.clearGenreBtn.setOnClickListener { viewModel.setGenre(null) }
         binding.clearYearBtn.setOnClickListener {
@@ -310,6 +309,10 @@ class AllOptionsFragment : Fragment() {
                     BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }
+        }
+
+        binding.searchBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }
