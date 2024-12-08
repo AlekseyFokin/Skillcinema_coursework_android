@@ -24,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.R
@@ -126,7 +127,7 @@ class BottomSheetDialogFragmentAddMovieToCollection : BottomSheetDialogFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.error.collect { _ ->
+                viewModel.error.take(1).collect { _ ->
                     BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }

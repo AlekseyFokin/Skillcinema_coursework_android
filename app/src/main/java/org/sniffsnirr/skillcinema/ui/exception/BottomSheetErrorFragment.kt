@@ -31,12 +31,12 @@ class BottomSheetErrorFragment  : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if(Build.VERSION.SDK_INT in 16..20){
-            activity?.finishAffinity()
-            exitProcess(0)
-        } else if(Build.VERSION.SDK_INT>=21){
-            activity?.finishAndRemoveTask()
-            exitProcess(0)
-        }
+//        if(Build.VERSION.SDK_INT in 16..20){
+//            activity?.finishAffinity()
+//            exitProcess(0)
+//        } else if(Build.VERSION.SDK_INT>=21){
+//            activity?.finishAndRemoveTask()
+//            exitProcess(0)
+//        }
     }
 }

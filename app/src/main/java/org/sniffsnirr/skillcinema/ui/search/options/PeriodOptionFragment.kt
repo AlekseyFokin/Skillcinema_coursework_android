@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.databinding.FragmentPeriodOptionBinding
@@ -54,7 +55,7 @@ class PeriodOptionFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.error.collect { _ ->
+                viewModel.error.take(1).collect { _ ->
                     BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }

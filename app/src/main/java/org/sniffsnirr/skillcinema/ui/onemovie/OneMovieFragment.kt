@@ -28,6 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.App.Companion.POSTERS_DIR
 import org.sniffsnirr.skillcinema.MainActivity
@@ -393,7 +394,7 @@ class OneMovieFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.error.collect { _ ->
+                viewModel.error.take(1).collect { _ ->
                     BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }

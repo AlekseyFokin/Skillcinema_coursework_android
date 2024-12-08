@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.sniffsnirr.skillcinema.MainActivity
 import org.sniffsnirr.skillcinema.R
@@ -60,7 +61,7 @@ class GenreOptionFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {// ожидание ошибки
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.error.collect { _ ->
+                viewModel.error.take(1).collect { _ ->
                     BottomSheetErrorFragment().show(parentFragmentManager, "errordialog")
                 }
             }
