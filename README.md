@@ -12,7 +12,7 @@
 популярное, две динамические коллекции, зависящие от комбинации страна/жанр, которые выбираются
 случайным образом, топ-25 и сериалы - тоже загружаются из существующего пресета в api.
 
-<img src="https://github.com/AlekseyFokin/coursework_android/blob/master/GIFS/home.gif" alt="gif" width="300" height="540">
+<img src="https://github.com/AlekseyFokin/coursework_android/blob/master/GIFS/home.gif" alt="gif" width="360" height="800">
 
 Как выяснилось, различные api дают похожую, но не одинаковую информацию о фильмах и ее приходится
 приводить к общему отображаемому типу MovieRVModel, поэтому такое разнообразие классов в пакете
